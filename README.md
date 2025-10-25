@@ -6,7 +6,9 @@ All code and assets are licensed permissively. The code is MIT licensed, the fon
 
 Questions? Ping me as `@statico` on the [Roguelikes Discord server](https://discord.gg/QATuUBAuQS).
 
-TODO: Video of game
+[![](https://github.com/user-attachments/assets/c326179c-dd2f-4e97-bc69-a18296267a67)](https://roguelike.statico.io/)
+
+**Tips:** Click to move or attack. Right-click to use ranged weapon. WASD and QEZC work as movement. Use the inventory button or <kbd>i</kbd> key to pick up and manage items. Yes, there's a delay when you click the "Play" button while assets load.
 
 ## Features
 
@@ -77,13 +79,14 @@ You can also adapt these tools to read other tilesets, like Oryx tiles. They're 
 
 You can use the map generator preview tool to test map generation parameters. Open `scenes/debug/map_generator_tool.tscn`, click MapGeneratorTool, and then click the "Regenerate Map" button to see the map generated with the current parameters.
 
-TODO: Image of map generator preview tool
+[<img height="500" alt="map generator tool screenshot" src="https://github.com/user-attachments/assets/ccdea42a-4813-444d-807e-10ba1fcbd75d" />](https://roguelike.statico.io/)
 
 ### Item & Sprite Explorers
 
 Use these tools to quickly reference tile and item names. Open `scenes/debug/sprite_explorer.tscn` and `scenes/debug/item_explorer.tscn` and click Run Current Scene (usually `Cmd-B` on Mac) to run them.
 
-TODO: Images of item and sprite explorers
+<img width="400" alt="sprite viewer screenshot" src="https://github.com/user-attachments/assets/332db409-0a65-4a67-9270-b05f0808c6e2" />
+<img width="400" alt="item explorer screenshot" src="https://github.com/user-attachments/assets/5bffd8d3-cbb3-4f7d-9265-539ce3cfe7c9" />
 
 ## Architecture Overview
 
