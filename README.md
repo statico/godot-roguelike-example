@@ -53,7 +53,7 @@ You can clone this repo and run it in Godot immediately. However, I recommend VS
 
 ### Editing Data
 
-Monster and item data is stored in CSV files in the `assets/data/` directory. I recommmend [LibreOffice](https://www.libreoffice.org/) to edit the CSV files.
+Monster and item data is stored in CSV files in the `assets/data/` directory. I recommend [LibreOffice](https://www.libreoffice.org/) to edit the CSV files.
 
 CSV data files need their import settings set to "Keep" in the project settings in order to not generate translation files. [Read more here.](https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_translations.html#doc-importing-translations)
 
@@ -90,40 +90,40 @@ Use these tools to quickly reference tile and item names. Open `scenes/debug/spr
 
 ## Architecture Overview
 
-**World Management** (`src/world.gd`)
+**World Management** ([`src/world.gd`](src/world.gd))
 
 - Central singleton that manages game state, turn progression, and coordinates all systems
 - Handles player actions, monster AI turns, and system updates (nutrition, status effects, healing)
 - Manages map generation and level transitions
 
-**Turn-Based Engine** (`src/world.gd`, `src/actions/`)
+**Turn-Based Engine** ([`src/world.gd`](src/world.gd), [`src/actions/`](src/actions/))
 
 - Actions are the fundamental unit of gameplay - every player input and monster decision becomes an `Action`
 - Turn progression: Player acts → All monsters with sufficient energy act → Systems update → Vision updates
 - Energy system determines when monsters can act (faster monsters act more frequently)
 
-**Map Generation** (`src/map_generators/`, `src/world_plan.gd`)
+**Map Generation** ([`src/map_generators/`](src/map_generators/), [`src/world_plan.gd`](src/world_plan.gd))
 
 - BSP-based dungeon generation with configurable parameters
 - Multiple generator types (dungeon, arena) with different layouts
 - Procedural room placement, corridor connection, and content population
 - World planning system for multi-level dungeon structure
 
-**Combat System** (`src/combat.gd`, `src/damage.gd`)
+**Combat System** ([`src/combat.gd`](src/combat.gd), [`src/damage.gd`](src/damage.gd))
 
 - D20-based combat with attack rolls, damage calculation, and resistances
 - Multiple damage types with monster-specific resistances
 - Melee and ranged combat with different mechanics
 - Status effects and area-of-effect damage
 
-**Monster AI** (`src/monster_ai.gd`, `src/monster.gd`)
+**Monster AI** ([`src/monster_ai.gd`](src/monster_ai.gd), [`src/monster.gd`](src/monster.gd))
 
 - Behavior tree system for complex AI decision making
 - Different behavior types: aggressive, fearful, curious, passive
 - Pathfinding integration for movement and combat positioning
 - Faction system for monster relationships
 
-**Inventory & Equipment** (`src/equipment.gd`, `src/item.gd`, `scenes/ui/inventory_modal.gd`)
+**Inventory & Equipment** ([`src/equipment.gd`](src/equipment.gd), [`src/item.gd`](src/item.gd), [`scenes/ui/inventory_modal.gd`](scenes/ui/inventory_modal.gd))
 
 - Modular equipment system with multiple slots (armor, weapons, accessories)
 - Hierarchical item system supporting containers and modules
@@ -131,19 +131,26 @@ Use these tools to quickly reference tile and item names. Open `scenes/debug/spr
 - Equipment affects combat stats and capabilities
 - Originally there was a sci-fi style power and module system but it was overly complex for this example
 
-**Vision & Rendering** (`src/map.gd`, `src/map_renderer.gd`)
+**Vision & Rendering** ([`src/map.gd`](src/map.gd), [`src/map_renderer.gd`](src/map_renderer.gd))
 
 - Field of view calculation using shadowcasting algorithm
 - Fog of war with "seen but not visible" tiles
 - Tile-based rendering with sprite management
 - Visual effects system for combat and interactions
 
-**Status Effects & Nutrition** (`src/status_effect.gd`, `src/nutrition.gd`)
+**Status Effects & Nutrition** ([`src/status_effect.gd`](src/status_effect.gd), [`src/nutrition.gd`](src/nutrition.gd))
 
 - Status effect system with duration and magnitude
 - Nutrition system affecting healing and survival
 - Natural healing based on nutrition level
 - Status effects can modify behavior and capabilities
+
+**UI System** ([`src/modals.gd`](src/modals.gd), [`scenes/ui/`](scenes/ui/))
+
+- Modal system with stack-based management and smooth fade transitions
+- Async modal functions like `await Modals.confirm()` and `await Modals.prompt_for_direction()` for TypeScript-like await patterns
+- Comprehensive inventory system with drag-and-drop, equipment slots, and item categorization
+- HUD with health bars, status display, and contextual hover information
 
 ### Data Flow
 
@@ -154,13 +161,13 @@ Use these tools to quickly reference tile and item names. Open `scenes/debug/spr
 
 ### Key Files to Explore
 
-- `src/world.gd` - Core game loop and state management
-- `src/monster_ai.gd` - AI behavior trees and decision making
-- `src/map_generators/dungeon_generator.gd` - Dungeon generation algorithm
-- `src/combat.gd` - Combat resolution and damage calculation
-- `src/equipment.gd` - Equipment system and item management
-- `scenes/game/game.gd` - Main game scene and input handling
-- `assets/data/` - CSV files defining items and monsters
+- [`src/world.gd`](src/world.gd) - Core game loop and state management
+- [`src/monster_ai.gd`](src/monster_ai.gd) - AI behavior trees and decision making
+- [`src/map_generators/dungeon_generator.gd`](src/map_generators/dungeon_generator.gd) - Dungeon generation algorithm
+- [`src/combat.gd`](src/combat.gd) - Combat resolution and damage calculation
+- [`src/equipment.gd`](src/equipment.gd) - Equipment system and item management
+- [`scenes/game/game.gd`](scenes/game/game.gd) - Main game scene and input handling
+- [`assets/data/`](assets/data/) - CSV files defining items and monsters
 
 ## Licenses
 
