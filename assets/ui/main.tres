@@ -1,0 +1,223 @@
+[gd_resource type="Theme" load_steps=43 format=3 uid="uid://kqvjkouj0io8"]
+
+[ext_resource type="StyleBox" uid="uid://cl1jo5a8lr755" path="res://assets/ui/styles/button_disabled.tres" id="1_eqi05"]
+[ext_resource type="StyleBox" uid="uid://ek4hltbby1q3" path="res://assets/ui/styles/button_normal.tres" id="2_523h1"]
+[ext_resource type="StyleBox" uid="uid://dqpk7tbi78kn1" path="res://assets/ui/styles/button_hover.tres" id="2_bc1ba"]
+[ext_resource type="StyleBox" uid="uid://df028saxl1oi4" path="res://assets/ui/styles/focus_outline.tres" id="2_wmho7"]
+[ext_resource type="StyleBox" uid="uid://crhw5e64uxvvq" path="res://assets/ui/styles/button_pressed.tres" id="3_03w1d"]
+[ext_resource type="StyleBox" uid="uid://c7m3qrwevum8y" path="res://assets/ui/styles/panel.tres" id="4_y85e7"]
+[ext_resource type="StyleBox" uid="uid://bvql420s47byg" path="res://assets/ui/variants/equipment_socket.tres" id="5_csg2m"]
+[ext_resource type="StyleBox" uid="uid://cduyig2485pcj" path="res://assets/ui/variants/item_panel.tres" id="5_ql21i"]
+[ext_resource type="Texture2D" uid="uid://b7vffmbasnc7r" path="res://assets/generated/ui.png" id="6_fx8rw"]
+[ext_resource type="StyleBox" uid="uid://c6ljmqyuye0hl" path="res://assets/ui/variants/equipment_socket_selected.tres" id="8_6vgv4"]
+[ext_resource type="StyleBox" uid="uid://d0lajweqt0tg0" path="res://assets/ui/variants/equipment_socket_slot.tres" id="8_e0b0u"]
+[ext_resource type="StyleBox" uid="uid://balx1ia2sldkj" path="res://assets/ui/styles/log_message_style.tres" id="9_7xrn8"]
+[ext_resource type="StyleBox" uid="uid://oivoph5tpcib" path="res://assets/ui/variants/equipment_socket_slot_selected.tres" id="10_l20sw"]
+[ext_resource type="StyleBox" uid="uid://b5eyhj8b8xhom" path="res://assets/ui/styles/tab_hovered.tres" id="14_8vk83"]
+[ext_resource type="StyleBox" uid="uid://232rg5mnvgsq" path="res://assets/ui/styles/tab_disabled.tres" id="14_b8vv6"]
+[ext_resource type="StyleBox" uid="uid://dbsgahuso8nwd" path="res://assets/ui/styles/tab_selected.tres" id="15_a62yq"]
+[ext_resource type="StyleBox" uid="uid://bxlk736afy4jt" path="res://assets/ui/styles/tab_unselected.tres" id="16_vk13a"]
+[ext_resource type="FontFile" uid="uid://cmtsror7uwaer" path="res://assets/fonts/pixel_operator/PixelOperatorHB.ttf" id="19_fx8rw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_plvgv"]
+atlas = ExtResource("6_fx8rw")
+region = Rect2(64, 208, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mjgy"]
+atlas = ExtResource("6_fx8rw")
+region = Rect2(128, 256, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ha385"]
+atlas = ExtResource("6_fx8rw")
+region = Rect2(0, 208, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_py0b4"]
+region = Rect2(176, 152, 8, 8)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b1q06"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kxvoe"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2koff"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ow481"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bsb0w"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_83hjx"]
+color = Color(0.2, 0.19, 0.2, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hsqff"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2h76i"]
+bg_color = Color(0.1596, 0.4332, 0.57, 0.392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0sq21"]
+bg_color = Color(0.1848, 0.5016, 0.66, 0.811765)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i0u8j"]
+bg_color = Color(1, 1, 1, 0.0980392)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_6df0r"]
+color = Color(0.109804, 0.12549, 0.141176, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2fjp"]
+bg_color = Color(0.109804, 0.12549, 0.141176, 0.517647)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ch8r"]
+bg_color = Color(0.3024, 0.38232, 0.48, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_owmve"]
+region = Rect2(80, 8, 32, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f48vw"]
+content_margin_bottom = 5.0
+texture = SubResource("AtlasTexture_owmve")
+texture_margin_left = 7.0
+texture_margin_top = 5.0
+texture_margin_right = 7.0
+texture_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fv3l0"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 8
+border_width_bottom = 8
+border_color = Color(0.447059, 0.509804, 0.588235, 0.929412)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wsyue"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 8
+border_width_bottom = 8
+border_color = Color(0.5548, 0.63364, 0.73, 0.929412)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i8iek"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 8
+border_width_bottom = 8
+border_color = Color(0.2888, 0.32984, 0.38, 0.929412)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qidnm"]
+content_margin_left = 5.0
+bg_color = Color(0.1092, 0.1246, 0.14, 0.721569)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_4m3ic"]
+color = Color(0.2, 0.188235, 0.2, 1)
+vertical = true
+
+[resource]
+Button/colors/font_color = Color(0.85098, 0.85098, 0.858824, 1)
+Button/colors/font_disabled_color = Color(0.8514, 0.8514, 0.86, 0.345098)
+Button/colors/font_outline_color = Color(0.1092, 0.1246, 0.14, 0.368627)
+Button/colors/font_pressed_color = Color(0.77, 0.77, 0.77, 1)
+Button/constants/outline_size = 3
+Button/font_sizes/font_size = 16
+Button/styles/disabled = ExtResource("1_eqi05")
+Button/styles/focus = ExtResource("2_wmho7")
+Button/styles/hover = ExtResource("2_bc1ba")
+Button/styles/normal = ExtResource("2_523h1")
+Button/styles/pressed = ExtResource("3_03w1d")
+CheckBox/colors/font_color = Color(0.85098, 0.85098, 0.858824, 1)
+CheckBox/colors/font_focus_color = Color(0.85098, 0.85098, 0.858824, 1)
+CheckBox/constants/check_v_offset = 1
+CheckBox/constants/h_separation = 3
+CheckBox/icons/checked = SubResource("AtlasTexture_plvgv")
+CheckBox/icons/checked_disabled = SubResource("AtlasTexture_2mjgy")
+CheckBox/icons/unchecked = SubResource("AtlasTexture_ha385")
+CheckBox/icons/unchecked_disabled = SubResource("AtlasTexture_py0b4")
+CheckBox/styles/disabled = SubResource("StyleBoxEmpty_b1q06")
+CheckBox/styles/hover = SubResource("StyleBoxEmpty_kxvoe")
+CheckBox/styles/normal = SubResource("StyleBoxEmpty_2koff")
+CheckBox/styles/pressed = SubResource("StyleBoxEmpty_ow481")
+EmptyPanel/base_type = &"Panel"
+EmptyPanel/styles/panel = SubResource("StyleBoxEmpty_bsb0w")
+EquipmentSocket/base_type = &"Panel"
+EquipmentSocket/styles/panel = ExtResource("5_csg2m")
+EquipmentSocketSelected/base_type = &"Panel"
+EquipmentSocketSelected/styles/panel = ExtResource("8_6vgv4")
+EquipmentSocketSlot/base_type = &"Panel"
+EquipmentSocketSlot/styles/panel = ExtResource("8_e0b0u")
+EquipmentSocketSlotSelected/base_type = &"Panel"
+EquipmentSocketSlotSelected/styles/panel = ExtResource("10_l20sw")
+GridContainer/constants/h_separation = 4
+GridContainer/constants/v_separation = 4
+HBoxContainer/constants/separation = 4
+HSeparator/constants/separation = 4
+HSeparator/styles/separator = SubResource("StyleBoxLine_83hjx")
+ItemList/colors/font_color = Color(0.85098, 0.85098, 0.858824, 1)
+ItemList/colors/guide_color = Color(0.109804, 0.12549, 0.141176, 1)
+ItemList/constants/h_separation = 3
+ItemList/constants/icon_margin = 3
+ItemList/constants/v_separation = 3
+ItemList/font_sizes/font_size = 16
+ItemList/styles/focus = ExtResource("2_wmho7")
+ItemList/styles/panel = SubResource("StyleBoxEmpty_hsqff")
+ItemList/styles/selected = SubResource("StyleBoxFlat_2h76i")
+ItemList/styles/selected_focus = SubResource("StyleBoxFlat_0sq21")
+ItemPanel/base_type = &"Panel"
+ItemPanel/styles/panel = ExtResource("5_ql21i")
+Label/colors/font_color = Color(0.852117, 0.8514, 0.86, 1)
+Label/colors/font_outline_color = Color(0.109804, 0.12549, 0.141176, 1)
+Label/constants/outline_size = 3
+Label/font_sizes/font_size = 16
+LineEdit/font_sizes/font_size = 16
+LogMessage/base_type = &"Label"
+LogMessage/styles/normal = ExtResource("9_7xrn8")
+MarginContainer/constants/margin_bottom = 6
+MarginContainer/constants/margin_left = 6
+MarginContainer/constants/margin_right = 6
+MarginContainer/constants/margin_top = 6
+Panel/styles/panel = ExtResource("4_y85e7")
+PanelContainer/styles/panel = ExtResource("4_y85e7")
+PopupMenu/colors/font_color = Color(0.854902, 0.85098, 0.862745, 1)
+PopupMenu/constants/icon_max_width = 16
+PopupMenu/font_sizes/font_separator_size = 8
+PopupMenu/font_sizes/font_size = 16
+PopupMenu/font_sizes/title_font_size = 16
+PopupMenu/styles/hover = SubResource("StyleBoxFlat_i0u8j")
+PopupMenu/styles/panel = ExtResource("4_y85e7")
+PopupMenu/styles/separator = SubResource("StyleBoxLine_6df0r")
+ProgressBar/colors/font_color = Color(0.85098, 0.85098, 0.858824, 1)
+ProgressBar/font_sizes/font_size = 16
+ProgressBar/styles/background = SubResource("StyleBoxFlat_u2fjp")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_1ch8r")
+RichTextLabel/colors/default_color = Color(0.85098, 0.85098, 0.858824, 1)
+RichTextLabel/colors/font_outline_color = Color(0.109804, 0.12549, 0.141176, 1)
+RichTextLabel/constants/line_separation = -2
+RichTextLabel/constants/outline_size = 3
+RichTextLabel/font_sizes/bold_font_size = 16
+RichTextLabel/font_sizes/bold_italics_font_size = 16
+RichTextLabel/font_sizes/italics_font_size = 16
+RichTextLabel/font_sizes/mono_font_size = 16
+RichTextLabel/font_sizes/normal_font_size = 16
+SubtleLabel/base_type = &"Label"
+SubtleLabel/colors/font_color = Color(0.434968, 0.510658, 0.545214, 1)
+TabBar/colors/drop_mark_color = Color(1, 1, 1, 0)
+TabBar/colors/font_hovered_color = Color(0.95, 0.95, 0.95, 1)
+TabBar/colors/font_outline_color = Color(0.109804, 0.12549, 0.141176, 0.368627)
+TabBar/colors/font_selected_color = Color(0.85098, 0.85098, 0.858824, 1)
+TabBar/colors/font_unselected_color = Color(0.85098, 0.85098, 0.858824, 1)
+TabBar/styles/tab_disabled = ExtResource("14_b8vv6")
+TabBar/styles/tab_focus = ExtResource("2_wmho7")
+TabBar/styles/tab_hovered = ExtResource("14_8vk83")
+TabBar/styles/tab_selected = ExtResource("15_a62yq")
+TabBar/styles/tab_unselected = ExtResource("16_vk13a")
+TabContainer/font_sizes/font_size = 16
+TextEdit/font_sizes/font_size = 16
+TitleLabel/base_type = &"Label"
+TitleLabel/colors/font_outline_color = Color(0.109804, 0.12549, 0.141176, 1)
+TitleLabel/constants/outline_size = 3
+TitleLabel/fonts/font = ExtResource("19_fx8rw")
+TooltipPanel/base_type = &"Panel"
+TooltipPanel/styles/panel = SubResource("StyleBoxTexture_f48vw")
+Tree/font_sizes/font_size = 16
+Tree/font_sizes/title_button_font_size = 16
+VBoxContainer/constants/separation = 4
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_fv3l0")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_wsyue")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_i8iek")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_qidnm")
+VSeparator/constants/separation = 8
+VSeparator/styles/separator = SubResource("StyleBoxLine_4m3ic")

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bfslatuvr4fbb"]
+
+[node name="Reticle" type="Node2D"]
+modulate = Color(0.35, 0.761667, 1, 1)
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+custom_minimum_size = Vector2(8, 8)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(0.87451, 0.937255, 0.843137, 1)
+editor_only = false

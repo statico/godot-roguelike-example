@@ -1,0 +1,161 @@
+[gd_scene load_steps=3 format=3 uid="uid://diqkb2npp6kpp"]
+
+[ext_resource type="Theme" uid="uid://kqvjkouj0io8" path="res://assets/ui/main.tres" id="1_25mue"]
+[ext_resource type="Script" uid="uid://ch52vy3i3bdon" path="res://scenes/ui/direction_modal.gd" id="2_4nt8c"]
+
+[node name="DirectionModal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_25mue")
+script = ExtResource("2_4nt8c")
+
+[node name="Overlay" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Which direction?"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "(You can also use direction keys)"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DirectionsHBox" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+
+[node name="Directions" type="GridContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DirectionsHBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 3
+
+[node name="NW" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DirectionsHBox/Directions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+text = "NW"
+icon_alignment = 1
+
+[node name="N" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DirectionsHBox/Directions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+text = "N"
+icon_alignment = 1
+
+[node name="NE" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DirectionsHBox/Directions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+text = "NE"
+icon_alignment = 1
+
+[node name="W" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DirectionsHBox/Directions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+text = "W"
+icon_alignment = 1
+
+[node name="Here" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DirectionsHBox/Directions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+text = "Here"
+icon_alignment = 1
+
+[node name="E" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DirectionsHBox/Directions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+text = "E"
+icon_alignment = 1
+
+[node name="SW" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DirectionsHBox/Directions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+text = "SW"
+icon_alignment = 1
+
+[node name="S" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DirectionsHBox/Directions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+text = "S"
+icon_alignment = 1
+
+[node name="SE" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DirectionsHBox/Directions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+text = "SE"
+icon_alignment = 1
+
+[node name="Stairs" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DirectionsHBox"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Up" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DirectionsHBox/Stairs"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+text = "Up"
+
+[node name="Down" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DirectionsHBox/Stairs"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+text = "Down"
+
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Cancel" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Cancel"

@@ -1,0 +1,89 @@
+[gd_scene load_steps=5 format=3 uid="uid://3j147osa473o"]
+
+[ext_resource type="Texture2D" uid="uid://hiar7rfgs31i" path="res://assets/generated/item_sprites.png" id="1_nuxg4"]
+[ext_resource type="Theme" uid="uid://kqvjkouj0io8" path="res://assets/ui/main.tres" id="1_xduay"]
+[ext_resource type="Script" uid="uid://dvdgabuf2m41" path="res://scenes/ui/inventory_item.gd" id="2_n3wua"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b6rdi"]
+atlas = ExtResource("1_nuxg4")
+region = Rect2(80, 64, 16, 16)
+
+[node name="InventoryItem" type="Control"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+tooltip_text = "+1 Tactical Banana
+
+Type: Consumable
+Mass: 1.0 kg
+"
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme = ExtResource("1_xduay")
+script = ExtResource("2_n3wua")
+
+[node name="Background" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Outline" type="ReferenceRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(0.0745098, 0.643137, 0.929412, 1)
+editor_only = false
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Prefix" type="Label" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SubtleLabel"
+vertical_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = SubResource("AtlasTexture_b6rdi")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+1 Tactical Banana"
+vertical_alignment = 1
+
+[node name="Suffix" type="Label" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SubtleLabel"
+text = "Equipped"
+vertical_alignment = 1

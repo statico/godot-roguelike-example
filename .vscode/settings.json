@@ -1,0 +1,8 @@
+{
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#435368"
+  },
+  "files.exclude": {
+    "**/*.uid": true
+  }
+}

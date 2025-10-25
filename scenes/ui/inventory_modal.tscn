@@ -1,0 +1,393 @@
+[gd_scene load_steps=6 format=3 uid="uid://dlf1pa3a2d8mr"]
+
+[ext_resource type="Theme" uid="uid://kqvjkouj0io8" path="res://assets/ui/main.tres" id="1_0ma5h"]
+[ext_resource type="Script" uid="uid://ckscurtjttqnn" path="res://scenes/ui/inventory_modal.gd" id="2_16q53"]
+[ext_resource type="PackedScene" uid="uid://bur4de3mrhavo" path="res://scenes/ui/inventory_item_list.tscn" id="3_da411"]
+[ext_resource type="Script" uid="uid://c61cymlavisyc" path="res://scenes/ui/draggable_tab_bar.gd" id="3_yhton"]
+[ext_resource type="PackedScene" uid="uid://cpmll4fly6bho" path="res://scenes/ui/equipment_socket.tscn" id="7_sqflx"]
+
+[node name="InventoryModal" type="Control" groups=["inventory"]]
+layout_mode = 3
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+theme = ExtResource("1_0ma5h")
+script = ExtResource("2_16q53")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -262.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(250, 200)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="MainVBox" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TabHBox" type="HBoxContainer" parent="MarginContainer/PanelContainer/MainVBox"]
+layout_mode = 2
+
+[node name="Tabs" type="TabBar" parent="MarginContainer/PanelContainer/MainVBox/TabHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+current_tab = 0
+clip_tabs = false
+tab_count = 3
+tab_0/title = "Ground"
+tab_1/title = "Inventory"
+tab_2/title = "Equipment"
+script = ExtResource("3_yhton")
+
+[node name="CloseButton" type="Button" parent="MarginContainer/PanelContainer/MainVBox/TabHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 21)
+layout_mode = 2
+text = "×"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MainVBox"]
+layout_mode = 2
+
+[node name="ContentHBox" type="HBoxContainer" parent="MarginContainer/PanelContainer/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GroundContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GroundList" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/GroundContainer" instance=ExtResource("3_da411")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/GroundContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="PickupButton" type="Button" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/GroundContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Pick Up"
+
+[node name="InventoryContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InventoryList" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/InventoryContainer" instance=ExtResource("3_da411")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/InventoryContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="DropButton" type="Button" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/InventoryContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Drop"
+
+[node name="EquipButton" type="Button" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/InventoryContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Equip"
+
+[node name="UseButton" type="Button" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/InventoryContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Use"
+
+[node name="ThrowButton" type="Button" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/InventoryContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Throw"
+
+[node name="EquipmentContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_stretch_ratio = 0.3
+
+[node name="Control" type="Control" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+
+[node name="Hat" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control" instance=ExtResource("7_sqflx")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -87.0
+offset_right = 45.0
+offset_bottom = -58.0
+
+[node name="Belt" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control" instance=ExtResource("7_sqflx")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = 35.0
+offset_right = 40.0
+offset_bottom = 63.0
+
+[node name="Cloak" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control" instance=ExtResource("7_sqflx")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 50.0
+offset_top = 35.0
+offset_right = 100.0
+offset_bottom = 63.0
+
+[node name="Gloves" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control" instance=ExtResource("7_sqflx")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -92.0
+offset_top = 32.0
+offset_right = -29.0
+offset_bottom = 61.0
+
+[node name="Footwear" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control" instance=ExtResource("7_sqflx")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = 117.0
+offset_right = 72.0
+offset_bottom = 149.0
+
+[node name="Melee" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control" instance=ExtResource("7_sqflx")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -92.0
+offset_top = -67.0
+offset_right = -29.0
+offset_bottom = -38.0
+
+[node name="Ranged" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control" instance=ExtResource("7_sqflx")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -91.0
+offset_top = -16.0
+offset_right = -28.0
+offset_bottom = 13.0
+
+[node name="UpperArmor" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control" instance=ExtResource("7_sqflx")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -46.0
+offset_right = 102.0
+offset_bottom = -18.0
+
+[node name="BaseLayer" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control" instance=ExtResource("7_sqflx")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -5.0
+offset_right = 102.0
+offset_bottom = 23.0
+
+[node name="LowerArmor" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control" instance=ExtResource("7_sqflx")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -11.0
+offset_top = 76.0
+offset_right = 100.0
+offset_bottom = 104.0
+
+[node name="Mask" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control" instance=ExtResource("7_sqflx")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 49.0
+offset_top = -87.0
+offset_right = 101.0
+offset_bottom = -58.0
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control"]
+layout_mode = 1
+offset_left = 18.5
+offset_top = 17.0
+offset_right = 58.5
+offset_bottom = 52.0
+theme_type_variation = &"SubtleLabel"
+text = "Melee"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 68.0
+offset_right = 61.0
+offset_bottom = 103.0
+theme_type_variation = &"SubtleLabel"
+text = "Ranged
+"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control"]
+layout_mode = 0
+offset_left = 94.5
+offset_top = -2.0
+offset_right = 136.5
+offset_bottom = 14.0
+theme_type_variation = &"SubtleLabel"
+text = "Head"
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control"]
+layout_mode = 0
+offset_left = 153.5
+offset_top = -1.0
+offset_right = 195.5
+offset_bottom = 15.0
+theme_type_variation = &"SubtleLabel"
+text = "Mask"
+horizontal_alignment = 1
+
+[node name="Label6" type="Label" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control"]
+layout_mode = 0
+offset_left = 108.5
+offset_top = 40.0
+offset_right = 184.5
+offset_bottom = 56.0
+theme_type_variation = &"SubtleLabel"
+text = "Upper Armor"
+horizontal_alignment = 1
+
+[node name="Label7" type="Label" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control"]
+layout_mode = 0
+offset_left = 111.5
+offset_top = 80.0
+offset_right = 178.5
+offset_bottom = 96.0
+theme_type_variation = &"SubtleLabel"
+text = "Base Layer"
+horizontal_alignment = 1
+
+[node name="Label8" type="Label" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control"]
+layout_mode = 0
+offset_left = 85.5
+offset_top = 121.0
+offset_right = 138.5
+offset_bottom = 137.0
+theme_type_variation = &"SubtleLabel"
+text = "Belt"
+horizontal_alignment = 1
+
+[node name="Label9" type="Label" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control"]
+layout_mode = 0
+offset_left = 147.5
+offset_top = 121.0
+offset_right = 200.5
+offset_bottom = 137.0
+theme_type_variation = &"SubtleLabel"
+text = "Cloak"
+horizontal_alignment = 1
+
+[node name="Label10" type="Label" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control"]
+layout_mode = 0
+offset_left = 105.5
+offset_top = 161.0
+offset_right = 183.5
+offset_bottom = 177.0
+theme_type_variation = &"SubtleLabel"
+text = "Lower Armor"
+horizontal_alignment = 1
+
+[node name="Label11" type="Label" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control"]
+layout_mode = 0
+offset_left = 116.5
+offset_top = 202.0
+offset_right = 169.5
+offset_bottom = 218.0
+theme_type_variation = &"SubtleLabel"
+text = "Feet"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 117.0
+offset_right = 60.0
+offset_bottom = 133.0
+theme_type_variation = &"SubtleLabel"
+text = "Gloves"
+horizontal_alignment = 1
+
+[node name="UnequipButton" type="Button" parent="MarginContainer/PanelContainer/MainVBox/ContentHBox/EquipmentContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 15.0
+offset_top = 220.0
+offset_right = 63.0
+offset_bottom = 240.0
+text = "Unequip"

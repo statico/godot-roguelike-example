@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://djvtqiq1oqosv"]
+
+[ext_resource type="Theme" uid="uid://kqvjkouj0io8" path="res://assets/ui/main.tres" id="1_lqtsg"]
+[ext_resource type="Script" uid="uid://bam5fpcq6bubt" path="res://scenes/ui/log_messages.gd" id="1_ysu3b"]
+
+[node name="LogMessages" type="ScrollContainer"]
+custom_minimum_size = Vector2(100, 100)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -75.0
+offset_right = 300.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme = ExtResource("1_lqtsg")
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+script = ExtResource("1_ysu3b")
+
+[node name="Messages" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+theme_override_constants/separation = 1
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+layout_mode = 2

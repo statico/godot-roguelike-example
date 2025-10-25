@@ -1,0 +1,17 @@
+class_name DungeonDecorationType
+extends RefCounted
+
+enum Type {
+	NONE = -1,
+	FLOOR_VARIATION_1 = 1,
+	FLOOR_VARIATION_2 = 2,
+	FLOOR_VARIATION_3 = 3,
+	FLOOR_VARIATION_4 = 4,
+	SOUTH_LIGHT = 5,
+	NORTH_LIGHT = 6,
+	VERTICAL_CRACK = 7,
+	HORIZONTAL_CRACK = 8,
+	WINDOW_1 = 9,
+	WINDOW_2 = 10,
+	WINDOW_3 = 11
+}

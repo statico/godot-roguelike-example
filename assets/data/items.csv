@@ -1,0 +1,34 @@
+name,sprite,type,mass,ac,damage_types,damage,skill,ammo_type,probability,nutrition,max_stack_size,flags,resistance_multiplier
+bow,ammo-8,gun,,5,,,bow,arrow,10,,,,
+crossbow,ammo-13,gun,,5,,,bow,bolt,10,,,,
+arrow,ammo-16,ammo,1,,pierce,2d5,,arrow,20,,64,,
+poison arrow,ammo-20,ammo,1,,pierce,2d4,,arrow,10,,64,aoe:poison:3:5,
+fire arrow,ammo-19,ammo,1,,pierce,2d4,,arrow,10,,64,"aoe:fire:3:7,blinding",
+crossbow bolt,ammo-21,ammo,2,,pierce,2d10,,bolt,10,,64,,
+bronze armor,armor-0,upper_armor,15,3,,,,,10,,,"max_children:1,resist_blunt,resist_pierce,resist_slash",2
+silver armor,armor-5,upper_armor,15,4,,,,,10,,,"max_children:1,resist_blunt,resist_pierce,resist_slash",3
+gold armor,armor-6,upper_armor,18,5,,,,,5,,,"max_children:1,resist_blunt,resist_pierce,resist_slash",4
+green cloak,armor-32,upper_armor,18,6,,,,,10,,,"max_children:2,resist_blunt,resist_pierce,resist_slash",5
+Godot User Guide,book-18,tool,4,,blunt,1d3,,,,,,,
+GDScript Reference,book-21,tool,2,,blunt,1d3,,,,,,,
+leather boots,boot-2,footwear,,,,,,,10,,,,
+dark boots,boot-6,footwear,,,,,,,10,,,,
+sack,chest0-16,container,1,,,,,,10,,,max_children:8,
+large box,chest1-1,container,2,,,,,,10,,,max_children:12,
+apple,food-16,consumable,1,,,,,,10,30,64,gross,
+orange,food-17,consumable,1,,,,,,10,50,64,hp:10,
+banana,food-20,consumable,2,,,,,,10,50,64,hp:5,
+food ration,food-34,consumable,,,,,,,10,300,,,
+leather gloves,glove-1,gloves,,1,,,,,10,,,,
+tufted helm,hat-2,headwear,5,3,,,,,10,,,"resist_blunt,resist_pierce",3
+soldier helm,hat-3,headwear,4,2,,,,,10,,,"resist_blunt,resist_pierce",2
+crested helm,hat-4,headwear,6,4,,,,,10,,,"resist_blunt,resist_pierce",4
+longsword,longwep-10,sword,3,,"slash,pierce",1d7,sword,,10,,,,
+dagger,shortwep-9,knife,1,,"slash,pierce",1d4,knife,,10,,,,
+gold,money-9,misc,0.1,,,,,,100,,64,credits:100,
+crystal ball,tool-1,tool,1,,piercing,1d1,knife,,10,,,multitool,
+spectacles,tool-2,tool,4,,blunt,1d3,hammer,,10,,,,
+orange scroll,scroll-11,tool,1,,,1d1,,,10,,,,
+green scroll,scroll-15,tool,1,,,1d1,,,,,,,
+poison splash potion,potion-5,grenade,5,,poison,1d10,,,10,,,aoe:poison:3:5,
+Amulet of Yendor,amulet-8,tool,10,,,1d5,,,,,,,

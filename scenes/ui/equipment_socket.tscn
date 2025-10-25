@@ -1,0 +1,73 @@
+[gd_scene load_steps=6 format=3 uid="uid://cpmll4fly6bho"]
+
+[ext_resource type="Script" uid="uid://6v5dap6vugfj" path="res://scenes/ui/equipment_socket.gd" id="1_i7ws7"]
+[ext_resource type="Texture2D" uid="uid://hiar7rfgs31i" path="res://assets/generated/item_sprites.png" id="2_projl"]
+[ext_resource type="Script" uid="uid://bdl01v7xy2m1a" path="res://src/resources/item_texture.gd" id="3_ar7bn"]
+[ext_resource type="PackedScene" uid="uid://bmcpry3kg8yqh" path="res://scenes/ui/equipment_socket_module.tscn" id="4_0pd5f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xpcya"]
+atlas = ExtResource("2_projl")
+region = Rect2(0, 0, 16, 16)
+script = ExtResource("3_ar7bn")
+sprite_name = &"helmet_008"
+
+[node name="EquipmentSocket" type="Control"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i7ws7")
+
+[node name="Panel" type="Panel" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+mouse_filter = 1
+theme_type_variation = &"EquipmentSocket"
+
+[node name="HBox" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="MainIcon" type="TextureRect" parent="Panel/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_xpcya")
+stretch_mode = 3
+
+[node name="Modules" type="HBoxContainer" parent="Panel/HBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Module1" parent="Panel/HBox/Modules" instance=ExtResource("4_0pd5f")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Module2" parent="Panel/HBox/Modules" instance=ExtResource("4_0pd5f")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Module3" parent="Panel/HBox/Modules" instance=ExtResource("4_0pd5f")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4

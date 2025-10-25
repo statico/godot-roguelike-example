@@ -1,0 +1,106 @@
+[gd_scene load_steps=15 format=3 uid="uid://gq71xq6hmy3f"]
+
+[ext_resource type="Texture2D" uid="uid://cdcop3pxms3sd" path="res://assets/textures/fx/blood.png" id="1_uquui"]
+[ext_resource type="Texture2D" uid="uid://ds3u6g7j5a5kd" path="res://assets/textures/fx/bubble.png" id="2_nmvtk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nmvtk"]
+atlas = ExtResource("1_uquui")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixlbb"]
+atlas = ExtResource("1_uquui")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ft5ke"]
+atlas = ExtResource("1_uquui")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hie4s"]
+atlas = ExtResource("1_uquui")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjam4"]
+atlas = ExtResource("1_uquui")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ufwra"]
+atlas = ExtResource("1_uquui")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3u7kf"]
+atlas = ExtResource("1_uquui")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55o47"]
+atlas = ExtResource("1_uquui")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1ahl"]
+atlas = ExtResource("1_uquui")
+region = Rect2(128, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kqe1s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nmvtk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ixlbb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ft5ke")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hie4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xjam4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ufwra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3u7kf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55o47")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1ahl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.2
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_nmvtk"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nmvtk"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 8.0
+gravity = Vector3(0, -5, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[node name="SplatterGreen" type="Node2D"]
+
+[node name="Splatter" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+modulate = Color(0.30543998, 0.69, 0.0828, 1)
+sprite_frames = SubResource("SpriteFrames_kqe1s")
+frame = 2
+frame_progress = 0.6689887
+
+[node name="Bubbles" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("CanvasItemMaterial_nmvtk")
+amount = 1
+texture = ExtResource("2_nmvtk")
+lifetime = 2.1999999999999997
+process_material = SubResource("ParticleProcessMaterial_nmvtk")

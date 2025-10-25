@@ -1,0 +1,53 @@
+[gd_scene load_steps=10 format=3 uid="uid://6vgxn7ofs4d"]
+
+[ext_resource type="Script" uid="uid://cuqhbxmt7anku" path="res://scenes/game/game.gd" id="1_kl8r1"]
+[ext_resource type="PackedScene" uid="uid://bfqgm8kk5gfh4" path="res://scenes/ui/hud.tscn" id="3_8gq2p"]
+[ext_resource type="Script" uid="uid://xuwwn6ns1igh" path="res://src/map_renderer.gd" id="3_epo20"]
+[ext_resource type="PackedScene" uid="uid://bfslatuvr4fbb" path="res://scenes/ui/reticle.tscn" id="4_elgt6"]
+[ext_resource type="Script" uid="uid://buect6amyvpau" path="res://src/camera_controller.gd" id="4_jlmnd"]
+[ext_resource type="Script" uid="uid://8wuux8632dos" path="res://scenes/ui/reticle.gd" id="5_hrhsc"]
+[ext_resource type="Material" uid="uid://jtcaw8hmu2ka" path="res://assets/particles/hit_particles.tres" id="8_87uf6"]
+[ext_resource type="Shader" uid="uid://mtyd2u0ryq75" path="res://assets/shaders/hit_vignette.gdshader" id="9_1xlxx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c4wvt"]
+shader = ExtResource("9_1xlxx")
+shader_parameter/vignette_intensity = 0.0
+shader_parameter/vignette_opacity = 1.0
+shader_parameter/vignette_rgb = Color(0.69, 0, 0, 1)
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_kl8r1")
+
+[node name="MapRenderer" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_epo20")
+
+[node name="Actors" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Reticle" parent="." instance=ExtResource("4_elgt6")]
+unique_name_in_owner = true
+script = ExtResource("5_hrhsc")
+
+[node name="CameraController" type="Camera2D" parent="."]
+script = ExtResource("4_jlmnd")
+
+[node name="UI" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="HUD" parent="UI" instance=ExtResource("3_8gq2p")]
+unique_name_in_owner = true
+
+[node name="HitEffect" type="ColorRect" parent="UI"]
+unique_name_in_owner = true
+visible = false
+material = SubResource("ShaderMaterial_c4wvt")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.62, 0.187137, 0.1798, 1)
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [PackedStringArray("hit_particles"), [ExtResource("8_87uf6")]]

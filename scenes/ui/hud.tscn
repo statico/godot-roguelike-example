@@ -1,0 +1,187 @@
+[gd_scene load_steps=8 format=3 uid="uid://bfqgm8kk5gfh4"]
+
+[ext_resource type="Theme" uid="uid://kqvjkouj0io8" path="res://assets/ui/main.tres" id="1_sjrpc"]
+[ext_resource type="Script" uid="uid://dnj1n6e06b0ap" path="res://scenes/ui/hud.gd" id="2_script"]
+[ext_resource type="PackedScene" uid="uid://djvtqiq1oqosv" path="res://scenes/ui/log_messages.tscn" id="3_1yi25"]
+[ext_resource type="PackedScene" uid="uid://dm2vtvrujqtuk" path="res://scenes/ui/progress_bar_green.tscn" id="3_b3ctt"]
+[ext_resource type="Texture2D" uid="uid://b7vffmbasnc7r" path="res://assets/generated/ui.png" id="4_oj5la"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkfx8"]
+atlas = ExtResource("4_oj5la")
+region = Rect2(96, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3jjt"]
+atlas = ExtResource("4_oj5la")
+region = Rect2(96, 48, 16, 16)
+
+[node name="HUD" type="MarginContainer" groups=["hud"]]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_sjrpc")
+script = ExtResource("2_script")
+metadata/_edit_horizontal_guides_ = [-81.0]
+
+[node name="DragEffect" type="ReferenceRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+border_color = Color(0.34902, 0.760784, 1, 1)
+border_width = 3.0
+editor_only = false
+
+[node name="MainHBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="LeftPanel" type="VBoxContainer" parent="MainHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 0
+
+[node name="UpperStatusPanel" type="PanelContainer" parent="MainHBox/LeftPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainHBox/LeftPanel/UpperStatusPanel"]
+layout_mode = 2
+
+[node name="Title1" type="Label" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Godot Roguelike"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="HPContainer" type="HBoxContainer" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer/HPContainer"]
+custom_minimum_size = Vector2(14, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+text = "HP:"
+vertical_alignment = 1
+
+[node name="HP" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer/HPContainer" instance=ExtResource("3_b3ctt")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+stretch_margin_left = 8
+stretch_margin_top = 8
+stretch_margin_right = 8
+stretch_margin_bottom = 8
+texture_under = SubResource("AtlasTexture_dkfx8")
+texture_progress = SubResource("AtlasTexture_g3jjt")
+
+[node name="StatusText" type="RichTextLabel" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+text = "Turn: 2"
+fit_content = true
+
+[node name="MeleeContainer" type="HBoxContainer" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Label" type="Label" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer/MeleeContainer"]
+custom_minimum_size = Vector2(14, 0)
+layout_mode = 2
+text = "Melee:"
+vertical_alignment = 1
+
+[node name="RangedContainer" type="HBoxContainer" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Label" type="Label" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer/RangedContainer"]
+custom_minimum_size = Vector2(14, 0)
+layout_mode = 2
+text = "Ranged:"
+vertical_alignment = 1
+
+[node name="ArmorContainer" type="HBoxContainer" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer/ArmorContainer"]
+custom_minimum_size = Vector2(14, 0)
+layout_mode = 2
+text = "Armor:"
+vertical_alignment = 1
+
+[node name="ArmorIcons" type="HBoxContainer" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer/ArmorContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BottomVBox" type="VBoxContainer" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer/BottomVBox"]
+layout_mode = 2
+
+[node name="InventoryButton" type="Button" parent="MainHBox/LeftPanel/UpperStatusPanel/VBoxContainer/BottomVBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Inventory"
+
+[node name="MiddleContainer" type="PanelContainer" parent="MainHBox/LeftPanel"]
+layout_mode = 2
+
+[node name="DawnLikeNotice" type="RichTextLabel" parent="MainHBox/LeftPanel/MiddleContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.447059)
+layout_mode = 2
+text = "DawnLike tileset by DawnBringer. See README for details."
+fit_content = true
+autowrap_mode = 2
+horizontal_alignment = 1
+
+[node name="LogMessagesPanel" type="PanelContainer" parent="MainHBox/LeftPanel"]
+layout_mode = 2
+
+[node name="LogMessages" parent="MainHBox/LeftPanel/LogMessagesPanel" instance=ExtResource("3_1yi25")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="HoverInfo" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 2
+bbcode_enabled = true
+text = "[right]info"
+fit_content = true
+scroll_active = false
+
+[node name="ThrowInfo" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "[center][pulse][color=#DDDD4A]Click a location or enter a direction to throw"
+fit_content = true
+scroll_active = false

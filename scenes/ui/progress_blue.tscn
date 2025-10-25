@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://33vjdgv3j7w0"]
+
+[ext_resource type="Texture2D" uid="uid://b7vffmbasnc7r" path="res://assets/generated/ui.png" id="1_gr5sw"]
+[ext_resource type="Theme" uid="uid://kqvjkouj0io8" path="res://assets/ui/main.tres" id="1_nn7sd"]
+[ext_resource type="Script" uid="uid://chkrrmktwkqr7" path="res://scenes/ui/progress_bar_with_label.gd" id="3_ln45a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg2su"]
+atlas = ExtResource("1_gr5sw")
+region = Rect2(96, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_blftq"]
+atlas = ExtResource("1_gr5sw")
+region = Rect2(96, 32, 16, 16)
+
+[node name="ProgressBarBlue" type="TextureProgressBar"]
+custom_minimum_size = Vector2(75, 12)
+offset_right = 75.0
+offset_bottom = 13.0
+theme = ExtResource("1_nn7sd")
+value = 50.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_under = SubResource("AtlasTexture_mg2su")
+texture_progress = SubResource("AtlasTexture_blftq")
+script = ExtResource("3_ln45a")
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -10.0
+offset_right = 20.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "100%"
+horizontal_alignment = 1
+vertical_alignment = 1

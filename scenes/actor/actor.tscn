@@ -1,0 +1,79 @@
+[gd_scene load_steps=7 format=3 uid="uid://d1md2o3e5751c"]
+
+[ext_resource type="Shader" uid="uid://cwsfh2fppqr4a" path="res://assets/shaders/actor.gdshader" id="1_go5em"]
+[ext_resource type="Texture2D" uid="uid://bshiu8nino7ds" path="res://assets/generated/character_tiles.png" id="2_2b8ry"]
+[ext_resource type="Material" uid="uid://jtcaw8hmu2ka" path="res://assets/particles/hit_particles.tres" id="2_qc7st"]
+[ext_resource type="Script" uid="uid://ch0otc0v8j3nu" path="res://scenes/actor/actor.gd" id="3_hk532"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_akhww"]
+resource_local_to_scene = true
+shader = ExtResource("1_go5em")
+shader_parameter/shake_amount = 0.0
+shader_parameter/threshold = 0.1
+shader_parameter/bounce_direction = Vector2(0, 0)
+shader_parameter/bounce_amount = 0.0
+shader_parameter/hop_progress = 0.0
+shader_parameter/hop_height = 10.0
+shader_parameter/hit_flash = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ankjf"]
+shader = ExtResource("1_go5em")
+shader_parameter/shake_amount = 0.0
+shader_parameter/threshold = 0.1
+shader_parameter/bounce_direction = Vector2(0, 0)
+shader_parameter/bounce_amount = 0.0
+shader_parameter/hop_progress = 0.0
+shader_parameter/hop_height = 10.0
+shader_parameter/hit_flash = 0.0
+
+[node name="Actor" type="Node2D"]
+material = SubResource("ShaderMaterial_akhww")
+script = ExtResource("3_hk532")
+
+[node name="Character" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_ankjf")
+texture = ExtResource("2_2b8ry")
+centered = false
+offset = Vector2(0, -3)
+flip_h = true
+hframes = 2
+region_enabled = true
+region_rect = Rect2(576, 288, 48, 24)
+
+[node name="HitParticles" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(12, 4)
+emitting = false
+amount = 24
+lifetime = 0.15
+one_shot = true
+explosiveness = 0.67
+randomness = 1.0
+process_material = ExtResource("2_qc7st")
+
+[node name="Health" type="Node2D" parent="."]
+unique_name_in_owner = true
+z_index = 1
+
+[node name="HealthBG" type="ColorRect" parent="Health"]
+unique_name_in_owner = true
+offset_left = 3.0
+offset_top = -6.0
+offset_right = 21.0
+offset_bottom = -3.0
+size_flags_vertical = 8
+mouse_filter = 2
+color = Color(0.09, 0.09, 0.09, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="HealthLevel" type="ColorRect" parent="Health"]
+unique_name_in_owner = true
+offset_left = 4.0
+offset_top = -5.0
+offset_right = 20.0
+offset_bottom = -4.0
+size_flags_vertical = 8
+mouse_filter = 2
+color = Color(0.344955, 0.87, 0.2523, 1)
+metadata/_edit_use_anchors_ = true

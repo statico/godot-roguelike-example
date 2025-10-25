@@ -1,0 +1,253 @@
+[gd_scene load_steps=14 format=3 uid="uid://c40akp2h34n8w"]
+
+[ext_resource type="Theme" uid="uid://kqvjkouj0io8" path="res://assets/ui/main.tres" id="1_nlp44"]
+[ext_resource type="StyleBox" uid="uid://dqpk7tbi78kn1" path="res://assets/ui/styles/button_hover.tres" id="3_imopk"]
+[ext_resource type="Texture2D" uid="uid://hiar7rfgs31i" path="res://assets/generated/item_sprites.png" id="4_ypq30"]
+[ext_resource type="Script" uid="uid://bdl01v7xy2m1a" path="res://src/resources/item_texture.gd" id="5_smpg8"]
+[ext_resource type="Texture2D" uid="uid://b7vffmbasnc7r" path="res://assets/generated/ui.png" id="6_g3jjt"]
+[ext_resource type="PackedScene" uid="uid://33vjdgv3j7w0" path="res://scenes/ui/progress_blue.tscn" id="6_vbd3j"]
+[ext_resource type="PackedScene" uid="uid://dm2vtvrujqtuk" path="res://scenes/ui/progress_bar_green.tscn" id="7_r0cqn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_brddt"]
+atlas = ExtResource("4_ypq30")
+region = Rect2(0, 0, 16, 16)
+script = ExtResource("5_smpg8")
+sprite_name = &"banana"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhis8"]
+atlas = ExtResource("4_ypq30")
+region = Rect2(720, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mmij0"]
+atlas = ExtResource("4_ypq30")
+region = Rect2(0, 0, 16, 16)
+script = ExtResource("5_smpg8")
+sprite_name = &"banana"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkfx8"]
+atlas = ExtResource("6_g3jjt")
+region = Rect2(96, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hjvyd"]
+atlas = ExtResource("6_g3jjt")
+region = Rect2(96, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3jjt"]
+atlas = ExtResource("6_g3jjt")
+region = Rect2(96, 48, 16, 16)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(214.977, 112)
+theme = ExtResource("1_nlp44")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_nlp44")
+
+[node name="AllStuff" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="PanelContainer/AllStuff"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Cool HUD Demo"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/AllStuff"]
+layout_mode = 2
+bbcode_enabled = true
+text = "This scene tests GUI elements. Pariatur sit eu dolor anim aute ea non enim sunt. Labore enim do fugiat nostrud occaecat aute."
+fit_content = true
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/AllStuff"]
+layout_mode = 2
+
+[node name="SectionLabel" type="Label" parent="PanelContainer/AllStuff"]
+layout_mode = 2
+text = "Buttons"
+
+[node name="ButtonHBox" type="HBoxContainer" parent="PanelContainer/AllStuff"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="PanelContainer/AllStuff/ButtonHBox"]
+layout_mode = 2
+text = "Normal"
+
+[node name="Button2" type="Button" parent="PanelContainer/AllStuff/ButtonHBox"]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("3_imopk")
+text = "Hover"
+
+[node name="Button3" type="Button" parent="PanelContainer/AllStuff/ButtonHBox"]
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+text = "Pressed"
+
+[node name="Button4" type="Button" parent="PanelContainer/AllStuff/ButtonHBox"]
+layout_mode = 2
+disabled = true
+text = "Disabled"
+
+[node name="PopupMenu" type="PopupMenu" parent="PanelContainer/AllStuff/ButtonHBox"]
+visible = true
+unfocusable = true
+item_count = 2
+item_0/text = "Foo"
+item_0/icon = SubResource("AtlasTexture_brddt")
+item_0/id = 0
+item_1/id = 1
+item_1/separator = true
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/AllStuff"]
+layout_mode = 2
+
+[node name="TwoCol" type="HBoxContainer" parent="PanelContainer/AllStuff"]
+layout_mode = 2
+
+[node name="LeftCol" type="VBoxContainer" parent="PanelContainer/AllStuff/TwoCol"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TabBar" type="TabBar" parent="PanelContainer/AllStuff/TwoCol/LeftCol"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+current_tab = 0
+tab_count = 3
+tab_0/title = "Foo"
+tab_1/title = "Bar"
+tab_2/title = "Baz"
+tab_2/disabled = true
+
+[node name="SectionLabel2" type="Label" parent="PanelContainer/AllStuff/TwoCol/LeftCol"]
+layout_mode = 2
+text = "ItemList"
+
+[node name="ItemList" type="ItemList" parent="PanelContainer/AllStuff/TwoCol/LeftCol"]
+layout_mode = 2
+size_flags_vertical = 3
+auto_height = true
+item_count = 4
+item_0/text = "Banana"
+item_0/icon = SubResource("AtlasTexture_xhis8")
+item_0/disabled = true
+item_1/text = "Banana"
+item_1/icon = SubResource("AtlasTexture_mmij0")
+item_2/text = "Banana"
+item_2/icon = SubResource("AtlasTexture_xhis8")
+item_3/text = "Banana"
+item_3/icon = SubResource("AtlasTexture_xhis8")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/AllStuff/TwoCol/LeftCol"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="PanelContainer/AllStuff/TwoCol/LeftCol/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"EquipmentSocket"
+
+[node name="Panel2" type="Panel" parent="PanelContainer/AllStuff/TwoCol/LeftCol/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"EquipmentSocketSelected"
+
+[node name="Panel3" type="Panel" parent="PanelContainer/AllStuff/TwoCol/LeftCol/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"EquipmentSocketSlot"
+
+[node name="Panel4" type="Panel" parent="PanelContainer/AllStuff/TwoCol/LeftCol/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"EquipmentSocketSlotSelected"
+
+[node name="VScrollBar" type="VScrollBar" parent="PanelContainer/AllStuff/TwoCol"]
+layout_mode = 2
+value = 33.0
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/AllStuff/TwoCol"]
+layout_mode = 2
+
+[node name="RightCol" type="VBoxContainer" parent="PanelContainer/AllStuff/TwoCol"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PanelContainer/AllStuff/TwoCol/RightCol"]
+layout_mode = 2
+text = "Progress Bars
+"
+
+[node name="ProgressBarBlue" parent="PanelContainer/AllStuff/TwoCol/RightCol" instance=ExtResource("6_vbd3j")]
+layout_mode = 2
+stretch_margin_left = 8
+stretch_margin_top = 8
+stretch_margin_right = 8
+stretch_margin_bottom = 8
+texture_under = SubResource("AtlasTexture_dkfx8")
+texture_progress = SubResource("AtlasTexture_hjvyd")
+
+[node name="ProgressBarGreen" parent="PanelContainer/AllStuff/TwoCol/RightCol" instance=ExtResource("7_r0cqn")]
+layout_mode = 2
+stretch_margin_left = 8
+stretch_margin_top = 8
+stretch_margin_right = 8
+stretch_margin_bottom = 8
+texture_under = SubResource("AtlasTexture_dkfx8")
+texture_progress = SubResource("AtlasTexture_g3jjt")
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/AllStuff/TwoCol/RightCol"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="PanelContainer/AllStuff/TwoCol/RightCol"]
+layout_mode = 2
+text = "Tooltip"
+
+[node name="TooltipPanel" type="PanelContainer" parent="PanelContainer/AllStuff/TwoCol/RightCol"]
+layout_mode = 2
+theme_type_variation = &"TooltipPanel"
+
+[node name="TooltipLabel" type="Label" parent="PanelContainer/AllStuff/TwoCol/RightCol/TooltipPanel"]
+layout_mode = 2
+theme_type_variation = &"TooltipLabel"
+text = "Tooltip"
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/AllStuff/TwoCol/RightCol"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/AllStuff/TwoCol/RightCol"]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="PanelContainer/AllStuff/TwoCol/RightCol/HBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox2" type="CheckBox" parent="PanelContainer/AllStuff/TwoCol/RightCol/HBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox3" type="CheckBox" parent="PanelContainer/AllStuff/TwoCol/RightCol/HBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox4" type="CheckBox" parent="PanelContainer/AllStuff/TwoCol/RightCol/HBoxContainer"]
+layout_mode = 2
+button_pressed = true
+
+[node name="CheckBox5" type="CheckBox" parent="PanelContainer/AllStuff/TwoCol/RightCol/HBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Check"

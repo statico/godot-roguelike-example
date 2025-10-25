@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://bmcpry3kg8yqh"]
+
+[ext_resource type="Theme" uid="uid://kqvjkouj0io8" path="res://assets/ui/main.tres" id="1_6evb6"]
+[ext_resource type="Texture2D" uid="uid://hiar7rfgs31i" path="res://assets/generated/item_sprites.png" id="2_sr8te"]
+[ext_resource type="Script" uid="uid://pax2fh0c2ca8" path="res://scenes/ui/equipment_socket_module.gd" id="2_vjmji"]
+[ext_resource type="Script" uid="uid://bdl01v7xy2m1a" path="res://src/resources/item_texture.gd" id="3_gctua"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fccno"]
+atlas = ExtResource("2_sr8te")
+region = Rect2(0, 0, 16, 16)
+script = ExtResource("3_gctua")
+sprite_name = &"helmet_008"
+
+[node name="EquipmentSocketModule" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("1_6evb6")
+theme_type_variation = &"EquipmentSocketSlot"
+script = ExtResource("2_vjmji")
+
+[node name="Icon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_fccno")
+stretch_mode = 3

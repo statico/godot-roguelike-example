@@ -1,0 +1,16 @@
+slug,species,name,faction,behavior,appearance,speed,strength,max_hp,sight_radius,hit_particles_color,intelligence,has_head,has_torso,has_legs,has_hands
+abominable,abominable,yeti,critters,aggressive,"abominable1,abominable2,abominable3",slow,20,40,12,#00ffff,4,true,true,true,true
+human,human,human,terran,passive,marine1,normal,15,50,8,#ff3333,8,true,true,true,true
+rat,rat,sniffer,critters,aggressive,"rat-grey,rat-green",fast,2,10,6,#00ff00,2,true,true,true,false
+xenomorph,xenomorph,fighter,shard,aggressive,"xenomorph-red1,xenomorph-red2,xenomorph-red3",normal,15,30,10,#33ff33,7,true,true,true,true
+flying_eye,robot,flying eye,rogue_ai,aggressive,"flying-eye-robot-grey1,flying-eye-robot-grey2",normal,5,15,12,#cccccc,6,true,false,false,false
+flying_cube,robot,flying cube,rogue_ai,aggressive,"flying-cube-robot-grey1,flying-cube-robot-grey2",slow,8,25,10,#cccccc,5,false,false,false,false
+helper_robot,robot,helper robot,none,passive,"flying-helper-robot-grey1,flying-helper-robot-grey2,flying-helper-robot-grey3",normal,6,20,8,#cccccc,7,true,true,false,true
+blob,blob,lump,critters,aggressive,"blob-green,blob-purple",slow,4,12,6,#00ff33,1,false,false,false,false
+cyberguard,human,cyberguard,pirates,aggressive,"cyberguard1,cyberguard2",normal,12,45,10,#ff3333,6,true,true,true,true
+grunt_grey,xenomorph,grey grunt,shard,aggressive,"grunt-grey,grunt-grey-rifle,grunt-grey-shotgun",normal,10,35,8,#33ff33,5,true,true,true,true
+grunt_orange,xenomorph,orange grunt,shard,aggressive,"grunt-orange,grunt-orange-rifle,grunt-orange-shotgun",normal,12,40,8,#ff9933,5,true,true,true,true
+guardian,xenomorph,guardian,shard,aggressive,"guardian1,guardian2,guardian3,guardian4,guardian5",slow,18,60,12,#ff3333,8,true,true,true,true
+tentacle_marine,human,tentacle marine,pirates,aggressive,"tentaclemarine1,tentaclemarine1-rifle,tentaclemarine1-shotgun",normal,14,45,10,#ff3333,7,true,true,true,true
+scientist,human,scientist,terran,passive,"whitecoat1,whitecoat2,whitecoat3,whitecoat4",normal,6,30,8,#ff3333,9,true,true,true,true
+worm,worm,digger,critters,aggressive,"worm1,worm2",normal,3,8,4,#00ff00,1,false,false,false,false

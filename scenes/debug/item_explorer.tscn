@@ -1,0 +1,250 @@
+[gd_scene load_steps=37 format=3 uid="uid://cvh5q7dg8bbgj"]
+
+[ext_resource type="Theme" uid="uid://kqvjkouj0io8" path="res://assets/ui/main.tres" id="1_pk7oo"]
+[ext_resource type="Script" uid="uid://baq62dnswxb3p" path="res://scenes/debug/item_explorer.gd" id="2_3m6io"]
+[ext_resource type="Texture2D" uid="uid://hiar7rfgs31i" path="res://assets/generated/item_sprites.png" id="3_38vp8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krrkc"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(32, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mcudo"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(16, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d27f5"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(0, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n44ek"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(48, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayvmh"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4x1l"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0j5d5"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_armlg"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(64, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f26t0"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_74uxq"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7qgy"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kaguj"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s0x7u"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(64, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ybk7"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_djqht"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(80, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lukjx"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(64, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixonr"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmp2a"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ra5uk"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mdpnw"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(32, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e16pt"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(80, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m25yg"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tby8e"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(80, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssfft"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pfteb"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(80, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_12ghd"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(32, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4fog7"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(48, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j24it"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(64, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oc17k"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pra4c"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8bs7o"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(0, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ichqm"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(16, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yytu1"]
+atlas = ExtResource("3_38vp8")
+region = Rect2(16, 0, 16, 16)
+
+[node name="ItemExplorer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_pk7oo")
+script = ExtResource("2_3m6io")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(500, 300)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SearchField" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "item name"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Results" type="ItemList" parent="PanelContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+item_count = 33
+max_columns = 5
+item_0/text = "spectacles"
+item_0/icon = SubResource("AtlasTexture_krrkc")
+item_1/text = "crystal_ball"
+item_1/icon = SubResource("AtlasTexture_mcudo")
+item_2/text = "crested_helm"
+item_2/icon = SubResource("AtlasTexture_d27f5")
+item_3/text = "leather_gloves"
+item_3/icon = SubResource("AtlasTexture_n44ek")
+item_4/text = "dark_boots"
+item_4/icon = SubResource("AtlasTexture_ayvmh")
+item_5/text = "leather_boots"
+item_5/icon = SubResource("AtlasTexture_o4x1l")
+item_6/text = "green_cloak"
+item_6/icon = SubResource("AtlasTexture_0j5d5")
+item_7/text = "gold_armor"
+item_7/icon = SubResource("AtlasTexture_armlg")
+item_8/text = "crossbow_bolt"
+item_8/icon = SubResource("AtlasTexture_f26t0")
+item_9/text = "fire_arrow"
+item_9/icon = SubResource("AtlasTexture_74uxq")
+item_10/text = "poison_arrow"
+item_10/icon = SubResource("AtlasTexture_f7qgy")
+item_11/text = "crossbow"
+item_11/icon = SubResource("AtlasTexture_kaguj")
+item_12/text = "large_box"
+item_12/icon = SubResource("AtlasTexture_s0x7u")
+item_13/text = "sack"
+item_13/icon = SubResource("AtlasTexture_3ybk7")
+item_14/text = "green_scroll"
+item_14/icon = SubResource("AtlasTexture_djqht")
+item_15/text = "orange_scroll"
+item_15/icon = SubResource("AtlasTexture_lukjx")
+item_16/text = "amulet_of_yendor"
+item_16/icon = SubResource("AtlasTexture_ixonr")
+item_17/text = "banana"
+item_17/icon = SubResource("AtlasTexture_wmp2a")
+item_18/text = "orange"
+item_18/icon = SubResource("AtlasTexture_ra5uk")
+item_19/text = "gold"
+item_19/icon = SubResource("AtlasTexture_mdpnw")
+item_20/text = "soldier_helm"
+item_20/icon = SubResource("AtlasTexture_e16pt")
+item_21/text = "bronze_armor"
+item_21/icon = SubResource("AtlasTexture_m25yg")
+item_22/text = "apple"
+item_22/icon = SubResource("AtlasTexture_tby8e")
+item_23/text = "gdscript_reference"
+item_23/icon = SubResource("AtlasTexture_ssfft")
+item_24/text = "godot_user_guide"
+item_24/icon = SubResource("AtlasTexture_pfteb")
+item_25/text = "food_ration"
+item_25/icon = SubResource("AtlasTexture_12ghd")
+item_26/text = "poison_splash_potion"
+item_26/icon = SubResource("AtlasTexture_4fog7")
+item_27/text = "tufted_helm"
+item_27/icon = SubResource("AtlasTexture_j24it")
+item_28/text = "silver_armor"
+item_28/icon = SubResource("AtlasTexture_oc17k")
+item_29/text = "bow"
+item_29/icon = SubResource("AtlasTexture_pra4c")
+item_30/text = "dagger"
+item_30/icon = SubResource("AtlasTexture_8bs7o")
+item_31/text = "longsword"
+item_31/icon = SubResource("AtlasTexture_ichqm")
+item_32/text = "arrow"
+item_32/icon = SubResource("AtlasTexture_yytu1")

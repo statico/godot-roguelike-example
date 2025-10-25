@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://bur4de3mrhavo"]
+
+[ext_resource type="Script" uid="uid://bqdkbrjjx3s81" path="res://scenes/ui/inventory_item_list.gd" id="1_4mpeb"]
+[ext_resource type="Theme" uid="uid://kqvjkouj0io8" path="res://assets/ui/main.tres" id="1_cxgmx"]
+[ext_resource type="PackedScene" uid="uid://3j147osa473o" path="res://scenes/ui/inventory_item.tscn" id="1_snmu5"]
+
+[node name="InventoryItemList" type="ScrollContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_cxgmx")
+script = ExtResource("1_4mpeb")
+
+[node name="Outline" type="ReferenceRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+border_color = Color(0.0745098, 0.643137, 0.929412, 1)
+editor_only = false
+
+[node name="List" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 2
+
+[node name="InventoryItem" parent="List" instance=ExtResource("1_snmu5")]
+layout_mode = 2
+
+[node name="InventoryItem2" parent="List" instance=ExtResource("1_snmu5")]
+layout_mode = 2
+
+[node name="InventoryItem3" parent="List" instance=ExtResource("1_snmu5")]
+layout_mode = 2

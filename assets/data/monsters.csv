@@ -1,0 +1,16 @@
+slug,species,name,faction,behavior,appearance,speed,strength,max_hp,sight_radius,hit_particles_color,intelligence,has_head,has_torso,has_legs,has_hands
+spider,arachnid,spider,critters,aggressive,"pest-17,pest-18",normal,20,40,12,#00ffff,4,false,false,false,false
+coyote,dog,coyote,critters,aggressive,dog-8,fast,7,10,6,#ff0000,4,false,false,false,false
+panther,feline,lynx,monsters,aggressive,cat-2,fast,7,10,6,#ff0000,4,false,false,false,false
+knight,human,knight,human,passive,player-25,normal,15,50,8,#ff3333,8,true,true,true,true
+monk,human,monk,human,passive,player-31,normal,15,50,8,#ff3333,8,true,true,true,true
+valkyrie,human,valkyrie,human,passive,player-4,normal,15,50,8,#ff3333,8,true,true,true,true
+snail,mollusk,snail,critters,aggressive,pest-58,slow,20,40,12,#00ffff,4,false,false,false,false
+lizard,reptile,lizard,critters,aggressive,reptile-64,normal,8,12,8,#ff0000,4,false,false,false,false
+platino,reptile,platino,critters,passive,reptile-99,normal,30,30,8,#cccccc,8,true,true,true,true
+rat,rodent,rat,critters,aggressive,rodent-10,fast,7,10,6,#ff0000,4,false,false,false,false
+rabid-rat,rodent,rabid rat,critters,aggressive,rodent-16,fast,7,12,6,#00ff00,4,false,false,false,false
+scorpion,arachnid,scorpion,critters,aggressive,pest-20,normal,15,20,6,#ff0000,4,false,false,false,false
+skeleton,undead,skeleton,undead,aggressive,undead-16,normal,20,30,8,#ffffff,4,true,true,true,true
+zombie,undead,zombie,undead,aggressive,undead-5,normal,20,30,8,#ffffff,4,true,true,true,true
+floating-eye,undead,floating eye,undead,aggressive,elemental-40,slow,20,30,8,#ffffff,4,true,true,true,true

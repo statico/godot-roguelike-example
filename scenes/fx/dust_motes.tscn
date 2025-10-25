@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://rj4kucb3wiks"]
+
+[ext_resource type="Material" uid="uid://2fetg5grqf8w" path="res://assets/particles/dust_motes.tres" id="1_88sgl"]
+[ext_resource type="Script" uid="uid://b3qi3gdx2rjx0" path="res://scenes/fx/dust_motes.gd" id="1_pdkq4"]
+
+[node name="DustMotes" type="Node2D"]
+script = ExtResource("1_pdkq4")
+
+[node name="ClippingMask" type="Polygon2D" parent="."]
+clip_children = 1
+polygon = PackedVector2Array(-36, -49, 100, 42, -57, 62)
+
+[node name="Particles" type="GPUParticles2D" parent="ClippingMask"]
+amount = 15
+lifetime = 3.0
+preprocess = 2.0
+process_material = ExtResource("1_88sgl")
