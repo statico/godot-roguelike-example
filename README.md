@@ -1,6 +1,6 @@
 # Statico's Godot Roguelike Example
 
-This is an incomplete, copyable roguelike game made with Godot 4. It was originall going to be a sci-fi roguelike, but I decided to open-soruce it as a learning example. You can use it as a base for your own roguelike game. Play it [here](https://roguelike.statico.io), or play my original sci-fi themed roguelike [here](https://vesta.statico.io).
+This is an incomplete, copyable roguelike game made with Godot 4. It was originally going to be a sci-fi roguelike, but I decided to open-soruce it as a learning example. You can use it as a base for your own roguelike game. Play it [here](https://roguelike.statico.io), or play my original sci-fi themed roguelike [here](https://vesta.statico.io).
 
 All code and assets are licensed permissively. The code is MIT licensed, the font is CC0, and the tileset is [Dawnlike from DawnBringer](https://opengameart.org/content/16x16-dawnhack-roguelike-tileset) and has its own license.
 
