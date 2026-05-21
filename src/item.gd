@@ -35,6 +35,7 @@ enum Type {
 var name: String = "UNINITIALIZED ITEM"
 var type: Type = Type.CONSUMABLE
 var sprite_name: StringName = &"hamburger"
+var slug: StringName = &""
 
 # Container and module system
 var parent: Item = null

@@ -14,13 +14,16 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Godot Roguelike Example"
+config/name="LLM Crawl"
 run/main_scene="res://scenes/menu/main_menu.tscn"
-config/features=PackedStringArray("4.6", "GL Compatibility")
+config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0.0852449, 0.0852449, 0.0852449, 1)
 
 [autoload]
 
+GameState="*res://autoload/GameState.gd"
+EventBus="*res://autoload/event_bus.gd"
+InstanceID="*res://autoload/instance_id.gd"
 World="*res://src/world.gd"
 Async="*res://src/async.gd"
 Modals="*res://src/modals.gd"
@@ -49,21 +52,25 @@ window/dpi/allow_hidpi=false
 [file_customization]
 
 folder_colors={
+"res://ai_models/": "pink",
 "res://art/": "gray",
 "res://assets/": "yellow",
+"res://autoload/": "red",
+"res://data/": "orange",
 "res://docs/": "gray",
 "res://scenes/": "purple",
+"res://scripts/": "teal",
 "res://src/": "teal"
 }
 
 [gui]
 
 fonts/dynamic_fonts/use_oversampling=false
+theme/custom_font="uid://drct7kk8ym7g7"
 theme/default_font_antialiasing=0
 theme/default_font_hinting=0
 theme/default_font_subpixel_positioning=0
 theme/default_font_multichannel_signed_distance_field=true
-theme/custom_font="uid://drct7kk8ym7g7"
 
 [input]
 

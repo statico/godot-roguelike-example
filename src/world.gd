@@ -34,6 +34,12 @@ var game_over: bool = false
 # Keep track of the max depth reached
 var max_depth: int = 1
 
+# ==========================================
+# 🛡️ [파티 시스템] PARTY SYSTEM
+# ==========================================
+## 파티 매니저 인스턴스 (플레이어 + AI 파티원 관리)
+var party_manager: PartyManager
+
 # The player's faction affinity
 var faction_affinities: Dictionary = {
 	Factions.Type.HUMAN: 100,  # There could be different human factions with different affinities
@@ -62,15 +68,28 @@ func initialize() -> void:
 	game_over = false
 	max_depth = 1
 
+	# Reset instance ID registry on new game
+	InstanceID.reset()
+
+	# Wire progression hooks
+	if not EventBus.monster_killed.is_connected(_on_monster_killed):
+		EventBus.monster_killed.connect(_on_monster_killed)
+	if not EventBus.melee_attack_made.is_connected(_on_melee_attack_made):
+		EventBus.melee_attack_made.connect(_on_melee_attack_made)
+
 	# Create a new world world_plan
 	world_plan = WorldPlan.new(WorldPlan.WorldType.NORMAL)
 	Log.i("World world_plan created: %s" % world_plan)
 
 	# Create the player with starting equipment
 	# TODO: Choose role based at main menu
-	player = MonsterFactory.create_monster(&"knight", Roles.Type.KNIGHT)
-	Roles.equip_monster(player, Roles.Type.KNIGHT)
+	player = MonsterFactory.create_monster(&"fighter", Roles.Type.FIGHTER)
+	Roles.equip_monster(player, Roles.Type.FIGHTER)
 	Log.i("Player created: %s" % player)
+
+	# ── 파티 매니저 초기화 ──────────────────────────
+	party_manager = PartyManager.new()
+	Log.i("[PartyManager] Initialized")
 
 	# Create the first level
 	maps.clear()
@@ -84,6 +103,9 @@ func initialize() -> void:
 		map.add_monster_at_stairs(player, Obstacle.Type.STAIRS_UP),
 		"Failed to add player to main entrance"
 	)
+
+	# ── 파티원 소환 (플레이어 인근) ──────────────────
+	_spawn_party_followers(map)
 
 	# Compute FOV before the first turn
 	update_vision()
@@ -145,6 +167,32 @@ func _generate_map(plan: WorldPlan.LevelPlan) -> Map:
 			return null
 
 
+# ==========================================
+# 🛡️ [파티] 파티원 소환 (_spawn_party_followers)
+# ==========================================
+func _spawn_party_followers(map: Map) -> void:
+	# 파티 구성: Ranger + Cleric (RL 데이터 다양성을 위해 역할 조합 가능)
+	var party_config: Array[Dictionary] = [
+		{"slug": &"ranger",  "role": Roles.Type.RANGER},
+		{"slug": &"cleric",  "role": Roles.Type.CLERIC},
+	]
+
+	var player_pos := map.find_monster_position(player)
+
+	for cfg in party_config:
+		var follower := MonsterFactory.create_monster(cfg["slug"], cfg["role"])
+		Roles.equip_monster(follower, cfg["role"])
+		# PartyManager가 빈 타일을 찾아 배치
+		var placed := party_manager._place_near(map, follower, player_pos)
+		if placed:
+			party_manager.add_follower(follower)
+			Log.i("[World] Spawned party follower: %s at role=%s" % [
+				follower.name, Roles.Type.keys()[follower.role]
+			])
+		else:
+			Log.w("[World] Could not place party follower: %s" % follower.name)
+
+
 # Apply an action (presumably from the player) to the world and complete the turn.
 func apply_player_action(action: BaseAction) -> ActionResult:
 	Log.i("[color=lime]======== TURN %d STARTED ========[/color]" % World.current_turn)
@@ -163,6 +211,11 @@ func apply_player_action(action: BaseAction) -> ActionResult:
 			message_logged.emit(result.message)
 		Log.i("[color=gray]==== TURN CANCELLED (Result False) ====[/color]")
 		return result
+
+	# ── 플레이어 경로 기록 (파티원 팔로우용) ─────────────
+	var player_pos_now := current_map.find_monster_position(player)
+	if player_pos_now != Utils.INVALID_POS:
+		party_manager.record_player_position(player_pos_now)
 
 	# Update all monster systems
 	for monster in current_map.get_monsters():
@@ -296,6 +349,9 @@ func handle_level_transition(destination_level: String, coming_from_stairs: Obst
 		"Failed to add player at stairs"
 	)
 
+	# ── 파티원도 새 맵에 배치 ─────────────────────────
+	party_manager.on_map_changed(current_map, target_stairs_type)
+
 	# Update FOV for new position
 	var player_pos := current_map.find_monster_position(player)
 	current_map.compute_fov(player_pos)
@@ -370,3 +426,40 @@ func update_vision() -> void:
 		current_map.clear_fov(player_pos)
 	else:
 		current_map.compute_fov(player_pos)
+
+
+# =============================================================
+# 🌟 [경험치 / 스킬 성장] PROGRESSION HOOKS
+# =============================================================
+
+func _on_monster_killed(killer: Monster, victim: Monster) -> void:
+	if killer != player or victim.xp_reward <= 0:
+		return
+
+	# XP 지급
+	var xp := victim.xp_reward
+	var level_msgs := player.level_comp.add_experience(xp)
+	message_logged.emit("You gain %d XP." % xp, LogMessages.Level.GOOD)
+
+	# 레벨업 메시지 출력
+	for msg in level_msgs:
+		message_logged.emit("[color=gold]%s[/color]" % msg, LogMessages.Level.GREAT)
+
+	# 마지막 공격 무기 스킬 XP (킬 보너스)
+	var weapon := player.equipment.get_equipped_item(Equipment.Slot.MELEE)
+	var skill_type := weapon.skill_type if weapon else Skills.Type.FISTS
+	var skill_msgs := player.skills.add_skill_xp(skill_type, 20)
+	for msg in skill_msgs:
+		message_logged.emit("[color=cyan]%s[/color]" % msg, LogMessages.Level.GREAT)
+
+
+func _on_melee_attack_made(attacker: Monster, _target: Monster) -> void:
+	if attacker != player:
+		return
+
+	# 무기 명중 시 스킬 XP
+	var weapon := player.equipment.get_equipped_item(Equipment.Slot.MELEE)
+	var skill_type := weapon.skill_type if weapon else Skills.Type.FISTS
+	var skill_msgs := player.skills.add_skill_xp(skill_type, 5)
+	for msg in skill_msgs:
+		message_logged.emit("[color=cyan]%s[/color]" % msg, LogMessages.Level.GREAT)

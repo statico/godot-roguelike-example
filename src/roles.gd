@@ -1,7 +1,11 @@
 class_name Roles
 extends RefCounted
 
-enum Type { NONE, KNIGHT, MONK, VALKYRIE }
+# =============================================================
+# ⚔️ [구역 1] D&D 클래스 타입 (D&D CLASS TYPES)
+# =============================================================
+
+enum Type { NONE, FIGHTER, RANGER, CLERIC, ROGUE }
 
 const ROLE_DATA := {
 	Type.NONE:
@@ -22,10 +26,10 @@ const ROLE_DATA := {
 		"starting_skills": {},
 		"faction": Factions.Type.NONE,
 	},
-	Type.KNIGHT:
+	Type.FIGHTER:
 	{
-		"name": "Knight",
-		"description": "A knight is a warrior trained in the use of a sword and shield.",
+		"name": "Fighter",
+		"description": "A classic martial warrior. Expert with heavy weapons, swords, and shields.",
 		"allowed_species":
 		[
 			Species.Type.HUMAN,
@@ -33,42 +37,61 @@ const ROLE_DATA := {
 		"starting_skills":
 		{
 			Skills.Type.SWORD: Skills.Level.INTERMEDIATE,
-			Skills.Type.KNIFE: Skills.Level.INTERMEDIATE,
+			Skills.Type.HAMMER: Skills.Level.INTERMEDIATE,
 		},
 		"faction": Factions.Type.HUMAN,
 	},
-	Type.MONK:
+	Type.RANGER:
 	{
-		"name": "Monk",
-		"description": "A monk is a warrior trained in the use of a sword and shield.",
+		"name": "Ranger",
+		"description": "A ranged hunter. Deadly from a distance with bows and quick with knives.",
 		"allowed_species":
 		[
 			Species.Type.HUMAN,
 		],
 		"starting_skills":
 		{
-			Skills.Type.FISTS: Skills.Level.ADVANCED,
 			Skills.Type.BOW: Skills.Level.ADVANCED,
+			Skills.Type.KNIFE: Skills.Level.BASIC,
+			Skills.Type.THROWING: Skills.Level.INTERMEDIATE,
 		},
+		"faction": Factions.Type.HUMAN,
 	},
-	Type.VALKYRIE:
+	Type.CLERIC:
 	{
-		"name": "Valkyrie",
-		"description": "A valkyrie is a warrior trained in the use of a sword and shield.",
+		"name": "Cleric",
+		"description": "A holy supporter. Wields hammers and heals/buffs allies.",
 		"allowed_species":
 		[
 			Species.Type.HUMAN,
 		],
 		"starting_skills":
 		{
-			Skills.Type.SWORD: Skills.Level.INTERMEDIATE,
-			Skills.Type.SPEAR: Skills.Level.INTERMEDIATE,
-			Skills.Type.BOW: Skills.Level.INTERMEDIATE,
+			Skills.Type.HAMMER: Skills.Level.INTERMEDIATE,
+			Skills.Type.UTILITY: Skills.Level.ADVANCED,
+		},
+		"faction": Factions.Type.HUMAN,
+	},
+	Type.ROGUE:
+	{
+		"name": "Rogue",
+		"description": "A stealthy assassin. Hits hard and fast with knives, escaping to shadows.",
+		"allowed_species":
+		[
+			Species.Type.HUMAN,
+		],
+		"starting_skills":
+		{
+			Skills.Type.KNIFE: Skills.Level.ADVANCED,
+			Skills.Type.THROWING: Skills.Level.INTERMEDIATE,
 		},
 		"faction": Factions.Type.HUMAN,
 	},
 }
 
+# =============================================================
+# 🔧 [구역 2] 정보 조회 API (GETTERS)
+# =============================================================
 
 static func get_role_data(role_type: Type) -> Dictionary:
 	assert(ROLE_DATA.has(role_type), "Invalid role type: %s" % role_type)
@@ -89,38 +112,31 @@ static func get_starting_skills(role_type: Type) -> Dictionary:
 static func get_faction(role_type: Type) -> Factions.Type:
 	return get_role_data(role_type).faction
 
+# =============================================================
+# 📦 [구역 3] 시작 장비 세팅 (STARTER EQUIPMENT)
+# =============================================================
 
 static func equip_monster(monster: Monster, role_type: Type) -> void:
 	match role_type:
 		Type.NONE:
-			pass  # No starting equipment
-		Type.KNIGHT:
-			_equip_knight(monster)
-		Type.MONK:
-			_equip_monk(monster)
-		Type.VALKYRIE:
-			_equip_valkyrie(monster)
+			pass
+		Type.FIGHTER:
+			_equip_fighter(monster)
+		Type.RANGER:
+			_equip_ranger(monster)
+		Type.CLERIC:
+			_equip_cleric(monster)
+		Type.ROGUE:
+			_equip_rogue(monster)
 		_:
 			assert(false, "Unhandled role type: %s" % role_type)
 
 
-static func _equip_knight(monster: Monster) -> void:
+static func _equip_fighter(monster: Monster) -> void:
 	var sword := ItemFactory.create_item(&"longsword")
 	sword.enhancement = 1
 	monster.add_item(sword)
 	monster.equipment.equip(sword, Equipment.Slot.MELEE)
-
-	var knife := ItemFactory.create_item(&"dagger")
-	knife.enhancement = 1
-	monster.add_item(knife)
-
-	var bow := ItemFactory.create_item(&"bow")
-	monster.add_item(bow)
-	monster.equipment.equip(bow, Equipment.Slot.RANGED)
-
-	var arrows := ItemFactory.create_item(&"arrow")
-	arrows.quantity = randi_range(15, 25)
-	bow.add_child(arrows)
 
 	var armor := ItemFactory.create_item(&"silver_armor")
 	armor.enhancement = 1
@@ -131,29 +147,37 @@ static func _equip_knight(monster: Monster) -> void:
 	monster.add_item(helm)
 	monster.equipment.equip(helm, Equipment.Slot.HEADWEAR)
 
-	for i in range(randi_range(3, 4)):
-		var grenade := ItemFactory.create_item(&"poison_splash_potion")
-		monster.add_item(grenade)
+	for i in range(randi_range(2, 4)):
+		monster.add_item(ItemFactory.create_item(&"food_ration"))
+
+
+static func _equip_ranger(monster: Monster) -> void:
+	var bow := ItemFactory.create_item(&"bow")
+	monster.add_item(bow)
+	monster.equipment.equip(bow, Equipment.Slot.RANGED)
+
+	var arrows := ItemFactory.create_item(&"arrow")
+	arrows.quantity = randi_range(20, 30)
+	bow.add_child(arrows)
+
+	var knife := ItemFactory.create_item(&"dagger")
+	monster.add_item(knife)
+
+	var armor := ItemFactory.create_item(&"bronze_armor")
+	monster.add_item(armor)
+	monster.equipment.equip(armor, Equipment.Slot.UPPER_ARMOR)
 
 	for i in range(randi_range(2, 4)):
 		monster.add_item(ItemFactory.create_item(&"food_ration"))
 
 
-static func _equip_monk(monster: Monster) -> void:
-	monster.add_item(ItemFactory.create_item(&"godot_user_guide"))
-	monster.add_item(ItemFactory.create_item(&"gdscript_reference"))
-	for i in range(randi_range(2, 4)):
-		monster.add_item(ItemFactory.create_item(&"apple"))
-
-
-static func _equip_valkyrie(monster: Monster) -> void:
-	var sword := ItemFactory.create_item(&"longsword")
-	sword.enhancement = 2
-	monster.add_item(sword)
-	monster.equipment.equip(sword, Equipment.Slot.MELEE)
+static func _equip_cleric(monster: Monster) -> void:
+	# Clerics start with a mace (hammer category) and a shield/armor
+	var mace := ItemFactory.create_item(&"mace") if ItemFactory.item_data.has(&"mace") else ItemFactory.create_item(&"longsword")
+	monster.add_item(mace)
+	monster.equipment.equip(mace, Equipment.Slot.MELEE)
 
 	var armor := ItemFactory.create_item(&"bronze_armor")
-	armor.enhancement = 2
 	monster.add_item(armor)
 	monster.equipment.equip(armor, Equipment.Slot.UPPER_ARMOR)
 
@@ -161,5 +185,25 @@ static func _equip_valkyrie(monster: Monster) -> void:
 	monster.add_item(helm)
 	monster.equipment.equip(helm, Equipment.Slot.HEADWEAR)
 
-	for i in range(randi_range(2, 4)):
+	# Utility / Healing potions
+	for i in range(2):
+		var heal_pot := ItemFactory.create_item(&"health_potion") if ItemFactory.item_data.has(&"health_potion") else ItemFactory.create_item(&"food_ration")
+		monster.add_item(heal_pot)
+
+	for i in range(2):
+		monster.add_item(ItemFactory.create_item(&"food_ration"))
+
+
+static func _equip_rogue(monster: Monster) -> void:
+	var dagger := ItemFactory.create_item(&"dagger")
+	dagger.enhancement = 1
+	monster.add_item(dagger)
+	monster.equipment.equip(dagger, Equipment.Slot.MELEE)
+
+	# Rogues carry throwing daggers / potions
+	for i in range(3):
+		var poison := ItemFactory.create_item(&"poison_splash_potion")
+		monster.add_item(poison)
+
+	for i in range(3):
 		monster.add_item(ItemFactory.create_item(&"food_ration"))

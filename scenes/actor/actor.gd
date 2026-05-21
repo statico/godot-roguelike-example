@@ -247,7 +247,23 @@ func _choose_initial_appearance() -> void:
 	# Choose sprite based on species and available appearances
 	assert(not appearances.is_empty())
 	var tile_name: String = appearances[monster.variant % appearances.size()]
-	character.region_rect = CharacterTiles.get_region(StringName(tile_name))
+	var tile_texture := CharacterTiles.get_texture(StringName(tile_name))
+	character.texture = tile_texture
+	character.region_enabled = false
+	if tile_texture is AtlasTexture:
+		# 타일맵 스프라이트: 2프레임 (idle/walk)
+		character.hframes = 2
+	else:
+		# 커스텀 단일 스프라이트: hframes=1
+		# 가로가 세로보다 훨씬 클 때만 스프라이트시트로 간주
+		var w := tile_texture.get_width()
+		var h := tile_texture.get_height()
+		if w > h * 2:
+			# 가로형 스프라이트시트 (e.g. 16px 타일 행)
+			character.hframes = max(1, int(w / h))
+		else:
+			# 단일 이미지 또는 세로형
+			character.hframes = 1
 
 	character.flip_h = true
 	pmat.color = monster.hit_particles_color

@@ -1,0 +1,1228 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "const": "function"
+      },
+      "function": {
+        "type": "object",
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "add_immune"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "type_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "type_name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "add_resist"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "type_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "type_name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "add_temp_hp"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "num_temp_hp": {
+                    "type": "string"
+                  },
+                  "source_temp_hp": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "num_temp_hp",
+                  "source_temp_hp"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "add_vulner"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "type_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "type_name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "check_ac"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "check_buffs"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "check_class"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "check_concentration"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "check_hp"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "check_monster_actions"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "check_monster_type"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "check_player_armor"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "player_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "player_name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "check_player_mainhand"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "player_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "player_name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "check_resist"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "check_resources"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "check_side"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "check_valid_attack_line"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "attacker_name": {
+                    "type": "string"
+                  },
+                  "defender_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "attacker_name",
+                  "defender_name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "clear_speed"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "dash"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "is_expeditious_retreat": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "is_expeditious_retreat"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "disengage"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "get_monster_pos"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "monster_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "monster_name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "get_player_pos"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "player_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "player_name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "move"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "character_name": {
+                    "type": "string"
+                  },
+                  "x": {
+                    "type": "integer"
+                  },
+                  "y": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "character_name",
+                  "x",
+                  "y"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "opportunity_attack"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "attacker_name": {
+                    "type": "string"
+                  },
+                  "defender_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "attacker_name",
+                  "defender_name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "remove_a_buff"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "buff": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "buff"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "remove_a_concentration"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "remove_immune"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "type_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "type_name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "remove_resist"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "type_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "type_name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "remove_vulner"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "type_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "type_name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "reset_resources"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "reset_speed"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "roll_attack"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "attacker_name": {
+                    "type": "string"
+                  },
+                  "defender_name": {
+                    "type": "string"
+                  },
+                  "roll_type": {
+                    "type": "string"
+                  },
+                  "ac": {
+                    "type": "string"
+                  },
+                  "modifier": {
+                    "type": "string"
+                  },
+                  "weapon_name": {
+                    "type": "string"
+                  },
+                  "use_spellcasting_modifier": {
+                    "type": "string"
+                  },
+                  "action_cost": {
+                    "type": "string"
+                  },
+                  "bonus_action_cost": {
+                    "type": "string"
+                  },
+                  "reaction_cost": {
+                    "type": "string"
+                  },
+                  "is_critical": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "attacker_name",
+                  "defender_name",
+                  "roll_type",
+                  "ac",
+                  "modifier",
+                  "weapon_name",
+                  "use_spellcasting_modifier",
+                  "action_cost",
+                  "bonus_action_cost",
+                  "reaction_cost",
+                  "is_critical"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "roll_dice"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "dice_expression": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "dice_expression"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "roll_dmg"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "dmg_dice_expression": {
+                    "type": "string"
+                  },
+                  "critical": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "dmg_dice_expression",
+                  "critical"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "roll_initiative"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "roll_save"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "attacker_name": {
+                    "type": "string"
+                  },
+                  "defender_name": {
+                    "type": "string"
+                  },
+                  "roll_type": {
+                    "type": "string"
+                  },
+                  "spell_name": {
+                    "type": "string"
+                  },
+                  "require_concentration": {
+                    "type": "string"
+                  },
+                  "stat": {
+                    "type": "string"
+                  },
+                  "dc": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "spell_name",
+                  "attacker_name",
+                  "defender_name",
+                  "roll_type",
+                  "require_concentration",
+                  "stat",
+                  "dc"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "roll_skill_check"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "dc": {
+                    "type": "string"
+                  },
+                  "skill": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "skill",
+                  "dc"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "roll_spell_attack"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "attacker_name": {
+                    "type": "string"
+                  },
+                  "defender_name": {
+                    "type": "string"
+                  },
+                  "roll_type": {
+                    "type": "string"
+                  },
+                  "ac": {
+                    "type": "string"
+                  },
+                  "action_cost": {
+                    "type": "string"
+                  },
+                  "bonus_action_cost": {
+                    "type": "string"
+                  },
+                  "reaction_cost": {
+                    "type": "string"
+                  },
+                  "spell_name": {
+                    "type": "string"
+                  },
+                  "require_concentration": {
+                    "type": "string"
+                  },
+                  "is_ranged": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "spell_name",
+                  "attacker_name",
+                  "defender_name",
+                  "roll_type",
+                  "ac",
+                  "is_ranged",
+                  "require_concentration",
+                  "action_cost",
+                  "bonus_action_cost",
+                  "reaction_cost"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "stand_up"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "update_hp"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "dmg": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "dmg"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "arguments"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "required": [
+      "type",
+      "function"
+    ],
+    "additionalProperties": false
+  }
+}

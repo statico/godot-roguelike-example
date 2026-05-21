@@ -1,6 +1,39 @@
 class_name Combat
 extends RefCounted
 
+# =============================================================
+# 🎲 [세이빙 스로우 / 이니셔티브] SAVING THROWS & INITIATIVE
+# =============================================================
+
+enum SaveType { STR, DEX, CON, INT, WIS, CHA }
+
+
+## d20 + 능력치 수정치 vs DC 판정. true = 성공
+static func roll_saving_throw(monster: Monster, save_type: SaveType, dc: int) -> bool:
+	var roll := Dice.roll(1, 20)
+	var modifier := _get_ability_modifier(monster, save_type)
+	Log.d("[Combat] %s saving throw: %d + %d vs DC %d" % [
+		SaveType.keys()[save_type], roll, modifier, dc
+	])
+	return roll + modifier >= dc
+
+
+## 이니셔티브 굴림: d20 + DEX 수정치
+static func roll_initiative(monster: Monster) -> int:
+	return Dice.roll(1, 20) + floori((monster.stats.get_dexterity() - 10) / 2.0)
+
+
+static func _get_ability_modifier(monster: Monster, save_type: SaveType) -> int:
+	var score: int
+	match save_type:
+		SaveType.STR: score = monster.get_strength()
+		SaveType.DEX: score = monster.stats.get_dexterity()
+		SaveType.CON: score = monster.stats.get_constitution()
+		SaveType.INT: score = monster.intelligence
+		SaveType.WIS: score = monster.stats.get_wisdom()
+		_:            score = 10  # CHA — 아직 구현 없음
+	return floori((score - 10) / 2.0)
+
 
 ## Returns the damage after applying the damage reduction
 static func _calculate_damage_reduction(
@@ -46,20 +79,10 @@ static func resolve_melee_attack(attacker: Monster, defender: Monster) -> MeleeA
 	# 1. Attack roll
 	var attack_roll := Dice.roll(1, 20)
 
-	var to_hit_bonus := 0
+	# DnD 5e Ability Modifier: floor((score - 10) / 2)
 	var attacker_strength := attacker.get_strength()
-	if attacker_strength <= 5:
-		to_hit_bonus = -2
-	elif attacker_strength <= 7:
-		to_hit_bonus = -1
-	elif attacker_strength <= 16:
-		to_hit_bonus = 0
-	elif attacker_strength <= 20:
-		to_hit_bonus = 1
-	elif attacker_strength <= 29:
-		to_hit_bonus = 2
-	else:
-		to_hit_bonus = 3
+	var to_hit_bonus: int = floori((attacker_strength - 10) / 2.0)
+	Log.d("  STR %d → Attack Modifier: %+d" % [attacker_strength, to_hit_bonus])
 
 	# Add skill bonus
 	var skill_bonus := 0
@@ -73,7 +96,9 @@ static func resolve_melee_attack(attacker: Monster, defender: Monster) -> MeleeA
 
 	var target_ac := defender.get_armor_class()
 
-	var is_hit := attack_roll + to_hit_bonus + skill_bonus >= target_ac
+	# DnD 5e: Natural 20 = Critical Hit (always hits)
+	var is_critical := attack_roll == 20
+	var is_hit := is_critical or (attack_roll + to_hit_bonus + skill_bonus >= target_ac)
 
 	var params := [
 		attack_roll,
@@ -82,7 +107,10 @@ static func resolve_melee_attack(attacker: Monster, defender: Monster) -> MeleeA
 		target_ac,
 		is_hit,
 	]
-	Log.d("  1. Attack roll: %d + %d + %d >= %d -> %s" % params)
+	Log.d("  1. Attack roll: %d + %d + %d >= %d -> %s%s" % [
+		attack_roll, to_hit_bonus, skill_bonus, target_ac, is_hit,
+		" [CRITICAL HIT!]" if is_critical else ""
+	])
 
 	if not is_hit:
 		Log.d("    Missed")
@@ -92,46 +120,38 @@ static func resolve_melee_attack(attacker: Monster, defender: Monster) -> MeleeA
 
 	# 2. Calculate base damage
 	Log.d("    Equipped item: %s" % item)
-	var base_damage := Dice.roll(item.damage[0], item.damage[1]) if item else 1
-
 	var damage_type := item.damage_types.pick_random() as Damage.Type if item else Damage.Type.BLUNT
 	Log.d("    Damage type: %s" % Damage.Type.keys()[damage_type])
 
-	var modifier := 0
-	if attacker_strength <= 5:
-		modifier = -1
-	elif attacker_strength <= 15:
-		modifier = 0
-	elif attacker_strength <= 17:
-		modifier = 1
-	elif attacker_strength <= 20:
-		modifier = 2
-	elif attacker_strength <= 23:
-		modifier = 3
-	elif attacker_strength <= 26:
-		modifier = 5
-	elif attacker_strength <= 29:
-		modifier = 5
+	# DnD 5e Ability Modifier for damage: floor((STR - 10) / 2)
+	var modifier: int = floori((attacker_strength - 10) / 2.0)
+
+	# DnD 5e Critical Hit: roll damage dice TWICE (not modifier)
+	var base_damage: int
+	if item:
+		if is_critical:
+			base_damage = Dice.roll(item.damage[0] * 2, item.damage[1])
+			Log.d("  [CRITICAL] Rolling %dd%d (doubled dice)" % [item.damage[0] * 2, item.damage[1]])
+			_show_popup(attacker, "CRIT!")
+		else:
+			base_damage = Dice.roll(item.damage[0], item.damage[1])
 	else:
-		modifier = 6
+		base_damage = 2 if is_critical else 1  # Unarmed
 
 	var damage := base_damage + modifier
 
-	params = [
-		Dice.format(item.damage[0], item.damage[1]) if item else "null",
-		base_damage,
+	Log.d("  2. Damage: %s%s + STR mod(%+d) = %d" % [
+		"%dd%d" % [item.damage[0], item.damage[1]] if item else "unarmed",
+		" ×2(crit)" if is_critical else "",
 		modifier,
-		damage,
-	]
-	Log.d("  2. Base damage: (%s -> %d) + %d = %d" % params)
+		damage
+	])
 
 	# TODO: weapon enchantment
-	# TODO: role bonus
-	# TODO: monster class vulnerability
+	# TODO: Proficiency Bonus (추후 PartyMember에 추가 예정)
 
-	# 3. Critical hit
-	# TODO: items with immediate death, like vorpal blade
-	Log.d("  3. Critical hits efects: TODO")
+	# 3. Critical hit — vorpal blade 등 즉사 아이템은 추후 구현
+	Log.d("  3. Critical hit processed above")
 
 	# 4. Damage reductions
 	Log.d("  4. Damage reductions:")
@@ -275,6 +295,12 @@ static func resolve_ranged_attack(
 		# Check for monster hit
 		var monster := map.get_monster(pos)
 		if monster:
+			if not attacker.is_hostile_to(monster):
+				Log.i("[Combat Patch] Ranged projectile from %s ignores friendly target %s at %s" % [
+					attacker.name, monster.name, pos
+				])
+				continue
+
 			Log.i("  Monster %s found at %s" % [monster, pos])
 
 			# Calculate hit chance based on distance and skill

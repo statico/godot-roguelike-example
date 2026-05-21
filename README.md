@@ -1,178 +1,146 @@
-# Statico's Godot Roguelike Example
+# ⚔️ LLM Crawl
 
-This is an incomplete, copyable roguelike game made with Godot 4. It was originally going to be a sci-fi roguelike, but I decided to open-source it as a learning example. You can use it as a base for your own roguelike game. Play it [here](https://roguelike.statico.io), or play my original sci-fi themed roguelike [here](https://vesta.statico.io).
+> **4인 파티 AI 동료와 함께하는 던전 크롤러.**
+> Godot 4 + DnD 5e SRD + 강화학습 AI (BT → RL 점진적 교체)
 
-All code and assets are licensed permissively. The code is MIT licensed, the font is CC0, and the tileset is [Dawnlike from DawnBringer](https://opengameart.org/content/16x16-dawnhack-roguelike-tileset) and has its own license.
+---
 
-Questions? Ping me as `@statico` on the [Roguelikes Discord server](https://discord.gg/QATuUBAuQS).
+## 🎮 컨셉
 
-[![](https://github.com/user-attachments/assets/c326179c-dd2f-4e97-bc69-a18296267a67)](https://roguelike.statico.io/)
+- 플레이어 1명 + AI 파티원 3명이 절차적 생성 던전을 탐험
+- 전투는 타일맵 위에서 즉시 발생 (별도 전투씬 없음)
+- 파티원 AI와 몬스터 AI 모두 비헤이비어 트리 → 강화학습으로 점진적 교체
+- DnD 5e SRD 기반 전투 룰 및 용어 통일
 
-**Tips:** Click to move or attack. Right-click to use ranged weapon. WASD and QEZC work as movement. Use the inventory button or <kbd>i</kbd> key to pick up and manage items. Yes, there's a delay when you click the "Play" button while assets load.
+---
 
-## Features
+## 🗂️ 폴더 구조
 
-- ✅ Turn-based roguelike mechanics (movement, vision, combat)
-- ✅ Inventory and equipment system with modular components
-- ✅ BSP-based dungeon generation with procedural content
-- ✅ Monster AI with behavior trees and factions
-- ✅ Combat system with D20-based mechanics, damage types, and status effects
-- ✅ Nutrition system affecting healing and survival
-- ✅ Field of view with fog of war
-- ✅ Throwable items with area-of-effect damage
-- ✅ Data-driven item and monster definitions
-- ✅ Dungeon generator preview tool inside Godot
-- ✅ Sprite toolchain for [Dawnlike](https://opengameart.org/content/16x16-dawnhack-roguelike-tileset) tiles that can be adapted to other tilesets
+```
+LLM_Crawl_Godot/
+├── autoload/           # 🔴 싱글턴 (GameState)
+├── data/
+│   ├── srd/            # DnD 5e SRD 원문 (마크다운)
+│   ├── narrative/      # 하드코딩 텍스트 풀 (JSON)
+│   ├── dnd_schemas.json
+│   └── master_dnd_schema.json
+├── scripts/
+│   ├── dnd/            # 🩵 DnD 룰 엔진 (주사위, 캐릭터시트, 전투)
+│   ├── combat/         # 🩵 전투 루프
+│   ├── ai/
+│   │   ├── bt/         # 비헤이비어 트리 (Phase A)
+│   │   └── rl/         # ONNX 강화학습 추론 (Phase C)
+│   ├── party/          # 파티 팔로우, 역할 관리
+│   ├── generation/     # BSP 던전 생성
+│   └── narrative/      # 텍스트 풀 유틸
+├── scenes/
+│   ├── world/          # 🟣 던전 타일맵
+│   ├── ui/             # 🟣 HUD, 인벤토리, 전투 로그
+│   └── entities/       # 🟣 Player, PartyMember, Monster
+├── assets/sprites/     # 🟡 RogueLite OGA 스프라이트
+├── ai_models/          # 🩷 학습된 ONNX 모델
+├── src/                # 🩵 기존 템플릿 소스 (참고용)
+└── combat_sim/         # Python RL 학습 환경 (별도 프로젝트)
+```
 
-### Missing Features
+---
 
-- 🚫 Scrolls, wands, rings, and amulets
-- 🚫 Shops and economy
-- 🚫 Quests and objectives
-- 🚫 Save/load system
+## 📖 DnD 5e 용어집 (전 파일 통일 기준)
 
-## Development Setup
+> 이 용어집은 코드 변수명, 텍스트, 데이터 키 전반에 걸쳐 통일 적용됩니다.
+> 새 용어 추가 시 이 표에 반드시 추가하세요.
 
-You can clone this repo and run it in Godot immediately. However, I recommend VS Code or the Cursor IDE alongside Godot in order to have the best editing experience.
+### 핵심 전투 용어
 
-### Suggested Setup
+| 한국어 개념 | **공식 용어 (코드/텍스트 통일)** | 설명 |
+|---|---|---|
+| 체력 | **Hit Points (HP)** | `current_hp`, `max_hp` |
+| 방어력 | **Armor Class (AC)** | `armor_class` |
+| 선공 순서 | **Initiative** | `d20 + DEX modifier` |
+| 공격 굴림 | **Attack Roll** | `d20 + attack_bonus vs AC` |
+| 피해 굴림 | **Damage Roll** | 무기 주사위 + 능력치 수식어 |
+| 내성 굴림 | **Saving Throw** | `d20 + ability_modifier vs DC` |
+| 전문화 보너스 | **Proficiency Bonus** | 레벨 기반, `proficiency_bonus` |
+| 유리한 굴림 | **Advantage** | d20 두 번, 높은 값 |
+| 불리한 굴림 | **Disadvantage** | d20 두 번, 낮은 값 |
+| 치명타 | **Critical Hit** | 자연 20, 데미지 주사위 2배 |
+| 행동 | **Action** | 턴당 1회 |
+| 추가 행동 | **Bonus Action** | 턴당 1회 |
+| 반응 | **Reaction** | 조건 발생 시 1회 |
 
-1. Install [gdtoolkit](https://github.com/Scony/gdtoolkit) - I recommend using [uv](https://docs.astral.sh/uv/):
-   1. `uv venv`
-   1. `source .venv/bin/activate`
-   1. `uv pip install gdtoolkit`
-   1. `gdlint --version` and check that it's 4.3.3 or later
-1. Install [VS Code](https://code.visualstudio.com/) or [Cursor](https://www.cursor.com/)
-1. Run `code` or `cursor` from the command line with the `uv` virtual environment activated so that `gdlint` and `gdformat` are accessible in the path. (I don't know a better way to do this.)
-1. Install the [Godot Tools](https://marketplace.visualstudio.com/items?itemName=geequlim.godot-tools) extension
-1. Install the [GDScript Formatter and Linter](https://marketplace.cursorapi.com/items?itemName=EddieDover.gdscript-formatter-linter) extension
-1. Open the project in Godot -- this starts the language server so that the formatter and linter can be used
-1. Open the project in VS Code / Cursor
-1. Run `Tasks: Run Task` and select `Run Godot Project`
-   - I like to bind "Rerun Last Task" to `Cmd-R` for a fast way to run the project from VS Code / Cursor
+### 6대 능력치
 
-### Editing Data
+| 약어 | 전체 이름 | 코드 변수 |
+|---|---|---|
+| STR | Strength | `score_str`, `get_str_mod()` |
+| DEX | Dexterity | `score_dex`, `get_dex_mod()` |
+| CON | Constitution | `score_con`, `get_con_mod()` |
+| INT | Intelligence | `score_int`, `get_int_mod()` |
+| WIS | Wisdom | `score_wis`, `get_wis_mod()` |
+| CHA | Charisma | `score_cha`, `get_cha_mod()` |
 
-Monster and item data is stored in CSV files in the `assets/data/` directory. I recommend [LibreOffice](https://www.libreoffice.org/) to edit the CSV files.
+### 상태이상 (Condition)
 
-CSV data files need their import settings set to "Keep" in the project settings in order to not generate translation files. [Read more here.](https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_translations.html#doc-importing-translations)
+| 한국어 | **Condition** | 코드 키 |
+|---|---|---|
+| 기절 | **Stunned** | `"stunned"` |
+| 중독 | **Poisoned** | `"poisoned"` |
+| 실명 | **Blinded** | `"blinded"` |
+| 마비 | **Paralyzed** | `"paralyzed"` |
+| 공포 | **Frightened** | `"frightened"` |
+| 넘어짐 | **Prone** | `"prone"` |
+| 속박 | **Restrained** | `"restrained"` |
 
-### Art Pipeline
+### 캐릭터/파티 용어
 
-The art pipeline is designed to quickly ingest an existing tileset and give them simple names, like `wall-5-nw` and `reptile-10` that can be referenced in the code as [StringNames](https://docs.godotengine.org/en/stable/classes/class_stringname.html#class-stringname). The tools and pipeline are in the `art/` directory.
+| 한국어 | **공식 용어** | 코드 / 비고 |
+|---|---|---|
+| 직업 | **Class** | `char_class` |
+| 종족 | **Species** | `char_species` (5e 2024 기준) |
+| 레벨 | **Level** | `char_level` |
+| 적 강도 | **Challenge Rating (CR)** | 몬스터 난이도 |
+| 대형 | **Marching Order** | 던전 이동 시 파티 포지션 |
+| 파티 | **Party** | 최대 4명 |
+| 파티 매니저 | **Party Manager** | `PartyManager` (파티원 등록, 이동 경로 및 맵 이동 관리) |
+| 파티 AI | **Party AI** | `PartyAI` (클래스별 행동 트리 및 추적 알고리즘) |
 
-The full Dawnlike tileset isn't included in the project because that would be full redistribution, and I want to make sure nobody uses the entire tileset without understanding the author's license. If you want to use all of the Dawnlike tiles, you can:
+### 파티 역할 (Role)
 
-1. Read [the Dawnlike tileset license](https://opengameart.org/content/16x16-dawnhack-roguelike-tileset)
-1. Unzip the tileset into `art/Dawnlike`
-1. `cd art/`
-1. Read through the `gen_*.py` scripts
-   1. Set all the things like `SET_THIS_TO_FALSE_TO_GET_ALL_ITEMS` to `False`
-   1. Remove the watermark if you want
-1. Run `uv pip install -r requirements.txt`
-1. Run all the `gen_*.py` scripts
-1. Open the `gen_*_tileset.gd` scripts _from within Godot_ (you may have to disable the External Editor checkbox in the project settings) and run them (Cmd-Shift-X on Mac). You may need to reload the project.
+| 포지션 | **Role** | 코드 값 | 행동 우선순위 |
+|---|---|---|---|
+| 탱커/근접 | **Fighter** | `Type.FIGHTER` | 어그로 유지, 최전방 근접 전투 |
+| 히트앤런 | **Rogue** | `Type.ROGUE` | 배후 침투, 기습/치명타 딜링 |
+| 서포터 | **Cleric** | `Type.CLERIC` | 아군 버프 및 힐링, 후방 지원 |
+| 원거리 | **Ranger** | `Type.RANGER` | 최적 거리 유지, 원거리 카이팅 |
 
-You can also adapt these tools to read other tilesets, like Oryx tiles. They're easily editable with Cursor or Claude Code.
+### 던전 용어
 
-### Map Generator Preview
+| 한국어 | **공식 용어** | 비고 |
+|---|---|---|
+| 던전 층 | **Floor** | `current_floor` |
+| 방 | **Room** | |
+| 방 유형 | **Room Type** | Combat / Treasure / Rest / Event / Boss |
+| 시야 | **Field of View (FOV)** | |
+| 안개전쟁 | **Fog of War** | |
+| 기습 | **Surprise** | |
+| 계단 (내려가기) | **Descend** | |
+| 계단 (올라가기) | **Ascend** | |
 
-You can use the map generator preview tool to test map generation parameters. Open `scenes/debug/map_generator_tool.tscn`, click MapGeneratorTool, and then click the "Regenerate Map" button to see the map generated with the current parameters.
+---
 
-[<img height="500" alt="map generator tool screenshot" src="https://github.com/user-attachments/assets/ccdea42a-4813-444d-807e-10ba1fcbd75d" />](https://roguelike.statico.io/)
+## 🤖 AI 모드 전환
 
-### Item & Sprite Explorers
+```gdscript
+# 런타임 전환 (디버그 콘솔 or 설정 메뉴)
+GameState.set_ai_mode("behavior_tree")  # 안정적
+GameState.set_ai_mode("rl_model")       # 실험적
+```
 
-Use these tools to quickly reference tile and item names. Open `scenes/debug/sprite_explorer.tscn` and `scenes/debug/item_explorer.tscn` and click Run Current Scene (usually `Cmd-B` on Mac) to run them.
+---
 
-<img width="400" alt="sprite viewer screenshot" src="https://github.com/user-attachments/assets/332db409-0a65-4a67-9270-b05f0808c6e2" />
-<img width="400" alt="item explorer screenshot" src="https://github.com/user-attachments/assets/5bffd8d3-cbb3-4f7d-9265-539ce3cfe7c9" />
+## 📜 라이선스
 
-## Architecture Overview
-
-**World Management** ([`src/world.gd`](src/world.gd))
-
-- Central singleton that manages game state, turn progression, and coordinates all systems
-- Handles player actions, monster AI turns, and system updates (nutrition, status effects, healing)
-- Manages map generation and level transitions
-
-**Turn-Based Engine** ([`src/world.gd`](src/world.gd), [`src/actions/`](src/actions/))
-
-- Actions are the fundamental unit of gameplay - every player input and monster decision becomes an `Action`
-- Turn progression: Player acts → All monsters with sufficient energy act → Systems update → Vision updates
-- Energy system determines when monsters can act (faster monsters act more frequently)
-
-**Map Generation** ([`src/map_generators/`](src/map_generators/), [`src/world_plan.gd`](src/world_plan.gd))
-
-- BSP-based dungeon generation with configurable parameters
-- Multiple generator types (dungeon, arena) with different layouts
-- Procedural room placement, corridor connection, and content population
-- World planning system for multi-level dungeon structure
-
-**Combat System** ([`src/combat.gd`](src/combat.gd), [`src/damage.gd`](src/damage.gd))
-
-- D20-based combat with attack rolls, damage calculation, and resistances
-- Multiple damage types with monster-specific resistances
-- Melee and ranged combat with different mechanics
-- Status effects and area-of-effect damage
-
-**Monster AI** ([`src/monster_ai.gd`](src/monster_ai.gd), [`src/monster.gd`](src/monster.gd))
-
-- Behavior tree system for complex AI decision making
-- Different behavior types: aggressive, fearful, curious, passive
-- Pathfinding integration for movement and combat positioning
-- Faction system for monster relationships
-
-**Inventory & Equipment** ([`src/equipment.gd`](src/equipment.gd), [`src/item.gd`](src/item.gd), [`scenes/ui/inventory_modal.gd`](scenes/ui/inventory_modal.gd))
-
-- Modular equipment system with multiple slots (armor, weapons, accessories)
-- Hierarchical item system supporting containers and modules
-- Drag-and-drop inventory interface
-- Equipment affects combat stats and capabilities
-- Originally there was a sci-fi style power and module system but it was overly complex for this example
-
-**Vision & Rendering** ([`src/map.gd`](src/map.gd), [`src/map_renderer.gd`](src/map_renderer.gd))
-
-- Field of view calculation using shadowcasting algorithm
-- Fog of war with "seen but not visible" tiles
-- Tile-based rendering with sprite management
-- Visual effects system for combat and interactions
-
-**Status Effects & Nutrition** ([`src/status_effect.gd`](src/status_effect.gd), [`src/nutrition.gd`](src/nutrition.gd))
-
-- Status effect system with duration and magnitude
-- Nutrition system affecting healing and survival
-- Natural healing based on nutrition level
-- Status effects can modify behavior and capabilities
-
-**UI System** ([`src/modals.gd`](src/modals.gd), [`scenes/ui/`](scenes/ui/))
-
-- Modal system with stack-based management and smooth fade transitions
-- Async modal functions like `await Modals.confirm()` and `await Modals.prompt_for_direction()` for TypeScript-like await patterns
-- Comprehensive inventory system with drag-and-drop, equipment slots, and item categorization
-- HUD with health bars, status display, and contextual hover information
-
-### Data Flow
-
-1. **Input**: Player input → Action creation → World processing
-2. **Turn Processing**: Action execution → Monster AI → System updates → Vision update
-3. **Rendering**: World state → Map renderer → Visual effects → UI updates
-4. **Data**: CSV files → Factory classes → Game objects
-
-### Key Files to Explore
-
-- [`src/world.gd`](src/world.gd) - Core game loop and state management
-- [`src/monster_ai.gd`](src/monster_ai.gd) - AI behavior trees and decision making
-- [`src/map_generators/dungeon_generator.gd`](src/map_generators/dungeon_generator.gd) - Dungeon generation algorithm
-- [`src/combat.gd`](src/combat.gd) - Combat resolution and damage calculation
-- [`src/equipment.gd`](src/equipment.gd) - Equipment system and item management
-- [`scenes/game/game.gd`](scenes/game/game.gd) - Main game scene and input handling
-- [`assets/data/`](assets/data/) - CSV files defining items and monsters
-
-## Licenses
-
-Source code is MIT licensed.
-
-Artwork is from [Dawnlike from DawnBringer](https://opengameart.org/content/16x16-dawnhack-roguelike-tileset) and has its own license.
-
-The font is [Pixel Operator](https://www.dafont.com/pixel-operator.font) and is licensed under [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
+- 게임 코드: MIT
+- 스프라이트: OGA-BY 3.0 (Credit: Lucid Design Art)
+- DnD 5e SRD: CC-BY 4.0 (Credit: Wizards of the Coast)
+- 베이스 템플릿: MIT (statico/godot-roguelike-example)

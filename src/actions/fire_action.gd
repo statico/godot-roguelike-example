@@ -23,6 +23,9 @@ func _execute(map: Map, result: ActionResult) -> bool:
 		Log.e("Actor not found in map: %s" % actor)
 		return false
 
+	# [EventBus] 원거리 공격 발사 이벤트 발송
+	EventBus.ranged_attack_fired.emit(actor, target_pos)
+
 	if actor.has_status_effect(StatusEffect.Type.PARALYZED):
 		if actor == World.player:
 			result.message = "You are paralyzed and cannot fire!"
@@ -154,6 +157,7 @@ func _execute(map: Map, result: ActionResult) -> bool:
 		# Handle death
 		if monster.hp <= 0:
 			monster.is_dead = true
+			EventBus.monster_killed.emit(actor, monster)
 			if monster != World.player:
 				monster.drop_everything()
 				World.current_map.find_and_remove_monster(monster)

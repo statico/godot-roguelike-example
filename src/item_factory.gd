@@ -270,6 +270,7 @@ static func create_item(slug: StringName) -> Item:
 
 	item.name = data.name
 	item.type = data.type
+	item.slug = slug
 	item.skill_type = data.get(&"skill_type", Skills.Type.KNIFE)  # Default to KNIFE if not specified
 	item.damage = Utils.array_of_ints(data.damage)
 	item.damage_types = data.damage_types
@@ -302,6 +303,7 @@ static func create_item(slug: StringName) -> Item:
 static func clone(item: Item) -> Item:
 	var new_item := Item.new(true)
 	new_item.name = item.name
+	new_item.slug = item.slug
 	new_item.type = item.type
 	new_item.skill_type = item.skill_type
 	new_item.sprite_name = item.sprite_name

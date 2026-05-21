@@ -16,15 +16,10 @@ enum Level {
 ## Returns the hit bonus percentage for a given skill level
 static func get_hit_bonus(level: Level) -> float:
 	match level:
-		Level.UNSKILLED:
-			return -0.2  # -20%
-		Level.BASIC:
-			return 0.0  # No modifier
-		Level.INTERMEDIATE:
-			return 0.1  # +10%
-		Level.ADVANCED:
-			return 0.2  # +20%
-		Level.MASTER:
-			return 0.3  # +30%
-		_:
-			return 0.0  # Default to no modifier
+		Level.UNSKILLED:    return -0.2  # -20%
+		Level.BASIC:        return 0.0   # +0%
+		Level.INTERMEDIATE: return 0.1   # +10%
+		Level.ADVANCED:     return 0.2   # +20%
+		Level.EXPERT:       return 0.3   # +30%
+		Level.MASTER:       return 0.4   # +40%
+		_:                  return 0.0

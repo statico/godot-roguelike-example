@@ -89,7 +89,10 @@ func _update_display() -> void:
 	_build_armor_container(armor_container)
 
 	# Update basic status text
-	status_text.text = "Time: %d" % World.current_turn
+	var lv := World.player.level
+	var xp := World.player.experience
+	var xp_next := World.player.level_comp.xp_for_next_level()
+	status_text.text = "Time: %d  Lv.%d  XP:%d/%d" % [World.current_turn, lv, xp, xp_next]
 	var nutrition_status := World.player.nutrition.get_status()
 	if nutrition_status != Nutrition.Status.NORMAL:
 		var text := Nutrition.get_status_rich_text_label(nutrition_status)

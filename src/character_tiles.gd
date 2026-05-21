@@ -44,7 +44,13 @@ func _load_tiles() -> void:
 
 func get_coords(p_name: StringName) -> Vector2i:
 	var ret: Variant = _tile_map.get(p_name, Utils.INVALID_POS)
-	assert(ret != Utils.INVALID_POS, "Character tile not found: %s" % p_name)
+	if ret == Utils.INVALID_POS:
+		# Custom sprite fallback check
+		var path := "res://assets/custom_sprites/" + String(p_name) + ".png"
+		if FileAccess.file_exists(path):
+			return Vector2i.ZERO
+		Log.w("Character tile not found: %s. Falling back to debug." % p_name)
+		return _tile_map.get(&"debug", Vector2i.ZERO)
 	return ret as Vector2i
 
 
@@ -57,7 +63,16 @@ func get_region(p_name: StringName) -> Rect2:
 	return Rect2(coords.x * tile_width, coords.y * tile_height, tile_width, tile_height)
 
 
-func get_texture(p_name: StringName) -> AtlasTexture:
+func get_texture(p_name: StringName) -> Texture2D:
+	if not _tile_map.has(p_name):
+		var path := "res://assets/custom_sprites/" + String(p_name) + ".png"
+		if FileAccess.file_exists(path):
+			var tex := load(path)
+			if tex:
+				return tex
+		# Fallback to debug if not found
+		p_name = &"debug"
+
 	# Create atlas texture for the character tile
 	var texture := AtlasTexture.new()
 	texture.atlas = TEXTURE

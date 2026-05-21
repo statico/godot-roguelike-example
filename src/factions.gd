@@ -11,7 +11,7 @@ enum Type {
 
 
 ## Returns a string name for the given faction type
-static func get_name(faction_type: Type) -> String:
+static func get_faction_name(faction_type: Type) -> String:
 	match faction_type:
 		Type.NONE:
 			return "None"

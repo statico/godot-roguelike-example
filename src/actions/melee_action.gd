@@ -36,11 +36,22 @@ func _execute(map: Map, result: ActionResult) -> bool:
 	if not target_monster:
 		return false
 
+	if not actor.is_hostile_to(target_monster):
+		Log.w("[Combat Patch] MeleeAction prevented friendly fire attack from %s to %s" % [
+			actor.name, target_monster.name
+		])
+		return false
+
 	# Resolve combat
 	var combat_result := Combat.resolve_melee_attack(actor, target_monster)
 
 	# Apply damage (TODO: Shield absorption system)
 	target_monster.hp = max(0, target_monster.hp - combat_result.damage)
+
+	# [EventBus] 근접 공격 이벤트 발송
+	EventBus.melee_attack_made.emit(actor, target_monster)
+	if combat_result.damage > 0:
+		EventBus.monster_damaged.emit(actor, target_monster, combat_result.damage, combat_result.damage_type)
 
 	# Set message
 	result.message = Combat.format_melee_attack_message(actor, target_monster, combat_result)
@@ -56,6 +67,9 @@ func _execute(map: Map, result: ActionResult) -> bool:
 	# Handle death
 	if combat_result.killed:
 		target_monster.is_dead = true
+
+		# [EventBus] 사망 이벤트 발송
+		EventBus.monster_killed.emit(actor, target_monster)
 
 		# Only remove monster if it's not the player
 		if target_monster != World.player:

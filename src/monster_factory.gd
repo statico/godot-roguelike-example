@@ -49,6 +49,7 @@ static func _load_monster_data() -> void:
 			&"has_torso": row[_get_col(&"has_torso")].to_lower() == "true",
 			&"has_legs": row[_get_col(&"has_legs")].to_lower() == "true",
 			&"has_hands": row[_get_col(&"has_hands")].to_lower() == "true",
+			&"xp_reward": row[_get_col(&"xp_reward")].to_int() if _column_indices.has(&"xp_reward") else 0,
 		}
 
 
@@ -86,6 +87,7 @@ static func create_monster(slug: StringName, role: Roles.Type = Roles.Type.NONE)
 	monster.has_torso = data.has_torso
 	monster.has_legs = data.has_legs
 	monster.has_hands = data.has_hands
+	monster.xp_reward = data.get(&"xp_reward", 0)
 
 	if data.appearance is Array and not (data.appearance as Array).is_empty():
 		var appearances := data.appearance as Array
@@ -106,10 +108,13 @@ static func create_monster(slug: StringName, role: Roles.Type = Roles.Type.NONE)
 		# Set faction from role
 		monster.faction = Roles.get_faction(role)
 
-		# Set starting skills from role
+		# Set starting skills from role (SkillComponent API 사용)
 		var starting_skills := Roles.get_starting_skills(role)
 		for skill_type: Skills.Type in starting_skills:
-			monster.skill_levels[skill_type] = starting_skills[skill_type] as Skills.Level
+			monster.skills.set_level(skill_type, starting_skills[skill_type] as Skills.Level)
+		Log.d("[MonsterFactory] Applied role skills for %s: %s" % [
+			Roles.Type.keys()[role], starting_skills
+		])
 
 	# If role is none, equip starting items
 	if role == Roles.Type.NONE:

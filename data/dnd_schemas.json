@@ -1,0 +1,2007 @@
+{
+    "add_immune": {
+        "name": "add_immune",
+        "description": "\nAdd an immunity type to the given character.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": {
+                    "type": "string"
+                },
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name",
+                "type_name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "add_resist": {
+        "name": "add_resist",
+        "description": "\nAdd a resistance type to the given character.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": {
+                    "type": "string"
+                },
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name",
+                "type_name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "add_temp_hp": {
+        "name": "add_temp_hp",
+        "description": "\nAdd temporary hit points and the source to the given character.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": {
+                    "type": "string"
+                },
+                "source_temp_hp": {
+                    "type": "string"
+                },
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name",
+                "num_temp_hp",
+                "source_temp_hp"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "add_vulner": {
+        "name": "add_vulner",
+        "description": "\nAdd a vulnerability type to the given character.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": {
+                    "type": "string"
+                },
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name",
+                "type_name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "check_ac": {
+        "name": "check_ac",
+        "description": "\nCheck the ac of the given character.\n    \nReturns:\n    ac (int): The current ac of the character.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "check_buffs": {
+        "name": "check_buffs",
+        "description": "\nCheck the buffs of the given character.\n    \nReturns:\n    result (list): A list containing its buffs.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "check_class": {
+        "name": "check_class",
+        "description": "\nCheck the class of the given character.\n    \nReturns:\n    class (str): The class of the character.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "check_concentration": {
+        "name": "check_concentration",
+        "description": "\nCheck the concentration of the given character.\n    \nReturns:\n    concentration (str): The name of the previous concentration.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "check_hp": {
+        "name": "check_hp",
+        "description": "\nCheck the hp of the given character.\n    \nReturns:\n    hp (int): The current hp of the character.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "check_monster_actions": {
+        "name": "check_monster_actions",
+        "description": "\nCheck the possible actions of the given monster. (e.g. scimitar attack, etc.)\n\nReturns:\n    type (str): The possible actions of the monster.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "check_monster_type": {
+        "name": "check_monster_type",
+        "description": "\nCheck the type of the given monster.\n\nReturns:\n    type (str): The type of the monster.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "check_player_armor": {
+        "name": "check_player_armor",
+        "description": "\nCheck the armor of the given player.\n\nReturns:\n    type (str): The name of the armor.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": null,
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": {
+                    "type": "string"
+                },
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "player_name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "check_player_mainhand": {
+        "name": "check_player_mainhand",
+        "description": "\nCheck the equipped mainhand of the given player.\n\nReturns:\n    type (str): The name of the mainhand.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": null,
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": {
+                    "type": "string"
+                },
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "player_name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "check_resist": {
+        "name": "check_resist",
+        "description": "\nCheck the resistances, immunities, and vulnerabilities of the given character.\n    \nReturns:\n    dict: A dictionary containing:\n          - \"resistances\": a list of damage types the character is resistant to (take half dmg),\n          - \"immunities\": a list of damage types the character is immune to (take no dmg),\n          - \"vulnerabilities\": a list of damage types the character is vulnerable to (take double dmg)\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "check_resources": {
+        "name": "check_resources",
+        "description": "\nCheck the resources of the given character.\n    \nReturns:\n    dict: A dictionary containing:\n          - \"num_of_action\": the number of action,\n          - \"num_of_bonus_action\": the number of bonus action\n          - \"num_of_reaction\": the number of reaction\n          - \"spell_slots\": the maximum number of spell slots\n          - \"spells\": the spells which the character can cast\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "check_side": {
+        "name": "check_side",
+        "description": "\nCheck the side of the given character.\n\nReturns:\n    side (str): The side of the character (player or monster).\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "check_valid_attack_line": {
+        "name": "check_valid_attack_line",
+        "description": "\nCheck line-of-sight between start and goal over the terrain.\n\nstart, goal: (x, y) grid coordinates\ngrid_map[y][x] = (x, y, z, valid)\n\nReturns:\n    result (bool): True if no terrain cell along the straight line from start to goal\nrises above the interpolated line height.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": null,
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": {
+                    "type": "string"
+                },
+                "defender_name": {
+                    "type": "string"
+                },
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "attacker_name",
+                "defender_name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "clear_speed": {
+        "name": "clear_speed",
+        "description": "\nClear the speed of a character.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "dash": {
+        "name": "dash",
+        "description": "\nDouble one's movement speed for the turn. Reset one's speed when the turn ends.\n\nReturns:\n    speed (int): The speed of the character in this turn.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": {
+                    "type": "string"
+                },
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name",
+                "is_expeditious_retreat"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "disengage": {
+        "name": "disengage",
+        "description": "\nCosts one action. When the character tries to move away from an enemy, it won't trigger opportunity attack.\nAdd this effect as a buff called \"disengage\" that lasts for only this turn.\n\nReturns:\n    result (boolean): Whether the action is successfully executed.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "get_monster_pos": {
+        "name": "get_monster_pos",
+        "description": "\nGet the current position of a monster.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": null,
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": {
+                    "type": "string"
+                },
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "monster_name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "get_player_pos": {
+        "name": "get_player_pos",
+        "description": "\nGet the current position of a player.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": null,
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": {
+                    "type": "string"
+                },
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "player_name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "move": {
+        "name": "move",
+        "description": "\nMove the character to a new position if it's valid.\nReturns the new position or explains why the move is invalid.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": null,
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": {
+                    "type": "string"
+                },
+                "x": {
+                    "type": "integer"
+                },
+                "y": {
+                    "type": "integer"
+                },
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "character_name",
+                "x",
+                "y"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "opportunity_attack": {
+        "name": "opportunity_attack",
+        "description": "\nDetermine if an opportunity attack occurs. Triggers when a defender leaves melee range of an attacker who has a reaction in this turn.\nIf it occurs, treat it as a melee attack by calling roll_attack. If not, act as nothing had happened.\n    \nReturns:\n    result (boolean): Whether the attack occurs.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": null,
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": {
+                    "type": "string"
+                },
+                "defender_name": {
+                    "type": "string"
+                },
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "attacker_name",
+                "defender_name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "remove_a_buff": {
+        "name": "remove_a_buff",
+        "description": "\nRemove a buff of the given character.\n    \nReturns:\n    result (boolean): Whether the buff is successfully removed.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": {
+                    "type": "string"
+                },
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name",
+                "buff"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "remove_a_concentration": {
+        "name": "remove_a_concentration",
+        "description": "\nRemove the concentration of the given character.\n\nReturns:\n    previous_concentration (str): The name of the previous concentration.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "remove_immune": {
+        "name": "remove_immune",
+        "description": "\nRemove an immunity type of the given character.\n\nReturns:\n    result (boolean): Whether the type is successfully removed.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": {
+                    "type": "string"
+                },
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name",
+                "type_name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "remove_resist": {
+        "name": "remove_resist",
+        "description": "\nRemove a resistance type of the given character.\n\nReturns:\n    result (boolean): Whether the type is successfully removed.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": {
+                    "type": "string"
+                },
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name",
+                "type_name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "remove_vulner": {
+        "name": "remove_vulner",
+        "description": "\nRemove a vulnerability type of the given character.\n\nReturns:\n    result (boolean): Whether the type is successfully removed.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": {
+                    "type": "string"
+                },
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name",
+                "type_name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "reset_resources": {
+        "name": "reset_resources",
+        "description": "\nReset the number of actions, bonus actions and reactions of a character.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "reset_speed": {
+        "name": "reset_speed",
+        "description": "\nReset the speed of a character.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "roll_attack": {
+        "name": "roll_attack",
+        "description": "\nRoll a 1d20 attack for a given stat (e.g. \"strength\").\n    \nReturns:\n    dict: A dictionary containing:\n          - \"valid\": whether the character has enough resources to perform this attack,\n          - \"ac\": the value of the armor class,\n          - \"roll\": the roll result,\n          - \"success\": whether the roll succeeded (i.e. roll is greater than or equal to ac),\n          - \"critical\": whether a critical hit occurs,\n          - \"out_of_range\": whether this attack is out of range\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": null,
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": {
+                    "type": "string"
+                },
+                "defender_name": {
+                    "type": "string"
+                },
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": {
+                    "type": "string"
+                },
+                "ac": {
+                    "type": "string"
+                },
+                "modifier": {
+                    "type": "string"
+                },
+                "weapon_name": {
+                    "type": "string"
+                },
+                "use_spellcasting_modifier": {
+                    "type": "string"
+                },
+                "action_cost": {
+                    "type": "string"
+                },
+                "bonus_action_cost": {
+                    "type": "string"
+                },
+                "reaction_cost": {
+                    "type": "string"
+                },
+                "is_critical": {
+                    "type": "string"
+                },
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "attacker_name",
+                "defender_name",
+                "roll_type",
+                "ac",
+                "modifier",
+                "weapon_name",
+                "use_spellcasting_modifier",
+                "action_cost",
+                "bonus_action_cost",
+                "reaction_cost",
+                "is_critical"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "roll_dice": {
+        "name": "roll_dice",
+        "description": "\nRoll dice required using the d20 library.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": null,
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": {
+                    "type": "string"
+                },
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "dice_expression"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "roll_dmg": {
+        "name": "roll_dmg",
+        "description": "\nRoll the damage of one attack.\n    \nReturns:\n    dmg (int): The damage of this attack.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": null,
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": {
+                    "type": "string"
+                },
+                "critical": {
+                    "type": "string"
+                },
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "dmg_dice_expression",
+                "critical"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "roll_initiative": {
+        "name": "roll_initiative",
+        "description": "\nRoll initiative for each character in the combat.\nEach participant rolls a 1d20 + dexterity modifier.\nThe highest result goes first, and turns proceed in descending order.\nIn case of a tie:\n- Players can decide among themselves.\n- If tied with an NPC, the DM decides or uses the creature's dexterity.\n    \nReturns:\n    dict: A dictionary containing:\n      - \"roll\": the 1d20 roll result,\n      - \"dex\": the character's dexterity,\n      - \"initiative\": the final initiative result.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": null,
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [],
+            "additionalProperties": true
+        }
+    },
+    "roll_save": {
+        "name": "roll_save",
+        "description": "\nRoll a 1d20 save for a given stat (e.g. \"strength\").\n    \nReturns:\n    dict: A dictionary containing:\n          - \"dc\": the value of the difficulty class,\n          - \"roll\": the roll result,\n          - \"success\": whether the roll succeeded (i.e. roll is greater than or equal to dc),\n          - \"previous_concentration\": if the attack is successful, this represents the name of the previous concentration\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": null,
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": {
+                    "type": "string"
+                },
+                "defender_name": {
+                    "type": "string"
+                },
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": {
+                    "type": "string"
+                },
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": {
+                    "type": "string"
+                },
+                "require_concentration": {
+                    "type": "string"
+                },
+                "stat": {
+                    "type": "string"
+                },
+                "dc": {
+                    "type": "string"
+                },
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "spell_name",
+                "attacker_name",
+                "defender_name",
+                "roll_type",
+                "require_concentration",
+                "stat",
+                "dc"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "roll_skill_check": {
+        "name": "roll_skill_check",
+        "description": "\nRoll a 1d20 check for a given skill (e.g. \"athletics\").\n    \nReturns:\n    dict: A dictionary containing:\n          - \"dc\": the value of the difficulty class,\n          - \"roll\": the roll result,\n          - \"success\": whether the roll succeeded (i.e. roll is greater than or equal to dc)\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": {
+                    "type": "string"
+                },
+                "skill": {
+                    "type": "string"
+                },
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name",
+                "skill",
+                "dc"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "roll_spell_attack": {
+        "name": "roll_spell_attack",
+        "description": "\nRoll a 1d20 attack for a given stat (e.g. \"charisma\").\n    \nReturns:\n    dict: A dictionary containing:\n          - \"valid\": whether the character has enough resources to perform this attack,\n          - \"ac\": the value of the armor class,\n          - \"roll\": the roll result,\n          - \"success\": whether the roll succeeded (i.e. roll is greater than or equal to ac),\n          - \"critical\": whether a critical hit occurs,\n          - \"out_of_range\": whether this attack is out of range,\n          - \"previous_concentration\": if the attack is successful, this represents the name of the previous concentration\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": null,
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": {
+                    "type": "string"
+                },
+                "defender_name": {
+                    "type": "string"
+                },
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": {
+                    "type": "string"
+                },
+                "ac": {
+                    "type": "string"
+                },
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": {
+                    "type": "string"
+                },
+                "bonus_action_cost": {
+                    "type": "string"
+                },
+                "reaction_cost": {
+                    "type": "string"
+                },
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": {
+                    "type": "string"
+                },
+                "require_concentration": {
+                    "type": "string"
+                },
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": {
+                    "type": "string"
+                },
+                "dmg": null
+            },
+            "required": [
+                "spell_name",
+                "attacker_name",
+                "defender_name",
+                "roll_type",
+                "ac",
+                "is_ranged",
+                "require_concentration",
+                "action_cost",
+                "bonus_action_cost",
+                "reaction_cost"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "stand_up": {
+        "name": "stand_up",
+        "description": "\nStand up and remove the status prone.\n\nReturns:\n    speed (int): The speed of the character in this turn.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": null
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "update_hp": {
+        "name": "update_hp",
+        "description": "\nUpdate the hp of the given character.\n    \nReturns:\n    dict: A dictionary containing:\n          - \"hp\": the current hp of the character,\n          - \"temp_hp\": the current temporary hp of the character,\n          - \"temp_hp_source\": the source of the temporary hp\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type_name": null,
+                "num_temp_hp": null,
+                "source_temp_hp": null,
+                "player_name": null,
+                "attacker_name": null,
+                "defender_name": null,
+                "is_expeditious_retreat": null,
+                "monster_name": null,
+                "character_name": null,
+                "x": null,
+                "y": null,
+                "buff": null,
+                "roll_type": null,
+                "ac": null,
+                "modifier": null,
+                "weapon_name": null,
+                "use_spellcasting_modifier": null,
+                "action_cost": null,
+                "bonus_action_cost": null,
+                "reaction_cost": null,
+                "is_critical": null,
+                "dice_expression": null,
+                "dmg_dice_expression": null,
+                "critical": null,
+                "spell_name": null,
+                "require_concentration": null,
+                "stat": null,
+                "dc": null,
+                "skill": null,
+                "is_ranged": null,
+                "dmg": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "dmg"
+            ],
+            "additionalProperties": true
+        }
+    }
+}

@@ -37,7 +37,7 @@ func get_height() -> Height:
 		Type.ICE_BLOCK:
 			return Height.HIGH
 		Type.STAIRS_UP:
-			return Height.FULL
+			return Height.NONE  # Change to NONE to prevent blocking projectiles (stairs are flat steps)
 		Type.STAIRS_DOWN:
 			return Height.NONE
 		Type.TABLE:
