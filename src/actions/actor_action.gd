@@ -5,6 +5,7 @@ var actor: Monster
 
 
 func _init(p_actor: Monster) -> void:
+	action_cost = ActionBudget.Cost.ACTION
 	actor = p_actor
 
 

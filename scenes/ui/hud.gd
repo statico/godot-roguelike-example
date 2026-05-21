@@ -2,6 +2,7 @@ class_name HUD
 extends Control
 
 signal drop_requested(selections: Array[ItemSelection])
+signal ability_used(action: BaseAction)
 
 @onready var hp_bar: ProgressBarWithLabel = %HP
 @onready var status_text: RichTextLabel = %StatusText
@@ -54,10 +55,80 @@ func _ready() -> void:
 
 func _on_world_initialized() -> void:
 	_update_display()
+	World.player_budget_updated.connect(_on_budget_updated)
 
 
 func _on_turn_ended() -> void:
 	_update_display()
+	_refresh_ability_bar()
+
+
+# =============================================================
+# 🎯 행동 토큰 표시 (3-Action HUD)
+# =============================================================
+
+var _token_label: RichTextLabel = null
+var _ability_container: HBoxContainer = null
+
+func _get_or_create_token_label() -> RichTextLabel:
+	if not _token_label:
+		_token_label = RichTextLabel.new()
+		_token_label.bbcode_enabled = true
+		_token_label.fit_content = true
+		_token_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		# status_text 바로 아래에 삽입
+		var parent := status_text.get_parent()
+		var idx    := status_text.get_index() + 1
+		parent.add_child(_token_label)
+		parent.move_child(_token_label, idx)
+	return _token_label
+
+
+func _get_or_create_ability_container() -> HBoxContainer:
+	if not _ability_container:
+		_ability_container = HBoxContainer.new()
+		_ability_container.add_theme_constant_override("separation", 4)
+		var token := _get_or_create_token_label()
+		var parent := token.get_parent()
+		parent.add_child(_ability_container)
+		parent.move_child(_ability_container, token.get_index() + 1)
+	return _ability_container
+
+
+func _refresh_ability_bar() -> void:
+	var container := _get_or_create_ability_container()
+	for child in container.get_children():
+		child.queue_free()
+
+	var slots := World.player.class_comp.get_ability_slots()
+	container.visible = not slots.is_empty()
+
+	for i in slots.size():
+		var slot := slots[i] as ClassComponent.AbilitySlot
+		var btn := Button.new()
+		btn.text = "[%d] %s" % [i + 1, slot.display_name]
+		btn.disabled = not slot.available
+		btn.tooltip_text = slot.tooltip
+		var captured_i := i
+		btn.pressed.connect(func() -> void:
+			ability_used.emit(PlayerUseAbilityAction.new(captured_i))
+		)
+		container.add_child(btn)
+
+
+func _on_budget_updated(budget: ActionBudget) -> void:
+	_refresh_ability_bar()
+	var label := _get_or_create_token_label()
+
+	# ⚔️ 주행동 / ⚡ 보조행동 / 🛡️ 반응행동 / 👟 이동력
+	var action_icon  := "[color=white]⚔[/color]"  if not budget.action_used   else "[color=gray]⚔[/color]"
+	var bonus_icon   := "[color=yellow]★[/color]" if not budget.bonus_used    else "[color=gray]★[/color]"
+	var reaction_icon:= "[color=cyan]↩[/color]"   if not budget.reaction_used else "[color=gray]↩[/color]"
+	var move_str     := "[color=lime]%d[/color]/%d" % [budget.movement_remaining, budget._max_movement]
+
+	label.text = "%s %s %s  Move:%s  [color=gray][Tab]=End Turn[/color]" % [
+		action_icon, bonus_icon, reaction_icon, move_str
+	]
 
 
 func set_hover_info(text: Variant) -> void:

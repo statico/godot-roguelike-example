@@ -6,6 +6,7 @@ var direction: Vector2i
 
 func _init(p_actor: Monster, dir: Vector2i) -> void:
 	super(p_actor)
+	action_cost = ActionBudget.Cost.MOVE
 	direction = dir
 
 

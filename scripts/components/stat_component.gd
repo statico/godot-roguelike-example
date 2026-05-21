@@ -21,10 +21,12 @@ var _base_strength: int = 5
 var _base_speed: int = SPEED_NORMAL
 var _base_hp_regen: int = 1
 
-# --- D&D 능력치 (세이빙 스로우 / 이니셔티브용) ---
-var _base_dexterity: int = 10
+# --- D&D 능력치 6종 ---
+var _base_dexterity:    int = 10
 var _base_constitution: int = 10
-var _base_wisdom: int = 10
+var _base_wisdom:       int = 10
+var _base_intelligence: int = 10
+var _base_charisma:     int = 10
 
 # --- 부모 Monster 참조 (StatusComponent 접근용) ---
 # Object 타입으로 선언해 순환 참조 파싱 오류 방지.
@@ -82,6 +84,14 @@ func get_wisdom() -> int:
 	return _base_wisdom
 
 
+func get_intelligence() -> int:
+	return _base_intelligence
+
+
+func get_charisma() -> int:
+	return _base_charisma
+
+
 func get_hp_regen() -> int:
 	var regen := _base_hp_regen
 	var status_comp = _owner.get("status") if _owner else null
@@ -101,6 +111,11 @@ func get_armor_class(equipment: Equipment) -> int:
 		for child: Item in item.children.to_array():
 			if child:
 				total_ac += child.armor_class
+	# 전투 스타일: 방어 (+1 AC)
+	if _owner:
+		var monster: Monster = _owner as Monster
+		if monster:
+			total_ac += monster.class_comp.get_ac_bonus()
 	return total_ac
 
 

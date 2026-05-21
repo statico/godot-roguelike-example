@@ -89,6 +89,15 @@ func get_living_followers() -> Array[Monster]:
 	return alive
 
 
+## 이전 맵에서 파티원들 제거 (레벨 전환 준비용)
+func remove_followers_from_map(map: Map) -> void:
+	for follower in party_followers:
+		if not follower.is_dead:
+			var removed := map.find_and_remove_monster(follower)
+			if removed:
+				Log.d("[PartyManager] Removed %s from old map" % follower.name)
+
+
 ## 맵 전환 시 파티원들도 새 맵에 배치
 func on_map_changed(new_map: Map, stairs_type: Obstacle.Type) -> void:
 	Log.i("[PartyManager] on_map_changed: placing %d followers" % party_followers.size())

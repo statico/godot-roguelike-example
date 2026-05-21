@@ -41,6 +41,14 @@ signal melee_attack_made(attacker: Monster, target: Monster)
 ## 전투 회차가 시작될 때 (턴 단위)
 signal combat_turn_started(turn: int)
 
+## 행동이 실행되었을 때 (LLM 학습 데이터 수집용)
+## actor:       행동한 Monster
+## cost:        ActionBudget.Cost 열거값
+## action_name: 행동 클래스 이름 (e.g. "MeleeAction")
+## success:     행동 성공 여부
+## budget:      행동 후 남은 예산 딕셔너리 (to_dict() 결과)
+signal action_executed(actor: Monster, cost: int, action_name: String, success: bool, budget: Dictionary)
+
 # =============================================================
 # 🛡️ [구역 2] 파티 이벤트 (PARTY EVENTS)
 # =============================================================

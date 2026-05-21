@@ -5,8 +5,15 @@ var direction: Vector2i
 
 
 func _init(p_actor: Monster, dir: Vector2i) -> void:
-	super(p_actor)
+	super(p_actor)  # action_cost = ACTION by default
 	direction = dir
+	# 적이 없으면 이동 행동 → MOVE 예산 소모
+	if World.current_map:
+		var cur := World.current_map.find_monster_position(p_actor)
+		if cur != Utils.INVALID_POS:
+			var target := World.current_map.get_monster(cur + dir)
+			if not (target and p_actor.is_hostile_to(target)):
+				action_cost = ActionBudget.Cost.MOVE
 
 
 func _execute(map: Map, result: ActionResult) -> bool:

@@ -248,12 +248,16 @@ func _choose_initial_appearance() -> void:
 	assert(not appearances.is_empty())
 	var tile_name: String = appearances[monster.variant % appearances.size()]
 	var tile_texture := CharacterTiles.get_texture(StringName(tile_name))
-	character.texture = tile_texture
-	character.region_enabled = false
+	
 	if tile_texture is AtlasTexture:
+		character.texture = tile_texture.atlas
+		character.region_rect = tile_texture.region
+		character.region_enabled = true
 		# 타일맵 스프라이트: 2프레임 (idle/walk)
 		character.hframes = 2
 	else:
+		character.texture = tile_texture
+		character.region_enabled = false
 		# 커스텀 단일 스프라이트: hframes=1
 		# 가로가 세로보다 훨씬 클 때만 스프라이트시트로 간주
 		var w := tile_texture.get_width()

@@ -18,10 +18,11 @@ extends RefCounted
 # =============================================================
 
 enum Behavior {
-	PASSIVE,    # Doesn't actively pursue targets
-	AGGRESSIVE, # Pursues and attacks targets
-	FEARFUL,    # Runs away from threats
-	CURIOUS,    # Follows player but doesn't attack
+	PASSIVE,       # Doesn't actively pursue targets
+	AGGRESSIVE,    # Pursues and attacks targets
+	FEARFUL,       # Runs away from threats
+	CURIOUS,       # Follows player but doesn't attack
+	BLACKHOLE_AI,  # D20 블랙홀 컴퓨터 신경망 AI
 }
 
 enum NameFormat {
@@ -48,6 +49,7 @@ var faction_comp: FactionComponent
 var skills:     SkillComponent
 var inv:        InventoryComponent
 var level_comp: LevelComponent
+var class_comp: ClassComponent
 
 # =============================================================
 # 📌 [구역 2] 불변 식별 속성 (IDENTITY)
@@ -59,7 +61,9 @@ var species: Species.Type
 var variant: int = 0
 var hit_particles_color := Color(1.0, 0.1, 0.1)
 var role: Roles.Type = Roles.Type.NONE
-var intelligence: int = 5
+var intelligence: int:
+	get: return stats._base_intelligence
+	set(v): stats._base_intelligence = v
 var xp_reward: int = 0
 var instance_id: int = 0
 var behavior: Behavior
@@ -127,6 +131,9 @@ var nutrition := Nutrition.new()
 ## 하위 호환: energy
 var energy: int = 0
 
+## 행동 예산 (주행동/보조행동/반응행동/이동력)
+var budget: ActionBudget = ActionBudget.new()
+
 ## 레벨 / XP 위임
 var level: int:
 	get: return level_comp.level
@@ -163,6 +170,7 @@ func _init(constructed_via_factory: bool = false) -> void:
 	skills       = SkillComponent.new()
 	inv          = InventoryComponent.new()
 	level_comp   = LevelComponent.new(self)
+	class_comp   = ClassComponent.new(self, ClassComponent.Type.NONE)
 	equipment    = Equipment.new(self)
 	instance_id  = InstanceID.register(self)
 	Log.d("[Monster] Components initialized")
@@ -224,10 +232,11 @@ func get_hover_info() -> String:
 	info += "Faction: %s\n" % faction_comp.get_faction_name()
 	info += "Behavior: "
 	match behavior:
-		Behavior.PASSIVE:    info += "Peaceful"
-		Behavior.AGGRESSIVE: info += "Hostile"
-		Behavior.FEARFUL:    info += "Cowardly"
-		Behavior.CURIOUS:    info += "Inquisitive"
+		Behavior.PASSIVE:      info += "Peaceful"
+		Behavior.AGGRESSIVE:   info += "Hostile"
+		Behavior.FEARFUL:      info += "Cowardly"
+		Behavior.CURIOUS:      info += "Inquisitive"
+		Behavior.BLACKHOLE_AI: info += "???"
 
 	info += "\n\nResistances:"
 	var resistances := get_resistances()
@@ -254,6 +263,9 @@ func get_hover_info() -> String:
 # =============================================================
 # 🔧 [구역 8] 스탯 위임 메서드 (STAT DELEGATES)
 # =============================================================
+
+func get_proficiency_bonus() -> int:
+	return class_comp.get_proficiency_bonus()
 
 func get_strength() -> int:
 	return stats.get_strength()

@@ -118,6 +118,10 @@ func _execute(map: Map, result: ActionResult) -> bool:
 		)
 		result.add_effect(hit_effect)
 
+		# [EventBus] 원거리 피해 이벤트 (BattleLogger / RL 데이터 수집용)
+		if ranged_result.damage > 0:
+			EventBus.monster_damaged.emit(actor, monster, ranged_result.damage, ranged_result.damage_type)
+
 		# Add damage popup effect
 		if ranged_result.damage != 0:
 			var status_effect := StatusPopupEffect.new(

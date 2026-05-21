@@ -18,6 +18,7 @@ extends RefCounted
 # --- 하위 호환 타입 별칭 ---
 const BTStatus = BTCore.Status   # MonsterAI.BTStatus.SUCCESS 등 기존 코드 유지
 const BTNode   = BTCore.BTNode   # MonsterAI.BTNode 타입 기존 코드 유지
+const DoNothing = BTCore.DoNothing
 
 
 # --- 하위 호환 팩토리 함수 ---

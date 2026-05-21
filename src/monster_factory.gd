@@ -38,7 +38,11 @@ static func _load_monster_data() -> void:
 			&"faction": row[_get_col(&"faction")],
 			&"appearance": appearances,
 			&"speed": row[_get_col(&"speed")],
-			&"strength": row[_get_col(&"strength")].to_int(),
+			&"strength":     row[_get_col(&"strength")].to_int(),
+			&"dexterity":    _col_int(row, &"dex", 10),
+			&"constitution": _col_int(row, &"con", 10),
+			&"wisdom":       _col_int(row, &"wis", 10),
+			&"charisma":     _col_int(row, &"cha", 10),
 			&"max_hp": row[_get_col(&"max_hp")].to_int(),
 			&"behavior": row[_get_col(&"behavior")],
 			&"sight_radius": row[_get_col(&"sight_radius")].to_int(),
@@ -58,6 +62,15 @@ static func _get_col(name: String) -> int:
 	return _column_indices[name]
 
 
+static func _col_int(row: PackedStringArray, col: StringName, default_val: int) -> int:
+	if not _column_indices.has(col):
+		return default_val
+	var idx: int = _column_indices[col]
+	if idx >= row.size() or row[idx].is_empty():
+		return default_val
+	return row[idx].to_int()
+
+
 ## Create a monster from a monster slug
 ## @param slug The slug of the monster to create
 ## @param role The role of the monster if it's a player
@@ -73,13 +86,17 @@ static func create_monster(slug: StringName, role: Roles.Type = Roles.Type.NONE)
 	monster.species = Species.Type.get((data.species as String).to_upper(), Species.Type.RODENT)
 	monster.faction = Factions.Type.get((data.faction as String).to_upper(), Factions.Type.NONE)
 	monster.behavior = _convert_behavior(data.behavior as String)
-	monster.hp = data.max_hp
+	monster.hp     = data.max_hp
 	monster.max_hp = data.max_hp
-	monster._base_strength = data.strength
-	monster._base_speed = _convert_speed(data.speed as String)
-	monster.sight_radius = data.sight_radius
+	monster._base_strength              = data.strength
+	monster.stats._base_dexterity       = data.get(&"dexterity",    10)
+	monster.stats._base_constitution    = data.get(&"constitution", 10)
+	monster.stats._base_wisdom          = data.get(&"wisdom",       10)
+	monster.stats._base_intelligence    = data.get(&"intelligence", 10)
+	monster.stats._base_charisma        = data.get(&"charisma",     10)
+	monster._base_speed    = _convert_speed(data.speed as String)
+	monster.sight_radius   = data.sight_radius
 	monster.hit_particles_color = data.hit_particles_color
-	monster.intelligence = data.intelligence
 	monster.slug = slug
 	monster.name = data.name
 	monster.role = role
@@ -93,6 +110,19 @@ static func create_monster(slug: StringName, role: Roles.Type = Roles.Type.NONE)
 		var appearances := data.appearance as Array
 		if not appearances.is_empty():
 			monster.variant = randi() % appearances.size()
+
+	# 클래스 컴포넌트 초기화 (역할 기반)
+	var class_type := ClassComponent.Type.NONE
+	match role:
+		Roles.Type.FIGHTER: class_type = ClassComponent.Type.FIGHTER
+		Roles.Type.ROGUE:   class_type = ClassComponent.Type.ROGUE
+		Roles.Type.CLERIC:  class_type = ClassComponent.Type.CLERIC
+		Roles.Type.RANGER:  class_type = ClassComponent.Type.RANGER
+	if class_type != ClassComponent.Type.NONE:
+		monster.class_comp = ClassComponent.new(monster, class_type)
+		# 파이터 기본 전투 스타일: 결투
+		if class_type == ClassComponent.Type.FIGHTER:
+			monster.class_comp.fighting_style = ClassComponent.FightingStyle.DUELING
 
 	# If a role is specified, validate species and apply role data
 	if role != Roles.Type.NONE:

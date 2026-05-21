@@ -8,14 +8,25 @@ extends RefCounted
 enum SaveType { STR, DEX, CON, INT, WIS, CHA }
 
 
-## d20 + 능력치 수정치 vs DC 판정. true = 성공
+## d20 + 능력치 수정치 (+숙련 보너스) vs DC 판정. true = 성공
 static func roll_saving_throw(monster: Monster, save_type: SaveType, dc: int) -> bool:
-	var roll := Dice.roll(1, 20)
+	var roll     := Dice.roll(1, 20)
 	var modifier := _get_ability_modifier(monster, save_type)
-	Log.d("[Combat] %s saving throw: %d + %d vs DC %d" % [
-		SaveType.keys()[save_type], roll, modifier, dc
+	var prof     := 0
+	if monster.class_comp.is_save_proficient(save_type as int):
+		prof = monster.class_comp.get_proficiency_bonus()
+	Log.d("[Combat] %s saving throw: %d + %d + prof(%d) vs DC %d" % [
+		SaveType.keys()[save_type], roll, modifier, prof, dc
 	])
-	return roll + modifier >= dc
+	var success := roll + modifier + prof >= dc
+	if not success and monster.class_comp.can_use_indomitable():
+		monster.class_comp.use_indomitable()
+		var reroll := Dice.roll(1, 20)
+		success = reroll + modifier + prof >= dc
+		Log.i("[Combat] Indomitable 재굴림: %d + %d + %d vs DC %d → %s" % [
+			reroll, modifier, prof, dc, "성공" if success else "실패"
+		])
+	return success
 
 
 ## 이니셔티브 굴림: d20 + DEX 수정치
@@ -31,7 +42,7 @@ static func _get_ability_modifier(monster: Monster, save_type: SaveType) -> int:
 		SaveType.CON: score = monster.stats.get_constitution()
 		SaveType.INT: score = monster.intelligence
 		SaveType.WIS: score = monster.stats.get_wisdom()
-		_:            score = 10  # CHA — 아직 구현 없음
+		SaveType.CHA: score = monster.stats.get_charisma()
 	return floori((score - 10) / 2.0)
 
 
@@ -94,11 +105,18 @@ static func resolve_melee_attack(attacker: Monster, defender: Monster) -> MeleeA
 	# TODO: dexterity
 	# TODO: equipment enhancement bonuses
 
+	# 클래스 숙련 보너스 (파이터 등 클래스 캐릭터)
+	var proficiency_bonus := 0
+	if attacker.class_comp.class_type != ClassComponent.Type.NONE:
+		if attacker.class_comp.is_weapon_proficient(item):
+			proficiency_bonus = attacker.class_comp.get_proficiency_bonus()
+			Log.d("    Proficiency bonus: +%d" % proficiency_bonus)
+
 	var target_ac := defender.get_armor_class()
 
 	# DnD 5e: Natural 20 = Critical Hit (always hits)
 	var is_critical := attack_roll == 20
-	var is_hit := is_critical or (attack_roll + to_hit_bonus + skill_bonus >= target_ac)
+	var is_hit := is_critical or (attack_roll + to_hit_bonus + skill_bonus + proficiency_bonus >= target_ac)
 
 	var params := [
 		attack_roll,
@@ -125,6 +143,8 @@ static func resolve_melee_attack(attacker: Monster, defender: Monster) -> MeleeA
 
 	# DnD 5e Ability Modifier for damage: floor((STR - 10) / 2)
 	var modifier: int = floori((attacker_strength - 10) / 2.0)
+	# 전투 스타일: 결투 (+2 데미지)
+	var style_dmg := attacker.class_comp.get_melee_damage_bonus(item)
 
 	# DnD 5e Critical Hit: roll damage dice TWICE (not modifier)
 	var base_damage: int
@@ -138,12 +158,13 @@ static func resolve_melee_attack(attacker: Monster, defender: Monster) -> MeleeA
 	else:
 		base_damage = 2 if is_critical else 1  # Unarmed
 
-	var damage := base_damage + modifier
+	var damage := base_damage + modifier + style_dmg
 
-	Log.d("  2. Damage: %s%s + STR mod(%+d) = %d" % [
+	Log.d("  2. Damage: %s%s + STR mod(%+d) + style(%+d) = %d" % [
 		"%dd%d" % [item.damage[0], item.damage[1]] if item else "unarmed",
 		" ×2(crit)" if is_critical else "",
 		modifier,
+		style_dmg,
 		damage
 	])
 
@@ -407,7 +428,8 @@ static func resolve_ranged_attack(
 		else:
 			Log.d("    No resistance for %s" % Damage.Type.keys()[result.damage_type])
 
-		# 4. Apply damage
+		# 4. Apply damage (result.damage 를 저항 반영 최종값으로 업데이트)
+		result.damage = damage
 		Log.d("    Applying damage: %d" % damage)
 		result.hit_monster.hp = max(0, result.hit_monster.hp - damage)
 		if result.hit_monster.hp <= 0:

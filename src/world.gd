@@ -14,6 +14,12 @@ signal turn_ended
 signal game_ended
 signal energy_updated(monster: Monster)
 
+## 플레이어 행동 예산이 바뀔 때마다 발송 (HUD 토큰 표시용)
+signal player_budget_updated(budget: ActionBudget)
+
+## 플레이어 턴이 완전히 종료되고 몬스터 턴이 시작될 때
+signal player_turn_ended
+
 # Like NetHack, we world_plan the dungeon in advance, but levels are only created when
 # they are first visited.
 var world_plan: WorldPlan
@@ -114,6 +120,9 @@ func initialize() -> void:
 	map_changed.emit(current_map)
 	world_initialized.emit()
 
+	# 첫 플레이어 턴 시작
+	begin_player_turn()
+
 
 func _generate_map(plan: WorldPlan.LevelPlan) -> Map:
 	match plan.type:
@@ -193,40 +202,119 @@ func _spawn_party_followers(map: Map) -> void:
 			Log.w("[World] Could not place party follower: %s" % follower.name)
 
 
-# Apply an action (presumably from the player) to the world and complete the turn.
-func apply_player_action(action: BaseAction) -> ActionResult:
-	Log.i("[color=lime]======== TURN %d STARTED ========[/color]" % World.current_turn)
-	turn_started.emit()
+# =============================================================
+# ⚔️ [3-ACTION TURN SYSTEM] 3행동 턴 시스템
+# =============================================================
+# 플레이어는 한 라운드에 여러 서브행동을 순서대로 취한다.
+# 예산이 모두 소진되거나 플레이어가 명시적으로 턴을 종료하면
+# 몬스터 턴이 진행된다.
 
-	# Apply the player's action
-	Log.i("Applying action: %s" % action)
-	var result := action.apply(current_map)
-	if not result:
-		Log.i("[color=gray]==== TURN CANCELLED (Action Failed) ====[/color]")
+## 현재 플레이어 턴이 진행 중인지 여부
+var player_turn_active: bool = false
+
+## 이번 플레이어 턴의 누적 결과 목록 (서브행동마다 추가됨)
+var _pending_results: Array[ActionResult] = []
+
+
+## 플레이어 턴 시작. initialize() 직후와 몬스터 턴 종료 후 호출.
+func begin_player_turn() -> void:
+	player.budget.reset(player.get_speed())
+	player_turn_active = true
+	_pending_results.clear()
+	Log.i("[color=lime]======== TURN %d — 플레이어 턴 ========[/color]" % current_turn)
+	turn_started.emit()
+	player_budget_updated.emit(player.budget)
+
+
+## 플레이어 서브행동 하나를 처리한다.
+## 행동 예산이 없거나 행동 실패 시 null 반환.
+## 행동 성공 시 result 반환, 예산 소진 시 자동으로 몬스터 턴 진행.
+func apply_player_action(action: BaseAction) -> ActionResult:
+	if not player_turn_active:
+		Log.w("[World] apply_player_action called outside player turn")
 		return null
 
-	# If the action failed, return early without advancing the turn
+	var cost: ActionBudget.Cost = action.action_cost
+
+	# 예산 확인
+	if not player.budget.can_use(cost):
+		var cost_name: String = ActionBudget.Cost.keys()[cost]
+		Log.d("[World] 예산 없음: %s (required: %s)" % [action, cost_name])
+		if cost == ActionBudget.Cost.ACTION:
+			message_logged.emit("You have already used your action this turn.", LogMessages.Level.BAD)
+		elif cost == ActionBudget.Cost.BONUS:
+			message_logged.emit("You have already used your bonus action this turn.", LogMessages.Level.BAD)
+		elif cost == ActionBudget.Cost.MOVE:
+			message_logged.emit("You cannot move any further this turn.", LogMessages.Level.BAD)
+		return null
+
+	Log.i("[color=aqua]  SUB-ACTION: %s[/color]" % action)
+
+	# 행동 실행
+	var result := action.apply(current_map)
+	if not result:
+		return null
+
 	if not result.success:
 		if result.message:
-			message_logged.emit(result.message)
-		Log.i("[color=gray]==== TURN CANCELLED (Result False) ====[/color]")
+			# 실패 메시지는 즉시 표시 (효과 큐 밖)
+			message_logged.emit(result.message, result.message_level)
 		return result
 
-	# ── 플레이어 경로 기록 (파티원 팔로우용) ─────────────
+	# 예산 소모
+	var tiles_moved := 1 if cost == ActionBudget.Cost.MOVE else 0
+	player.budget.spend(cost, tiles_moved)
+
+	# 추적 로그 (LLM 학습 데이터)
+	player.budget.log_action(cost, action.get_script().get_global_name(), true)
+	EventBus.action_executed.emit(
+		player,
+		cost,
+		action.get_script().get_global_name(),
+		true,
+		player.budget.to_dict()
+	)
+
+	# 플레이어 경로 기록 (파티원 팔로우용)
 	var player_pos_now := current_map.find_monster_position(player)
 	if player_pos_now != Utils.INVALID_POS:
 		party_manager.record_player_position(player_pos_now)
 
-	# Update all monster systems
-	for monster in current_map.get_monsters():
-		# Update status effects
-		monster.tick_status_effects()
+	_pending_results.append(result)
 
-		# Check encumbrance
+	Log.d("[World] 예산 상태: %s" % player.budget)
+	player_budget_updated.emit(player.budget)
+
+	# 주행동 + 보조행동 모두 소진 시 자동 턴 종료
+	if player.budget.is_turn_exhausted():
+		Log.d("[World] 예산 소진 — 자동 턴 종료")
+		_end_player_turn()
+
+	return result
+
+
+## 플레이어가 명시적으로 턴을 종료할 때 (엔드 턴 키)
+func end_player_turn() -> void:
+	if not player_turn_active:
+		return
+	Log.i("[color=aqua]  플레이어 턴 수동 종료[/color]")
+	_end_player_turn()
+
+
+## 내부: 플레이어 턴을 마무리하고 몬스터 턴을 진행한다.
+func _end_player_turn() -> void:
+	player_turn_active = false
+	player_turn_ended.emit()
+
+	# 상태이상 틱 + 인캄브런스
+	for monster in current_map.get_monsters():
+		monster.tick_status_effects()
 		monster.tick_encumbrance()
 
-	# Process player nutrition
-	var nutrition_cost := 1 + result.extra_nutrition_consumed
+	# 영양 처리 (턴당 1회)
+	var nutrition_cost := 1
+	for res in _pending_results:
+		nutrition_cost += res.extra_nutrition_consumed
 	var nutrition_result := player.nutrition.decrease(nutrition_cost)
 	if nutrition_result.message:
 		message_logged.emit(nutrition_result.message, LogMessages.Level.BAD)
@@ -235,73 +323,74 @@ func apply_player_action(action: BaseAction) -> ActionResult:
 		effect_occurred.emit(
 			DeathEffect.new(player, current_map.find_monster_position(player), true)
 		)
-		game_over = true
-		game_ended.emit()
-		return result
+		_finish_turn()
+		return
 
-	# Process natural healing
+	# 자연 회복 (3턴마다)
 	if player.nutrition.value >= Nutrition.THRESHOLD_STARVING and player.hp < player.max_hp:
-		# Base healing of 1 HP every 3 turns
 		if current_turn % 3 == 0:
 			var heal_amount := 1
-			# Bonus healing when well fed
 			if player.nutrition.value >= Nutrition.THRESHOLD_SATIATED:
 				heal_amount += 1
 			player.hp = mini(player.hp + heal_amount, player.max_hp)
 
-	# Accumulate energy for all monsters
+	# 몬스터 에너지 누적 및 행동
 	for monster in current_map.get_monsters():
 		monster.energy += monster.get_speed()
 
-	# Build a list of results from the action
-	var results: Array[ActionResult] = [result]
-
-	# Give turns to monsters that have enough energy
 	var monsters := current_map.get_monsters()
-	Log.d("Checking %d monsters for turns" % monsters.size())
+	Log.d("[World] 몬스터 턴 — %d 유닛 확인" % monsters.size())
 	for monster in monsters:
 		if monster == player:
 			continue
-
-		# Only act if we have enough energy
 		if monster.energy >= Monster.SPEED_NORMAL:
+			# 몬스터도 예산 리셋
+			monster.budget.reset(monster.get_speed())
+
 			var monster_action := monster.get_next_action(current_map)
 			if monster_action:
 				var monster_result := monster_action.apply(current_map)
-				results.append(monster_result)
-			# Consume energy after acting
+				# 몬스터 행동도 EventBus에 기록 (LLM 학습용)
+				EventBus.action_executed.emit(
+					monster,
+					monster_action.action_cost,
+					monster_action.get_script().get_global_name(),
+					monster_result.success if monster_result else false,
+					monster.budget.to_dict()
+				)
+				if monster_result:
+					_pending_results.append(monster_result)
+
 			monster.energy -= Monster.SPEED_NORMAL
 			energy_updated.emit(monster)
 
-	# Update area effects
+	# 구역 효과 업데이트
 	update_area_effects()
-
-	# Update vision
 	update_vision()
 
-	# Now emit all the results
-	for res in results:
-		# Emit effects
+	_finish_turn()
+
+
+## 결과 방출 및 턴 카운터 증가
+func _finish_turn() -> void:
+	for res in _pending_results:
 		for effect in res.effects:
 			effect_occurred.emit(effect)
-
-		# Emit messages
 		if res.message:
 			message_logged.emit(res.message, res.message_level)
+	_pending_results.clear()
 
-	# Emit turn ended signal
-	Log.i("[color=lime]-------- TURN %d ENDED --------[/color]" % World.current_turn)
+	Log.i("[color=lime]-------- TURN %d 종료 --------[/color]" % current_turn)
 	turn_ended.emit()
-
-	# Mark the turn as over
 	current_turn += 1
 
-	# Is the player dead?
 	if player.is_dead:
 		game_over = true
 		game_ended.emit()
+		return
 
-	return result
+	# 다음 플레이어 턴 시작
+	begin_player_turn()
 
 
 func handle_special_level(id: String) -> void:
@@ -333,6 +422,10 @@ func handle_level_transition(destination_level: String, coming_from_stairs: Obst
 
 	# Remove player from current map
 	current_map.find_and_remove_monster(player)
+
+	# [Transition Patch] Remove party followers from the old map before switching
+	party_manager.remove_followers_from_map(current_map)
+	Log.i("[Transition Patch] Cleared party followers from old map: %s" % current_map.id)
 
 	# Switch to the new map
 	current_map = maps[destination_level]

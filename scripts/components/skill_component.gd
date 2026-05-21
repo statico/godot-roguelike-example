@@ -72,8 +72,8 @@ func add_skill_xp(skill_type: Skills.Type, amount: int) -> Array[String]:
 		skill_xp[skill_type] -= threshold
 		current += 1
 		levels[skill_type] = current
-		var skill_name := Skills.Type.keys()[skill_type].to_lower().replace("_", " ")
-		var level_name := Skills.Level.keys()[current].to_lower().replace("_", " ")
+		var skill_name: String = Skills.Type.keys()[skill_type].to_lower().replace("_", " ")
+		var level_name: String = Skills.Level.keys()[current].to_lower().replace("_", " ")
 		messages.append("Your %s skill improved to %s!" % [skill_name, level_name])
 		Log.i("[SkillComponent] %s skill → %s" % [Skills.Type.keys()[skill_type], Skills.Level.keys()[current]])
 		if current >= Skills.Level.MASTER:

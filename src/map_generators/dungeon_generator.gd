@@ -523,11 +523,12 @@ func _place_down_stairs(map: Map, room: Room, depth: int) -> void:
 func _place_monsters(map: Map, count: int) -> void:
 	Log.d("Placing monsters")
 
-	# Get all monster IDs except 'human'
+	# Get all monster IDs except human player roles (fighter, cleric, ranger, rogue, human)
 	var monster_ids: Array[StringName] = []
 	for monster_id: StringName in MonsterFactory.monster_data:
-		if monster_id != &"human":
+		if monster_id not in [&"fighter", &"cleric", &"ranger", &"rogue", &"human"]:
 			monster_ids.append(monster_id)
+	Log.i("[Generator Patch] Available monster spawn pool: %s" % [monster_ids])
 
 	# Place random monsters
 	if monster_ids.is_empty():

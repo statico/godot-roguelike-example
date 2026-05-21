@@ -15,8 +15,7 @@ extends RefCounted
 
 # --- 편의를 위한 타입 별칭 ---
 const S   = BTCore.Status
-const seq = BTCore.sequence
-const sel = BTCore.selector
+
 
 # --- Movement 노드 별칭 ---
 const CheckPlayerVisible  = BTNodesMovement.CheckPlayerVisible
@@ -55,6 +54,8 @@ static func create(monster: Monster) -> BTCore.BTNode:
 			return _create_curious()
 		Monster.Behavior.PASSIVE:
 			return _create_passive()
+		Monster.Behavior.BLACKHOLE_AI:
+			return _create_blackhole()
 		_:
 			assert(false, "Invalid behavior: %s" % monster.behavior)
 			return BTCore.BTNode.new()
@@ -121,3 +122,8 @@ static func _create_passive() -> BTCore.BTNode:
 			DoNothing
 		)
 	)
+
+
+static func _create_blackhole() -> BTCore.BTNode:
+	# 블랙홀 컴퓨터 단일 노드 — BT 전체를 대체
+	return BTCore.sequence(BTNodesBlackhole.BlackholeDecide.new())

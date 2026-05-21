@@ -42,44 +42,44 @@ func _execute(map: Map, result: ActionResult) -> bool:
 		])
 		return false
 
-	# Resolve combat
-	var combat_result := Combat.resolve_melee_attack(actor, target_monster)
+	# Extra Attack: 파이터 5레벨부터 같은 ACTION으로 N번 공격
+	var attacks := actor.class_comp.get_extra_attacks()
+	var last_msg := ""
 
-	# Apply damage (TODO: Shield absorption system)
-	target_monster.hp = max(0, target_monster.hp - combat_result.damage)
+	for _i in attacks:
+		if target_monster.is_dead:
+			break
 
-	# [EventBus] 근접 공격 이벤트 발송
-	EventBus.melee_attack_made.emit(actor, target_monster)
-	if combat_result.damage > 0:
-		EventBus.monster_damaged.emit(actor, target_monster, combat_result.damage, combat_result.damage_type)
+		var combat_result := Combat.resolve_melee_attack(actor, target_monster)
 
-	# Set message
-	result.message = Combat.format_melee_attack_message(actor, target_monster, combat_result)
+		target_monster.hp = max(0, target_monster.hp - combat_result.damage)
+
+		EventBus.melee_attack_made.emit(actor, target_monster)
+		if combat_result.damage > 0:
+			EventBus.monster_damaged.emit(actor, target_monster, combat_result.damage, combat_result.damage_type)
+
+		last_msg = Combat.format_melee_attack_message(actor, target_monster, combat_result)
+
+		result.add_effect(AttackEffect.new(actor, Vector2(direction) * -1, target_monster, current_pos))
+		result.add_effect(HitEffect.new(
+			target_monster, Vector2(direction), current_pos, actor, combat_result.damage > 0
+		))
+
+		if combat_result.killed:
+			target_monster.is_dead = true
+			EventBus.monster_killed.emit(actor, target_monster)
+			if target_monster != World.player:
+				target_monster.drop_everything()
+				map.find_and_remove_monster(target_monster)
+				result.message_level = LogMessages.Level.GOOD
+			result.add_effect(DeathEffect.new(target_monster, target_pos, actor == World.player))
+			break
+
+	result.message = last_msg
 	if target_monster == World.player:
 		result.message_level = LogMessages.Level.BAD
 
-	# Add attack effect for actor
-	result.add_effect(AttackEffect.new(actor, Vector2(direction) * -1, target_monster, current_pos))
-
-	# Mark the action as exercise for nutrition processing
 	result.extra_nutrition_consumed = 2
-
-	# Handle death
-	if combat_result.killed:
-		target_monster.is_dead = true
-
-		# [EventBus] 사망 이벤트 발송
-		EventBus.monster_killed.emit(actor, target_monster)
-
-		# Only remove monster if it's not the player
-		if target_monster != World.player:
-			target_monster.drop_everything()
-			map.find_and_remove_monster(target_monster)
-			result.message_level = LogMessages.Level.GOOD
-		# Add death effect
-		var death_effect := DeathEffect.new(target_monster, target_pos, actor == World.player)
-		result.add_effect(death_effect)
-
 	return true
 
 
