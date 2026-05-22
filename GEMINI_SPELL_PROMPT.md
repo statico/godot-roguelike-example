@@ -9,7 +9,7 @@
 
 ## ATTACH THESE FILES (컨텍스트로 첨부할 파일들)
 
-**From `C:\Users\lmcbv\Documents\GitHub\LLM_Battle\engine\`:**
+**From `C:\Users\lmcbv\Documents\GitHub\LLM_Crawl_Godot\`:**
 - `conditions.py`  ← EffectManager, Effect, TickOn, StackRule, make_effect(), _TEMPLATES
 - `entity.py`      ← Entity dataclass
 - `turn_manager.py`← TurnManager, combat flow
