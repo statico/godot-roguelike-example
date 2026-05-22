@@ -118,11 +118,15 @@ static func create_monster(slug: StringName, role: Roles.Type = Roles.Type.NONE)
 		Roles.Type.ROGUE:   class_type = ClassComponent.Type.ROGUE
 		Roles.Type.CLERIC:  class_type = ClassComponent.Type.CLERIC
 		Roles.Type.RANGER:  class_type = ClassComponent.Type.RANGER
+		Roles.Type.BARBARIAN: class_type = ClassComponent.Type.BARBARIAN
 	if class_type != ClassComponent.Type.NONE:
 		monster.class_comp = ClassComponent.new(monster, class_type)
 		# 파이터 기본 전투 스타일: 결투
 		if class_type == ClassComponent.Type.FIGHTER:
 			monster.class_comp.fighting_style = ClassComponent.FightingStyle.DUELING
+		elif class_type == ClassComponent.Type.RANGER:
+			monster.class_comp.fighting_style = ClassComponent.FightingStyle.ARCHERY
+			Log.i("[MonsterFactory] Ranger initialized with ARCHERY fighting style.")
 
 	# If a role is specified, validate species and apply role data
 	if role != Roles.Type.NONE:

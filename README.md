@@ -126,6 +126,39 @@ LLM_Crawl_Godot/
 | 계단 (내려가기) | **Descend** | |
 | 계단 (올라가기) | **Ascend** | |
 
+### 레인저 특화 용어 (Ranger Features)
+
+| 한국어 | **공식 용어** | 코드 / 키 | 설명 |
+|---|---|---|---|
+| 굿베리 | **Goodberry** | `goodberry` | 10개의 베리를 소환하여 인벤토리에 추가 (포만감 100 및 1 HP 회복) |
+| 사냥꾼의 표식 | **Hunter's Mark** | `hunters_mark` | 가장 가까운 대상에게 표식을 남겨 공격 시 1d6 추가 피해 |
+| 원시의 자각 | **Primeval Awareness** | `primeval_awareness` | 맵 전체에 언데드가 있는지 탐지 |
+| 자연 위장 | **Hide in Plain Sight** | `hide_in_plain_sight` | 행동하기 전까지 적들의 시야에 감지되지 않는 은신(위장) 상태 돌입 |
+| 소실 | **Vanish** | `vanish` | 위장을 보너스 액션으로 수행할 수 있게 하는 특성 (14레벨+) |
+| 궁술 전투 스타일 | **Archery Fighting Style** | `Archery` | 원거리 공격 굴림에 +2 보너스 부여 |
+| 거인 학살자 | **Colossus Slayer** | `colossus_slayer` | 체력이 최대치 미만인 적에게 턴당 1회 1d8 추가 피해 |
+| 숙적 | **Favored Enemy** | `favored_enemy` | 레벨별 지정된 숙적(언데드, 파충류, 거미류)을 대상으로 하는 보너스 |
+| 자연 탐험가 | **Natural Explorer** | `natural_explorer` | 시야 범위 확장 보너스 (+2) |
+| 야수의 감각 | **Feral Senses** | `feral_senses` | 18레벨 이상에서 시야 범위를 추가 확장 (+4) |
+| 숙적 파괴자 | **Foe Slayer** | `foe_slayer` | 20레벨 이상에서 숙적 대상 공격/피해에 지혜 수정치 보너스 추가 |
+
+### 바바리안 특화 용어 (Barbarian Features)
+
+| 한국어 | **공식 용어** | 코드 / 키 | 설명 |
+|---|---|---|---|
+| 분노 | **Rage** | `barbarian_rage` | 보조 행동 소모: 물리 피해 저항(Bludgeoning/Piercing/Slashing 절반) 및 추가 공격력 획득. 중장갑 착용 시 활성화 불가. |
+| 광폭화 분노 | **Frenzied Rage** | `barbarian_frenzied_rage` | 보조 행동 소모: 버서커 하위클래스 격노. 격노 종료 시 탈진(`STIM_RECOVERY`) 15턴 적용. |
+| 광폭화 공격 | **Frenzy Attack** | `barbarian_frenzy_attack` | 보조 행동 소모: 광폭화 분노 중 인접한 적에게 강력한 추가 근접 공격 가함. |
+| 무모한 공격 | **Reckless Attack** | `barbarian_reckless` | 이번 턴 자신의 근접 무기 공격 굴림에 이점을 주나 다음 턴까지 적들의 공격 굴림도 이점을 가짐. |
+| 비무장 방어 | **Unarmored Defense** | - | 갑옷 상/하의를 입지 않았을 때 AC가 10 + Dex 수정치 + Con 수정치로 적용. |
+| 빠른 이동 | **Fast Movement** | - | 5레벨 이상에서 중장갑 미착용 시 이동 속도 +2 증가. |
+| 위험 감지 | **Danger Sense** | - | 2레벨 이상에서 실명/마비 상태가 아닐 때 민첩 내성 굴림에 이점. |
+| 야성적 본능 | **Feral Instinct** | - | 7레벨 이상에서 선공 굴림(Initiative roll)에 이점. |
+| 야만적 치명타 | **Brutal Critical** | - | 9레벨 이상에서 치명타 성공 시 레벨별 무기 피해 주사위 추가 롤 (+1~+3). |
+| 끈질긴 분노 | **Relentless Rage** | - | 11레벨 이상에서 격노 중 체력이 0이 될 때 CON 내성 성공 시 1 HP로 생존 (DC 10부터 5씩 상승). |
+| 보복 | **Retaliation** | - | 14레벨 이상에서 격노 중 리액션을 사용하여 인접한 공격 대상에게 근접 보복 공격 실행. |
+| 태고의 인도자 | **Primal Champion** | - | 20레벨 이상에서 힘(STR)과 건강(CON) 스탯 +4 보너스 부여. |
+
 ---
 
 ## 🤖 AI 모드 전환

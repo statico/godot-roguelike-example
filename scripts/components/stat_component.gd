@@ -44,6 +44,10 @@ func _init(owner_monster: Object) -> void:
 
 func get_strength() -> int:
 	var strength := _base_strength
+	if _owner:
+		var class_comp = _owner.get("class_comp")
+		if class_comp and class_comp.class_type == ClassComponent.Type.BARBARIAN and _owner.level >= 20:
+			strength += 4
 	if _owner and _owner.get("status") and _owner.status.has_effect(StatusEffect.Type.STIM):
 		var stim: StatusEffect = _owner.status.get_effect(StatusEffect.Type.STIM)
 		strength += 3 * stim.magnitude
@@ -59,6 +63,12 @@ func get_speed() -> int:
 			return SPEED_SLOW
 
 	var speed := _base_speed
+	if _owner:
+		var class_comp = _owner.get("class_comp")
+		if class_comp and class_comp.class_type == ClassComponent.Type.BARBARIAN and _owner.level >= 5:
+			if not class_comp.is_wearing_heavy_armor():
+				speed += 2
+
 	if status_comp:
 		if status_comp.has_effect(StatusEffect.Type.STIM):
 			var stim: StatusEffect = status_comp.get_effect(StatusEffect.Type.STIM)
@@ -77,7 +87,12 @@ func get_dexterity() -> int:
 
 
 func get_constitution() -> int:
-	return _base_constitution
+	var constitution := _base_constitution
+	if _owner:
+		var class_comp = _owner.get("class_comp")
+		if class_comp and class_comp.class_type == ClassComponent.Type.BARBARIAN and _owner.level >= 20:
+			constitution += 4
+	return constitution
 
 
 func get_wisdom() -> int:
@@ -106,11 +121,35 @@ func get_hp_regen() -> int:
 
 func get_armor_class(equipment: Equipment) -> int:
 	var total_ac := 0
-	for item: Item in equipment.get_all_equipped_items():
-		total_ac += item.armor_class
-		for child: Item in item.children.to_array():
-			if child:
-				total_ac += child.armor_class
+	var is_barbarian := false
+	var is_unarmored := false
+	
+	if _owner:
+		var class_comp = _owner.get("class_comp")
+		if class_comp and class_comp.class_type == ClassComponent.Type.BARBARIAN:
+			is_barbarian = true
+			is_unarmored = not class_comp.is_wearing_any_armor()
+			
+	if is_barbarian and is_unarmored:
+		var dex_mod = floori((get_dexterity() - 10) / 2.0)
+		var con_mod = floori((get_constitution() - 10) / 2.0)
+		total_ac = 10 + dex_mod + con_mod
+		
+		# Add AC of other slots (helmets, cloaks, footwear, etc.) if any
+		for item: Item in equipment.get_all_equipped_items():
+			var slot := equipment.equipped_items.find_key(item)
+			if slot != Equipment.Slot.UPPER_ARMOR and slot != Equipment.Slot.LOWER_ARMOR:
+				total_ac += item.armor_class
+				for child: Item in item.children.to_array():
+					if child:
+						total_ac += child.armor_class
+	else:
+		for item: Item in equipment.get_all_equipped_items():
+			total_ac += item.armor_class
+			for child: Item in item.children.to_array():
+				if child:
+					total_ac += child.armor_class
+					
 	# 전투 스타일: 방어 (+1 AC)
 	if _owner:
 		var monster: Monster = _owner as Monster

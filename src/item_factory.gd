@@ -243,6 +243,105 @@ static func _load_item_data() -> void:
 
 		item_data[slug] = data
 
+	_inject_goodberry_data()
+	_inject_barbarian_equipment_data()
+
+
+static func _inject_goodberry_data() -> void:
+	var slug := &"goodberry"
+	var data := {
+		&"slug": slug,
+		&"name": "Goodberry",
+		&"sprite_name": [&"food-16"] as Array[StringName],
+		&"type": Item.Type.CONSUMABLE,
+		&"mass": 0.05,
+		&"armor_class": 0,
+		&"skill": "",
+		&"ammo_type": Damage.AmmoType.NONE,
+		&"probability": 0,
+		&"nutrition": 100,
+		&"delicious": true,
+		&"palatable": false,
+		&"gross": false,
+		&"hp": 1,
+		&"damage": [1, 1],
+		&"damage_types": [Damage.Type.BLUNT] as Array[Damage.Type],
+		&"max_stack_size": 64,
+		&"max_children": 0,
+		&"resistance_multiplier": 0,
+		&"aoe": null,
+		&"skill_type": Skills.Type.NONE,
+		&"stim_level": 0,
+		&"stim_turns": 0,
+		&"resistances": {},
+	}
+	item_data[slug] = data
+	Log.i("[ItemFactory] Injected Goodberry item metadata dynamically.")
+
+
+static func _inject_barbarian_equipment_data() -> void:
+	# Inject greataxe
+	var greataxe_slug := &"greataxe"
+	var greataxe_data := {
+		&"slug": greataxe_slug,
+		&"name": "Greataxe",
+		&"sprite_name": [&"longwep-10"] as Array[StringName],
+		&"type": Item.Type.AXE,
+		&"mass": 7.0,
+		&"armor_class": 0,
+		&"skill": "sword",
+		&"ammo_type": Damage.AmmoType.NONE,
+		&"probability": 0,
+		&"nutrition": 0,
+		&"delicious": false,
+		&"palatable": false,
+		&"gross": false,
+		&"hp": 0,
+		&"damage": [1, 12],
+		&"damage_types": [Damage.Type.SLASH] as Array[Damage.Type],
+		&"max_stack_size": 1,
+		&"max_children": 0,
+		&"resistance_multiplier": 0,
+		&"aoe": null,
+		&"skill_type": Skills.Type.SWORD,
+		&"stim_level": 0,
+		&"stim_turns": 0,
+		&"resistances": {},
+	}
+	item_data[greataxe_slug] = greataxe_data
+	Log.i("[ItemFactory] Injected Greataxe item metadata dynamically.")
+
+	# Inject handaxe
+	var handaxe_slug := &"handaxe"
+	var handaxe_data := {
+		&"slug": handaxe_slug,
+		&"name": "Handaxe",
+		&"sprite_name": [&"shortwep-2"] as Array[StringName],
+		&"type": Item.Type.AXE,
+		&"mass": 2.0,
+		&"armor_class": 0,
+		&"skill": "sword",
+		&"ammo_type": Damage.AmmoType.NONE,
+		&"probability": 0,
+		&"nutrition": 0,
+		&"delicious": false,
+		&"palatable": false,
+		&"gross": false,
+		&"hp": 0,
+		&"damage": [1, 6],
+		&"damage_types": [Damage.Type.SLASH] as Array[Damage.Type],
+		&"max_stack_size": 1,
+		&"max_children": 0,
+		&"resistance_multiplier": 0,
+		&"aoe": null,
+		&"skill_type": Skills.Type.SWORD,
+		&"stim_level": 0,
+		&"stim_turns": 0,
+		&"resistances": {},
+	}
+	item_data[handaxe_slug] = handaxe_data
+	Log.i("[ItemFactory] Injected Handaxe item metadata dynamically.")
+
 
 static func _get_col(name: StringName) -> int:
 	assert(_column_indices.has(name), "Missing column in items.csv: %s" % name)

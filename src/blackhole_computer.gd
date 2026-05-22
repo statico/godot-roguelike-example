@@ -318,7 +318,7 @@ func load_weights() -> bool:
 	var f := FileAccess.open(WEIGHT_PATH, FileAccess.READ)
 	if not f:
 		return false
-	var result := JSON.parse_string(f.get_as_text())
+	var result: Variant = JSON.parse_string(f.get_as_text())
 	if not result is Dictionary:
 		return false
 	var d: Dictionary = result

@@ -36,8 +36,9 @@ const XP_TABLE: Array[int] = [
 
 # 역할(Role)별 레벨당 최대 HP 증가량 (D&D Hit Die 기반)
 const HP_PER_LEVEL: Dictionary = {
+	Roles.Type.BARBARIAN: 12, # d12
 	Roles.Type.FIGHTER: 10,  # d10
-	Roles.Type.RANGER:  6,   # d8
+	Roles.Type.RANGER:  10,  # d10
 	Roles.Type.CLERIC:  8,   # d8
 	Roles.Type.ROGUE:   6,   # d8
 	Roles.Type.NONE:    4,   # d6

@@ -266,6 +266,12 @@ func _fov_scan_quadrant(quadrant: int, origin: Vector2i) -> void:
 
 
 func _fov_scan_recursive(quadrant: int, origin: Vector2i, row: Row) -> void:
+	var max_depth := 20
+	if World.player:
+		max_depth = World.player.sight_radius
+	if row.depth > max_depth:
+		return
+
 	var prev_tile: Vector2i = Utils.INVALID_POS
 
 	for tile: Vector2i in row.get_tiles():

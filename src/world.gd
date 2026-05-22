@@ -218,10 +218,18 @@ var _pending_results: Array[ActionResult] = []
 
 ## 플레이어 턴 시작. initialize() 직후와 몬스터 턴 종료 후 호출.
 func begin_player_turn() -> void:
+	if current_map:
+		for monster in current_map.get_monsters():
+			if monster.class_comp:
+				monster.class_comp.on_turn_start()
 	player.budget.reset(player.get_speed())
 	player_turn_active = true
 	_pending_results.clear()
 	Log.i("[color=lime]======== TURN %d — 플레이어 턴 ========[/color]" % current_turn)
+	# 파티원 trail 갱신: 플레이어가 안 움직여도 현재 위치 기록
+	var player_pos_now := current_map.find_monster_position(player)
+	if player_pos_now != Utils.INVALID_POS:
+		party_manager.record_player_position(player_pos_now)
 	turn_started.emit()
 	player_budget_updated.emit(player.budget)
 
@@ -261,6 +269,19 @@ func apply_player_action(action: BaseAction) -> ActionResult:
 			message_logged.emit(result.message, result.message_level)
 		return result
 
+	# 은신(Camouflage) 해제 체크: Hide in Plain Sight 액션이 성공한 경우를 제외하고는 모두 해제
+	if player.class_comp.ranger_is_camouflaged:
+		var is_camouflaging := false
+		if action is PlayerUseAbilityAction:
+			var slots := player.class_comp.get_ability_slots()
+			if action.slot_index < slots.size():
+				var slot := slots[action.slot_index]
+				if slot.id == &"hide_in_plain_sight":
+					is_camouflaging = true
+		if not is_camouflaging:
+			player.class_comp.ranger_is_camouflaged = false
+			Log.i("[World] Player performed action %s, breaking camouflage." % action)
+
 	# 예산 소모
 	var tiles_moved := 1 if cost == ActionBudget.Cost.MOVE else 0
 	player.budget.spend(cost, tiles_moved)
@@ -285,12 +306,25 @@ func apply_player_action(action: BaseAction) -> ActionResult:
 	Log.d("[World] 예산 상태: %s" % player.budget)
 	player_budget_updated.emit(player.budget)
 
-	# 주행동 + 보조행동 모두 소진 시 자동 턴 종료
-	if player.budget.is_turn_exhausted():
-		Log.d("[World] 예산 소진 — 자동 턴 종료")
+	# 스마트 자동 턴 종료: 주행동 소진 + 남은 보너스 어빌리티 없을 때
+	if _should_auto_end_player_turn():
+		Log.d("[World] 자동 턴 종료")
 		_end_player_turn()
 
 	return result
+
+
+## 주행동 소진 후 보너스 어빌리티가 남아 있지 않으면 자동 종료
+func _should_auto_end_player_turn() -> bool:
+	if not player.budget.action_used:
+		return false
+	if player.budget.bonus_used:
+		return true
+	# 아직 사용 가능한 BONUS-cost 어빌리티가 있으면 대기
+	for slot: ClassComponent.AbilitySlot in player.class_comp.get_ability_slots():
+		if slot.cost == ActionBudget.Cost.BONUS and slot.available:
+			return false
+	return true
 
 
 ## 플레이어가 명시적으로 턴을 종료할 때 (엔드 턴 키)

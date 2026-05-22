@@ -67,7 +67,15 @@ var intelligence: int:
 var xp_reward: int = 0
 var instance_id: int = 0
 var behavior: Behavior
-var sight_radius: int
+var _base_sight_radius: int = 5
+var sight_radius: int:
+	get:
+		var bonus := 0
+		if class_comp:
+			bonus = class_comp.get_sight_radius_bonus()
+		return _base_sight_radius + bonus
+	set(v):
+		_base_sight_radius = v
 
 # Body part properties (장비 슬롯 제한용)
 var has_head: bool  = true

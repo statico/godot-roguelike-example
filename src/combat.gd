@@ -10,7 +10,27 @@ enum SaveType { STR, DEX, CON, INT, WIS, CHA }
 
 ## d20 + 능력치 수정치 (+숙련 보너스) vs DC 판정. true = 성공
 static func roll_saving_throw(monster: Monster, save_type: SaveType, dc: int) -> bool:
-	var roll     := Dice.roll(1, 20)
+	var has_advantage := false
+	if save_type == SaveType.STR:
+		if monster.class_comp.class_type == ClassComponent.Type.BARBARIAN and monster.class_comp.barbarian_is_raging:
+			has_advantage = true
+			Log.i("[Combat] %s has saving throw advantage on Strength save due to Rage." % monster.name)
+	elif save_type == SaveType.DEX:
+		if monster.class_comp.class_type == ClassComponent.Type.BARBARIAN and monster.level >= 2:
+			var status_comp = monster.get("status")
+			var is_impaired := false
+			if status_comp:
+				is_impaired = status_comp.has_effect(StatusEffect.Type.BLIND) or status_comp.has_effect(StatusEffect.Type.PARALYZED)
+			if not is_impaired:
+				has_advantage = true
+				Log.i("[Combat] %s has saving throw advantage on Dexterity save due to Danger Sense." % monster.name)
+
+	var roll := Dice.roll(1, 20)
+	if has_advantage:
+		var roll2 := Dice.roll(1, 20)
+		roll = maxi(roll, roll2)
+		Log.d("[Combat] Saving Throw Roll with Advantage: %d, %d -> %d" % [roll, roll2, roll])
+
 	var modifier := _get_ability_modifier(monster, save_type)
 	var prof     := 0
 	if monster.class_comp.is_save_proficient(save_type as int):
@@ -31,7 +51,19 @@ static func roll_saving_throw(monster: Monster, save_type: SaveType, dc: int) ->
 
 ## 이니셔티브 굴림: d20 + DEX 수정치
 static func roll_initiative(monster: Monster) -> int:
-	return Dice.roll(1, 20) + floori((monster.stats.get_dexterity() - 10) / 2.0)
+	var has_advantage := false
+	if monster.class_comp.class_type == ClassComponent.Type.BARBARIAN and monster.level >= 7:
+		has_advantage = true
+		
+	var roll := Dice.roll(1, 20)
+	if has_advantage:
+		var roll2 := Dice.roll(1, 20)
+		roll = maxi(roll, roll2)
+		Log.i("[Combat] %s rolls initiative with advantage (Feral Instinct): %d, %d -> %d" % [
+			monster.name, roll, roll2, roll
+		])
+		
+	return roll + floori((monster.stats.get_dexterity() - 10) / 2.0)
 
 
 static func _get_ability_modifier(monster: Monster, save_type: SaveType) -> int:
@@ -88,7 +120,21 @@ static func resolve_melee_attack(attacker: Monster, defender: Monster) -> MeleeA
 	var result := MeleeAttackResult.new()
 
 	# 1. Attack roll
+	var has_advantage := false
+	if attacker.class_comp.class_type == ClassComponent.Type.BARBARIAN:
+		if attacker.class_comp.barbarian_reckless_active_this_turn:
+			has_advantage = true
+			Log.i("[Combat] Attacker %s has advantage on melee attack roll due to Reckless Attack." % attacker.name)
+	if defender.class_comp.class_type == ClassComponent.Type.BARBARIAN:
+		if defender.class_comp.barbarian_reckless_enemies_have_advantage:
+			has_advantage = true
+			Log.i("[Combat] Attacker has advantage on attack roll against %s due to their Reckless Attack." % defender.name)
+
 	var attack_roll := Dice.roll(1, 20)
+	if has_advantage:
+		var roll2 := Dice.roll(1, 20)
+		attack_roll = maxi(attack_roll, roll2)
+		Log.i("[Combat] Melee Attack Roll with Advantage: %d, %d -> %d" % [attack_roll, roll2, attack_roll])
 
 	# DnD 5e Ability Modifier: floor((score - 10) / 2)
 	var attacker_strength := attacker.get_strength()
@@ -112,11 +158,15 @@ static func resolve_melee_attack(attacker: Monster, defender: Monster) -> MeleeA
 			proficiency_bonus = attacker.class_comp.get_proficiency_bonus()
 			Log.d("    Proficiency bonus: +%d" % proficiency_bonus)
 
+	var favored_enemy_hit_bonus := attacker.class_comp.get_favored_enemy_attack_bonus(defender)
+	if favored_enemy_hit_bonus > 0:
+		Log.d("    Favored enemy attack bonus (Foe Slayer): +%d" % favored_enemy_hit_bonus)
+
 	var target_ac := defender.get_armor_class()
 
 	# DnD 5e: Natural 20 = Critical Hit (always hits)
 	var is_critical := attack_roll == 20
-	var is_hit := is_critical or (attack_roll + to_hit_bonus + skill_bonus + proficiency_bonus >= target_ac)
+	var is_hit := is_critical or (attack_roll + to_hit_bonus + skill_bonus + proficiency_bonus + favored_enemy_hit_bonus >= target_ac)
 
 	var params := [
 		attack_roll,
@@ -125,8 +175,8 @@ static func resolve_melee_attack(attacker: Monster, defender: Monster) -> MeleeA
 		target_ac,
 		is_hit,
 	]
-	Log.d("  1. Attack roll: %d + %d + %d >= %d -> %s%s" % [
-		attack_roll, to_hit_bonus, skill_bonus, target_ac, is_hit,
+	Log.d("  1. Attack roll: %d + %d + %d + %d(favored) >= %d -> %s%s" % [
+		attack_roll, to_hit_bonus, skill_bonus, favored_enemy_hit_bonus, target_ac, is_hit,
 		" [CRITICAL HIT!]" if is_critical else ""
 	])
 
@@ -150,21 +200,43 @@ static func resolve_melee_attack(attacker: Monster, defender: Monster) -> MeleeA
 	var base_damage: int
 	if item:
 		if is_critical:
-			base_damage = Dice.roll(item.damage[0] * 2, item.damage[1])
-			Log.d("  [CRITICAL] Rolling %dd%d (doubled dice)" % [item.damage[0] * 2, item.damage[1]])
+			var extra_dice := 0
+			if attacker.class_comp.class_type == ClassComponent.Type.BARBARIAN:
+				if attacker.level >= 17:
+					extra_dice = 3
+				elif attacker.level >= 13:
+					extra_dice = 2
+				elif attacker.level >= 9:
+					extra_dice = 1
+			
+			var num_dice := item.damage[0] * 2 + extra_dice
+			base_damage = Dice.roll(num_dice, item.damage[1])
+			if extra_dice > 0:
+				Log.i("[Brutal Critical] Barbarian critical hit! Rolling %d extra dice. Total dice: %dd%d" % [extra_dice, num_dice, item.damage[1]])
+			else:
+				Log.d("  [CRITICAL] Rolling %dd%d (doubled dice)" % [num_dice, item.damage[1]])
 			_show_popup(attacker, "CRIT!")
 		else:
 			base_damage = Dice.roll(item.damage[0], item.damage[1])
 	else:
 		base_damage = 2 if is_critical else 1  # Unarmed
 
-	var damage := base_damage + modifier + style_dmg
+	var favored_dmg := attacker.class_comp.get_favored_enemy_damage_bonus(defender)
+	var hunters_mark_dmg := attacker.class_comp.get_hunters_mark_damage_bonus(defender)
+	var colossus_slayer_dmg := attacker.class_comp.get_colossus_slayer_damage_bonus(defender)
+	var barbarian_rage_dmg := attacker.class_comp.get_rage_damage_bonus()
 
-	Log.d("  2. Damage: %s%s + STR mod(%+d) + style(%+d) = %d" % [
+	var damage := base_damage + modifier + style_dmg + favored_dmg + hunters_mark_dmg + colossus_slayer_dmg + barbarian_rage_dmg
+
+	Log.d("  2. Damage: %s%s + STR mod(%+d) + style(%+d) + favored(%+d) + hunters_mark(%+d) + colossus(%+d) + rage(%+d) = %d" % [
 		"%dd%d" % [item.damage[0], item.damage[1]] if item else "unarmed",
 		" ×2(crit)" if is_critical else "",
 		modifier,
 		style_dmg,
+		favored_dmg,
+		hunters_mark_dmg,
+		colossus_slayer_dmg,
+		barbarian_rage_dmg,
 		damage
 	])
 
@@ -188,6 +260,9 @@ static func resolve_melee_attack(attacker: Monster, defender: Monster) -> MeleeA
 			_show_popup(defender, "Resist")
 			damage = _calculate_damage_reduction(damage_type, resistance, damage)
 			Log.d("    Damage after reduction: %d" % damage)
+
+	damage = _apply_rage_resistance(defender, damage, damage_type)
+	damage = _check_relentless_rage(defender, damage)
 
 	# 5. Apply damage
 	result.damage = damage
@@ -337,13 +412,33 @@ static func resolve_ranged_attack(
 			# Apply skill bonus
 			var skill_bonus := attacker.get_skill_hit_bonus(weapon.skill_type)
 			var hit_chance := base_hit_chance * (1.0 + skill_bonus)  # e.g. 80% * (1 + 0.2) = 96% for Expert
+
+			# Apply Ranger bonuses to ranged hit chance
+			var ranger_hit_pct_bonus := 0.0
+			if attacker.class_comp.class_type != ClassComponent.Type.NONE:
+				# Archery style (+2 hit = +10%)
+				var style_bonus := attacker.class_comp.get_ranged_attack_bonus()
+				ranger_hit_pct_bonus += style_bonus * 5.0
+				
+				# Proficiency bonus
+				if attacker.class_comp.is_weapon_proficient(weapon):
+					ranger_hit_pct_bonus += attacker.class_comp.get_proficiency_bonus() * 5.0
+					
+				# Favored Enemy (Foe Slayer)
+				var favored_enemy_bonus := attacker.class_comp.get_favored_enemy_attack_bonus(monster)
+				ranger_hit_pct_bonus += favored_enemy_bonus * 5.0
+
+			hit_chance += ranger_hit_pct_bonus
+			hit_chance = clampf(hit_chance, 5.0, 99.0)
+
 			Log.i(
 				(
-					"    Base hit chance: %.2f%% + skill bonus %.2f%% = %.2f%%"
-					% [base_hit_chance, skill_bonus * 100, hit_chance]
+					"    Base hit chance: %.2f%% + skill bonus %.2f%% + ranger bonus %.2f%% = %.2f%%"
+					% [base_hit_chance, skill_bonus * 100, ranger_hit_pct_bonus, hit_chance]
 				)
 			)
-			var is_hit := Dice.chance(hit_chance)
+			# FIX: Dice.chance expects value between 0.0 and 1.0, so divide hit_chance by 100.0
+			var is_hit := Dice.chance(hit_chance / 100.0)
 
 			if is_hit:
 				Log.i("    Monster %s hit!" % monster)
@@ -400,6 +495,14 @@ static func resolve_ranged_attack(
 		var damage := result.damage
 		Log.d("    Base damage: %d" % damage)
 
+		if attacker.class_comp.class_type == ClassComponent.Type.RANGER:
+			var favored_dmg := attacker.class_comp.get_favored_enemy_damage_bonus(result.hit_monster)
+			var hunters_mark_dmg := attacker.class_comp.get_hunters_mark_damage_bonus(result.hit_monster)
+			var colossus_slayer_dmg := attacker.class_comp.get_colossus_slayer_damage_bonus(result.hit_monster)
+			
+			damage += favored_dmg + hunters_mark_dmg + colossus_slayer_dmg
+			Log.i("[Combat Patch] Ranger Ranged Damage Bonuses applied: FavoredEnemy=%d, HuntersMark=%d, ColossusSlayer=%d (Total Ranged Damage = %d)" % [favored_dmg, hunters_mark_dmg, colossus_slayer_dmg, damage])
+
 		# # 2. First check shield absorption
 		# var shield_result := _handle_shield_absorption(
 		# 	result.damage_type, damage, result.hit_monster
@@ -410,23 +513,15 @@ static func resolve_ranged_attack(
 		var resistances := result.hit_monster.get_resistances()
 		if result.damage_type in resistances:
 			var resistance: int = resistances[result.damage_type]
-			(
-				Log
-				. d(
-					(
-						"    %s resistance: %d"
-						% [
-							Damage.Type.keys()[result.damage_type],
-							resistance,
-						]
-					)
-				)
-			)
+			Log.d("    %s resistance: %d" % [Damage.Type.keys()[result.damage_type], resistance])
 			_show_popup(result.hit_monster, "Resist")
 			damage = _calculate_damage_reduction(result.damage_type, resistance, damage)
 			Log.d("    Damage after reduction: %d" % damage)
 		else:
 			Log.d("    No resistance for %s" % Damage.Type.keys()[result.damage_type])
+
+		damage = _apply_rage_resistance(result.hit_monster, damage, result.damage_type)
+		damage = _check_relentless_rage(result.hit_monster, damage)
 
 		# 4. Apply damage (result.damage 를 저항 반영 최종값으로 업데이트)
 		result.damage = damage
@@ -616,6 +711,9 @@ static func resolve_aoe_damage(
 		damage = _calculate_damage_reduction(damage_type, resistance, damage)
 		Log.d("  Damage after reduction: %d" % damage)
 
+	damage = _apply_rage_resistance(monster, damage, damage_type)
+	damage = _check_relentless_rage(monster, damage)
+
 	if damage > 0:
 		result.damage = damage
 		result.damage_type = damage_type
@@ -627,3 +725,62 @@ static func resolve_aoe_damage(
 
 	Log.d("  Result: %s" % result)
 	return result
+
+
+## Applies Rage physical damage resistance (halves BLUNT, PIERCE, SLASH damage)
+## if the defender is a raging Barbarian not wearing heavy armor.
+static func _apply_rage_resistance(defender: Monster, damage: int, damage_type: Damage.Type) -> int:
+	if not defender:
+		return damage
+		
+	var class_comp = defender.get("class_comp")
+	if not class_comp or class_comp.class_type != ClassComponent.Type.BARBARIAN:
+		return damage
+		
+	if not class_comp.barbarian_is_raging:
+		return damage
+		
+	if class_comp.is_wearing_heavy_armor():
+		return damage
+		
+	if damage_type in [Damage.Type.BLUNT, Damage.Type.PIERCE, Damage.Type.SLASH]:
+		var reduced := floori(damage / 2.0)
+		Log.i("[Rage Resistance] %s is raging: halved physical damage (%s) from %d to %d." % [
+			defender.name, Damage.Type.keys()[damage_type], damage, reduced
+		])
+		return reduced
+		
+	return damage
+
+
+## Relentless Rage check: if defender/monster is a barbarian, raging, level >= 11, and about to drop to 0 HP,
+## roll CON saving throw to survive at 1 HP.
+## Returns the adjusted damage.
+static func _check_relentless_rage(monster: Monster, incoming_damage: int) -> int:
+	if not monster:
+		return incoming_damage
+	
+	var class_comp = monster.get("class_comp")
+	if not class_comp or class_comp.class_type != ClassComponent.Type.BARBARIAN:
+		return incoming_damage
+		
+	if not class_comp.barbarian_is_raging or monster.level < 11:
+		return incoming_damage
+		
+	if monster.hp - incoming_damage <= 0 and monster.hp > 0:
+		var dc = class_comp.barbarian_relentless_dc
+		Log.i("[Relentless Rage] %s is about to drop to 0 HP (Current HP: %d, Damage: %d). Rolling CON save vs DC %d..." % [monster.name, monster.hp, incoming_damage, dc])
+		
+		# Constitution saving throw (D&D 5e rule: roll_saving_throw)
+		var success = roll_saving_throw(monster, SaveType.CON, dc)
+		if success:
+			# DC increases by 5
+			class_comp.barbarian_relentless_dc += 5
+			# Cap the damage so monster is left with 1 HP
+			var adjusted_damage = monster.hp - 1
+			Log.i("[Relentless Rage] SUCCESS! CON save succeeded. DC increased to %d. Damage adjusted from %d to %d (leaving 1 HP)." % [class_comp.barbarian_relentless_dc, incoming_damage, adjusted_damage])
+			return adjusted_damage
+		else:
+			Log.i("[Relentless Rage] FAILED! CON save failed. DC remains %d." % dc)
+			
+	return incoming_damage

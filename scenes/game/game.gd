@@ -101,6 +101,8 @@ func _on_end_turn_requested() -> void:
 	await _effect_renderer.flush()
 	map_renderer.render_map(World.current_map)
 	_update_actors()
+	if World.player_turn_active:
+		_input_handler.enabled = true
 
 
 func _on_player_turn_ended() -> void:

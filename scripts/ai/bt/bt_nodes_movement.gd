@@ -19,6 +19,10 @@ class CheckPlayerVisible:
 			Log.d("  CheckPlayerVisible: Invalid position")
 			return BTCore.Status.FAILURE
 
+		if World.player.class_comp.ranger_is_camouflaged:
+			Log.d("  CheckPlayerVisible: Player is camouflaged (not visible)")
+			return BTCore.Status.FAILURE
+
 		var distance := (monster_pos - player_pos).length()
 		var visible  := distance <= 20
 		Log.d("  CheckPlayerVisible: Player %s (distance: %.1f)" % [

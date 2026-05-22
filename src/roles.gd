@@ -5,7 +5,7 @@ extends RefCounted
 # ⚔️ [구역 1] D&D 클래스 타입 (D&D CLASS TYPES)
 # =============================================================
 
-enum Type { NONE, FIGHTER, RANGER, CLERIC, ROGUE }
+enum Type { NONE, FIGHTER, RANGER, CLERIC, ROGUE, BARBARIAN }
 
 const ROLE_DATA := {
 	Type.NONE:
@@ -87,6 +87,20 @@ const ROLE_DATA := {
 		},
 		"faction": Factions.Type.HUMAN,
 	},
+	Type.BARBARIAN:
+	{
+		"name": "Barbarian",
+		"description": "A savage warrior who enters a battle rage. High health, devastating melee power, and unarmored durability.",
+		"allowed_species":
+		[
+			Species.Type.HUMAN,
+		],
+		"starting_skills":
+		{
+			Skills.Type.SWORD: Skills.Level.INTERMEDIATE,
+		},
+		"faction": Factions.Type.HUMAN,
+	},
 }
 
 # =============================================================
@@ -128,6 +142,8 @@ static func equip_monster(monster: Monster, role_type: Type) -> void:
 			_equip_cleric(monster)
 		Type.ROGUE:
 			_equip_rogue(monster)
+		Type.BARBARIAN:
+			_equip_barbarian(monster)
 		_:
 			assert(false, "Unhandled role type: %s" % role_type)
 
@@ -204,6 +220,19 @@ static func _equip_rogue(monster: Monster) -> void:
 	for i in range(3):
 		var poison := ItemFactory.create_item(&"poison_splash_potion")
 		monster.add_item(poison)
+
+	for i in range(3):
+		monster.add_item(ItemFactory.create_item(&"food_ration"))
+
+
+static func _equip_barbarian(monster: Monster) -> void:
+	var greataxe := ItemFactory.create_item(&"greataxe")
+	monster.add_item(greataxe)
+	monster.equipment.equip(greataxe, Equipment.Slot.MELEE)
+
+	for i in range(2):
+		var handaxe := ItemFactory.create_item(&"handaxe")
+		monster.add_item(handaxe)
 
 	for i in range(3):
 		monster.add_item(ItemFactory.create_item(&"food_ration"))

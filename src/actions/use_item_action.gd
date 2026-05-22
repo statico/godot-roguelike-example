@@ -61,6 +61,15 @@ func _execute(map: Map, result: ActionResult) -> bool:
 			result.add_effect(DeathEffect.new(actor, map.find_monster_position(actor), true))
 			return true
 
+		if item.hp > 0:
+			var old_hp := actor.hp
+			actor.hp = min(actor.hp + item.hp, actor.max_hp)
+			var healed := actor.hp - old_hp
+			if healed > 0:
+				result.message += " You feel better."
+				result.message_level = LogMessages.Level.GOOD
+			Log.i("[UseItemAction] Consumed %s: restored %d nutrition, healed %d HP." % [item.name, item.nutrition, healed])
+
 		actor.remove_item(item)
 		return true
 
