@@ -97,6 +97,13 @@ class Entity:
     fighter_attacks_this_turn:  int  = 0       # 이번 턴 공격 횟수 추적 (Extra Attack용)
     fighter_action_surged:      bool = False   # 이번 턴 액션 서지 이미 소모했는지
 
+    # ── 주문 시전 (SPELLCASTING) ─────────────────────────────────────────────
+    spell_slots:       dict = field(default_factory=dict)  # {slot_level(int): slots_remaining(int)}
+    spell_ability:     str  = "int"   # "int" | "wis" | "cha"
+    proficiency_bonus: int  = 2       # 캐릭터 레벨 기반 (기본 2)
+    known_spells:      list = field(default_factory=list)  # [spell_key strings]
+    _concentrating:    str  = ""      # 현재 집중 중인 spell_key ("" = 없음)
+
     # ── 파생 속성 ──────────────────────────────────────────────────────────
     @property
     def is_alive(self) -> bool:
@@ -125,6 +132,34 @@ class Entity:
         actual = min(self.hp, amount)
         self.hp = max(0, self.hp - amount)
         return actual
+
+    def use_spell_slot(self, level: int) -> bool:
+        """슬롯 소모. 성공 시 True. 캔트립(level=0)은 항상 True."""
+        if level == 0:
+            return True
+        if self.spell_slots.get(level, 0) > 0:
+            self.spell_slots[level] -= 1
+            return True
+        # 상위 슬롯으로 폴백
+        for lv in range(level + 1, 10):
+            if self.spell_slots.get(lv, 0) > 0:
+                self.spell_slots[lv] -= 1
+                return True
+        return False
+
+    def concentration_check(self, damage_taken: int) -> bool:
+        """피해 시 집중 판정. DC = max(10, damage//2). CON 세이브."""
+        if not self._concentrating:
+            return True
+        dc = max(10, damage_taken // 2)
+        from .dice import roll_save
+        save_q = self.effects.query_save()
+        result = roll_save(self.con_mod + save_q.bonus, dc,
+                           adv=save_q.advantage, dis=save_q.disadvantage)
+        if not result["success"]:
+            self._concentrating = ""
+            # 집중 효과 해제는 TurnManager에서 all_entities 순회로 처리
+        return result["success"]
 
     def heal(self, amount: int) -> int:
         actual = min(amount, self.max_hp - self.hp)

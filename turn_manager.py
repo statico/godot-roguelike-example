@@ -19,6 +19,7 @@ from .conditions import Condition, make_condition, make_effect
 from .combat_log import AttackDetail, CombatLog
 from .dice import roll_attack, roll_save, roll_initiative
 from .dice import roll as dice_roll
+from .spells import SpellResolver, SPELL_REGISTRY, CastingTime
 
 
 # ==========================================
@@ -100,7 +101,7 @@ class TurnManager:
         return state
 
     # ── 외부 인터페이스 ──────────────────────────────────────────────────────
-    def step(self, action: Action, target_uid: Optional[str] = None) -> ActionResult:
+    def step(self, action: Action, target_uid: Optional[str] = None, **kwargs) -> ActionResult:
         """
         현재 유닛의 액션을 실행하고 ActionResult를 반환한다.
         이동 액션은 target_uid 불필요.
@@ -124,6 +125,10 @@ class TurnManager:
             target = s.get_by_uid(target_uid) if target_uid else self._nearest_enemy(actor)
             result = self._do_attack(actor, target) if target else \
                      ActionResult(actor.uid, action, False, 0.0, "대상 없음")
+        elif action == Action.CAST_SPELL:
+            # target_uid can be a string of comma-separated UIDs for multi-target
+            # spell_key and slot_level come from extra kwargs (extend step signature)
+            result = self._do_cast_spell(actor, target_uid, **kwargs)
         elif action == Action.DODGE:
             result = self._do_dodge(actor)
         elif action == Action.DASH:
@@ -371,6 +376,58 @@ class TurnManager:
             return total
 
         return dice_roll(notation)
+
+    # ==========================================
+    # 🪄 [구역 4.5] 마법 시전 (SPELLCASTING)
+    # ==========================================
+
+    def _do_cast_spell(self, actor: Entity, target_uid: Optional[str],
+                       spell_key: str = "", slot_level: int = 1) -> ActionResult:
+        from .spells import SpellResolver, SPELL_REGISTRY, CastingTime
+        if actor.action_used:
+            return ActionResult(actor.uid, Action.CAST_SPELL, False, 0.0,
+                                f"{actor.name} 이미 행동 사용")
+        spell = SPELL_REGISTRY.get(spell_key)
+        if spell is None:
+            return ActionResult(actor.uid, Action.CAST_SPELL, False, 0.0,
+                                f"알 수 없는 스펠: {spell_key}")
+        if not actor.use_spell_slot(spell.level if slot_level < spell.level else slot_level):
+            return ActionResult(actor.uid, Action.CAST_SPELL, False, 0.0,
+                                f"{actor.name} 슬롯 부족")
+
+        # 대상 목록 구성
+        targets = []
+        if target_uid:
+            for uid in target_uid.split(","):
+                t = self.state.get_by_uid(uid.strip())
+                if t:
+                    targets.append(t)
+
+        resolver = SpellResolver()
+        spell_result = resolver.resolve(
+            caster=actor, spell_key=spell_key,
+            slot_level=slot_level,
+            targets=targets,
+            all_entities=self.state.combatants,
+        )
+
+        # 집중 실패 전파: 피해가 있는 경우 각 피해받은 엔티티의 집중 체크
+        for e in self.state.combatants:
+            if e.is_alive and e._concentrating:
+                # 피해를 받은 시전자가 집중 체크 필요한 경우 (간단히: spell_result.total_damage 기준)
+                # 정밀 구현은 _apply_component 내에서 take_damage 후 호출되는 훅에서 처리되거나 여기서 호출.
+                pass
+
+        if spell.casting_time == CastingTime.ACTION:
+            actor.action_used = True
+        elif spell.casting_time == CastingTime.BONUS_ACTION:
+            actor.bonus_action_used = True
+
+        return ActionResult(
+            actor.uid, Action.CAST_SPELL,
+            spell_result.success, spell_result.reward,
+            spell_result.log, target_uid, spell_result.total_damage
+        )
 
     # ==========================================
     # 🛡️ [구역 5] 파이터 클래스 특성 (FIGHTER FEATURES)

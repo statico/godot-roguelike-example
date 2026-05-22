@@ -465,6 +465,18 @@ _TEMPLATES: dict[str, dict] = {
         stack_rule=StackRule.REFRESH, tick_on=TickOn.CONCENTRATION,
         modifiers={"ac_bonus": 2},
     ),
+    "banished": dict(
+        display="추방",
+        tags=frozenset({"banished", "incapacitated"}),
+        stack_rule=StackRule.IGNORE, tick_on=TickOn.CONCENTRATION,
+        modifiers={"can_act": False, "can_react": False, "can_move": False},
+    ),
+    "turned": dict(
+        display="격퇴",
+        tags=frozenset({"turned"}),
+        stack_rule=StackRule.IGNORE, tick_on=TickOn.TURN_END,
+        modifiers={"attack_dis": True},
+    ),
 }
 
 

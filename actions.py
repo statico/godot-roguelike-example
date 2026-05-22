@@ -22,6 +22,7 @@ class Action(IntEnum):
     GRAPPLE       = 14
     SHOVE         = 15
     ACTION_SURGE  = 16   # 파이터 2레벨+: 이번 턴 주행동 추가 부여 (보조 행동)
+    CAST_SPELL    = 17   # 주문 시전
 
     NORTH = 0
     SOUTH = 1
@@ -47,6 +48,7 @@ ACTION_NAMES: dict[Action, str] = {
     Action.GRAPPLE:       "움켜잡기",
     Action.SHOVE:         "밀치기",
     Action.ACTION_SURGE:  "[Fighter] 액션 서지 (주행동 추가 회동)",
+    Action.CAST_SPELL:    "주문 시전",
 }
 
 MOVE_DELTAS: dict[Action, tuple[int, int]] = {
